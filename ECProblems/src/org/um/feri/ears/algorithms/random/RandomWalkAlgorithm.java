@@ -1,11 +1,14 @@
-package org.um.feri.ears.algorithms;
+package org.um.feri.ears.algorithms.random;
 
+import org.um.feri.ears.algorithms.AlgorithmInfo;
+import org.um.feri.ears.algorithms.Author;
+import org.um.feri.ears.algorithms.IAlgorithm;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
 
 /**
- * Every new algorithm needs to implement this interface.
+ * Used to demonstrate simple implementation
  * <p>
  * 
  * @author Matej Crepinsek
@@ -47,19 +50,44 @@ import org.um.feri.ears.problems.Task;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-public interface IAlgorithm {
-	/**
-	 * Search for best solution.
-	 * 
-	 * if StopCriteriaException is thrown tasks isStopCriteria method is not used properly.
-	 * 
-	 * @param taskProblem
-	 * @return best solution
-	 * @throws StopCriteriaException 
-	 */
-	public Individual run(Task taskProblem) throws StopCriteriaException;
-	public void setDebug(boolean d);
-	public Author getImplementationAuthor();
-	public AlgorithmInfo getAlgorithmInfo();
+public class RandomWalkAlgorithm implements IAlgorithm {
+	Individual i;
 	
+	boolean debug=false;
+	public RandomWalkAlgorithm() {
+		this.debug = false; 
+	}
+	public RandomWalkAlgorithm(boolean d) {
+		setDebug(d); 
+	}
+	
+	@Override
+	public Individual run(Task taskProblem) throws StopCriteriaException{
+		Individual ii;
+			i = taskProblem.getRandomIndividual();
+			if (debug) System.out.println(taskProblem.getNumberOfEvaluations()+" "+i);
+			while (!taskProblem.isStopCriteria()) {
+				
+				ii = taskProblem.getRandomIndividual();
+				if (taskProblem.isFirstBetter(ii, i)) {
+					i = ii;
+					if (debug) System.out.println(taskProblem.getNumberOfEvaluations()+" "+i);
+				}
+			}
+		return i;
+
+	}
+	@Override
+	public void setDebug(boolean d) {
+		debug = d;
+	}
+	@Override
+	public Author getImplementationAuthor() {
+		return new Author("matej", "matej.crepinsek at uni-mb.si");
+	}
+	@Override
+	public AlgorithmInfo getAlgorithmInfo() {
+		return new AlgorithmInfo("","","RWS","Random Walk Simple");
+	}
+
 }
