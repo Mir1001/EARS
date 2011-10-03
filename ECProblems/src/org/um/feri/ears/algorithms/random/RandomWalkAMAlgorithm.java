@@ -9,7 +9,7 @@ import org.um.feri.ears.problems.Task;
 
 /**
  * Similar as Random walk only that in case of finding new best the arithmetic mean of individuals is
- * tried.   
+ * new best and prior best is calculated and tested.   
  * <p>
  * 
  * @author Matej Crepinsek
