@@ -12,5 +12,7 @@ public interface IAlgorithm {
 	 */
 	public Individual run(Task taskProblem);
 	public void setDebug(boolean d);
+	public Author getImplementationAuthor();
+	public AlgorithmInfo getAlgorithmInfo();
 	
 }
