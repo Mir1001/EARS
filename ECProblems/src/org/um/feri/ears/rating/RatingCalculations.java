@@ -2,9 +2,9 @@
  * Rating system is similar what chess players use. <p>
  * Currently one of the best rating models is described by Mark Glickman (Glicko-2).
  * Source page: http://www.glicko.net/glicko.html <p>
- * RatingCalculations is glicko 2 besed iimplementation.
+ * RatingCalculations is glicko 2 besed implementation.
  * 
- * Some parts of code is based on Derek Hilder implementation of jre service.
+ * Implementation is based on Derek Hilder implementation of jre service.
  * From http://java.net/projects/jrs/ project.
  * 
  * <p>
@@ -53,36 +53,35 @@ package org.um.feri.ears.rating;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 public class RatingCalculations {
-   long period=0;
-   double T = 0.5; // Constant that constrains the change in volatility (0.3 to 1.2) (Glocko2)
-   public long computePlayerRatings(HashMap<String,Player> prePeriodRatings, Map<String,ArrayList<Game>> lastPeriodResults) {
-       period++;
-       HashMap<String,Rating> newPlayerRatings = new HashMap<String,Rating>();              
-       Iterator<String> playerIds = prePeriodRatings.keySet().iterator();
+    private static double T = 0.5; // Constant that constrains the change in
+                                   // volatility (0.3 to 1.2) (Glocko2)
+
+    public static void computePlayerRatings(HashMap<String, Player> prePeriodRatings) {
+        HashMap<String, Rating> newPlayerRatings = new HashMap<String, Rating>();
+        Iterator<String> playerIds = prePeriodRatings.keySet().iterator();
         while (playerIds.hasNext()) {
-            
+
             String id = playerIds.next();
             Player prePlayerInfo = prePeriodRatings.get(id);
-            
+
             double rating = prePlayerInfo.getR().getGlicko2Rating();
             double ratingDeviation = prePlayerInfo.getR().getGlicko2RatingDeviation();
             double ratingVolatility = prePlayerInfo.getR().getRatingVolatility();
-            
-            double postRating = rating;  
+
+            double postRating = rating;
             double postRD = ratingDeviation;
             double postRatingVolatility = ratingVolatility;
-            
-            ArrayList<Game> gameResultsList = lastPeriodResults.get(id);
+
+            ArrayList<Game> gameResultsList = prePlayerInfo.getUnEvaluatedGames();
             if (gameResultsList == null || gameResultsList.isEmpty()) {
-                // Did not play - player's rating volatility remains the same, but the RD increases.
-                postRD = 
-                    Math.sqrt(ratingDeviation*ratingDeviation + ratingVolatility*ratingVolatility);
-            }
-            else {
-                // Compute the estimated variance of the player's rating based only
+                // Did not play - player's rating volatility remains the same,
+                // but the RD increases.
+                postRD = Math.sqrt(ratingDeviation * ratingDeviation + ratingVolatility * ratingVolatility);
+            } else {
+                // Compute the estimated variance of the player's rating based
+                // only
                 // on game outcomes.
                 double variance = 0;
                 double performanceRatingFromGameOutcomes = 0;
@@ -95,8 +94,8 @@ public class RatingCalculations {
 
                     double g = g(opponentRatingDeviation);
                     double E = E(rating, opponentRating, opponentRatingDeviation);
-                    performanceRatingFromGameOutcomes += g * (gameResult.getGameResult() - E);
-                    variance += (g*g) * E * (1 - E);
+                    performanceRatingFromGameOutcomes += g * (gameResult.getGameResult(id) - E);
+                    variance += (g * g) * E * (1 - E);
                 }
                 variance = 1. / variance;
                 double improvement = variance * performanceRatingFromGameOutcomes;
@@ -105,58 +104,57 @@ public class RatingCalculations {
                 double s = ratingVolatility;
                 double D = improvement;
                 double prevX = 0;
-                double a = Math.log(s*s);
+                double a = Math.log(s * s);
                 double x = a;
                 double ex = Math.exp(x);
                 double v = variance;
-                double d,h1,h2,xabs;
+                double d, h1, h2, xabs;
                 do {
-                    d = (t*t) + v + ex;
-                    h1 = -(x-a)/(T*T) - 0.5*ex/d + 0.5*ex*((D/d)*(D/d));
-                    h2 = -1/(T*T) - 0.5*ex*((t*t)+v)/(d*d) + 0.5*(D*D)*ex*((t*t)+v-ex)/(d*d*d);
+                    d = (t * t) + v + ex;
+                    h1 = -(x - a) / (T * T) - 0.5 * ex / d + 0.5 * ex * ((D / d) * (D / d));
+                    h2 = -1 / (T * T) - 0.5 * ex * ((t * t) + v) / (d * d) + 0.5 * (D * D) * ex * ((t * t) + v - ex) / (d * d * d);
                     prevX = x;
-                    x = x - h1/h2;
+                    x = x - h1 / h2;
                     xabs = Math.abs(x - prevX);
-                }
-                while (xabs > .0000001);
-                postRatingVolatility = Math.exp(x/2);
-                double updatedRD = Math.sqrt(Math.pow(ratingDeviation,2)+Math.pow(postRatingVolatility,2));
-                postRD = 1 / Math.sqrt((1/(updatedRD*updatedRD)) + (1/variance));
-                           
-                postRating = rating + (postRD*postRD)*performanceRatingFromGameOutcomes;
-                Rating tmp = new Rating(Rating.setGlicko2Rating(postRating), Rating.setGlicko2RatingDeviation(postRD), postRatingVolatility);
-                System.out.println(tmp);
-                newPlayerRatings.put(id, tmp);
+                } while (xabs > .0000001);
+                postRatingVolatility = Math.exp(x / 2);
+                double updatedRD = Math.sqrt(Math.pow(ratingDeviation, 2) + Math.pow(postRatingVolatility, 2));
+                postRD = 1 / Math.sqrt((1 / (updatedRD * updatedRD)) + (1 / variance));
+
+                postRating = rating + (postRD * postRD) * performanceRatingFromGameOutcomes;
             }
-            //update Ranks
-            playerIds = newPlayerRatings.keySet().iterator();
-            while (playerIds.hasNext()) {
-           
-                id = playerIds.next();
-                prePeriodRatings.get(id).setR(newPlayerRatings.get(id));
-            }
+            Rating tmp = new Rating(Rating.setGlicko2Rating(postRating), Rating.setGlicko2RatingDeviation(postRD), postRatingVolatility);
+            newPlayerRatings.put(id, tmp);
         }
-        return period;
+        // update Ranks
+        playerIds = newPlayerRatings.keySet().iterator();
+        while (playerIds.hasNext()) {
+            String id = playerIds.next();
+            prePeriodRatings.get(id).setR(newPlayerRatings.get(id));
+        }
+
     }
-    
-    /** Function used internally by the Glicko-2 algorithm.
-      * 
-      * @param ratingDeviation 
-      * @return 
-      */
-    private double g(double ratingDeviation) {
+
+    /**
+     * Function used internally by the Glicko-2 algorithm.
+     * 
+     * @param ratingDeviation
+     * @return
+     */
+    private static double g(double ratingDeviation) {
         return 1 / Math.sqrt(1 + ((3 * ratingDeviation * ratingDeviation) / (Math.PI * Math.PI)));
     }
-    
-    /** Function used internally by the Glicko-2 algorithm.
-      * 
-      * @param playerRating 
-      * @param opponentRating 
-      * @param opponentRatingDeviation 
-      * @return 
-      */
-    private double E(double playerRating, double opponentRating, double opponentRatingDeviation) {
+
+    /**
+     * Function used internally by the Glicko-2 algorithm.
+     * 
+     * @param playerRating
+     * @param opponentRating
+     * @param opponentRatingDeviation
+     * @return
+     */
+    private static double E(double playerRating, double opponentRating, double opponentRatingDeviation) {
         return 1 / (1 + Math.exp((g(opponentRatingDeviation) * -1) * (playerRating - opponentRating)));
     }
-  
+
 }

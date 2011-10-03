@@ -85,11 +85,20 @@ public class AlgorithmInfo {
     public void setPaperBib(String paperBib) {
         this.paperBib = paperBib;
     }
-
+    
+    /**
+     * This is actualy alg. id
+     * @return
+     */
     public String getVersionAcronym() {
         return versionAcronym;
     }
 
+    /**
+     * This is alghoritm id.
+     * 
+     * @param versionName
+     */
     public void setVersionAcronym(String versionName) {
         this.versionAcronym = versionName;
     }

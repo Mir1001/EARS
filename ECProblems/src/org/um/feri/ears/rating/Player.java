@@ -1,5 +1,5 @@
 /**
- * Insert data
+ * Generic data about rating Player. In case of rating algorithms player is specific algorithm, with id = versionAcronym.  
  * <p>
  * 
  * @author Matej Crepinsek
@@ -43,21 +43,39 @@
  */
 package org.um.feri.ears.rating;
 
+import java.util.ArrayList;
+
 public class Player {
-    String playerId;
-    Rating r;
+    private String playerId; //name
+    private Rating r; //current ration
+    private ArrayList<Game> listOfGamePlayed; //in last period (not evaluated yet)
+
+    public Player(String playerId, Rating r) {
+        super();
+        this.playerId = playerId;
+        this.r = r;
+        listOfGamePlayed = new ArrayList<Game>();
+    }
     
     public Player(String playerId) {
         super();
         this.playerId = playerId;
         this.r = new Rating(1500, 350, 0.06); //default from org. paper
+        listOfGamePlayed = new ArrayList<Game>();
+    }
+    /**
+     * Adds new game
+     * @param newone
+     */
+    public void add(Game newone) {
+    	listOfGamePlayed.add(newone);
+    	
     }
     
-    public Player(String playerId, Rating r) {
-        super();
-        this.playerId = playerId;
-        this.r = r;
+    public ArrayList<Game> getUnEvaluatedGames() {
+    	return listOfGamePlayed;
     }
+   
 
     public String getPlayerId() {
         return playerId;
@@ -70,8 +88,13 @@ public class Player {
     public Rating getR() {
         return r;
     }
-
+    /**
+     * New rating is calculated. listOfGamePlayed is deleted!
+     * 
+     * @param r
+     */
     public void setR(Rating r) {
+    	listOfGamePlayed.clear();
         this.r = r;
     }
     

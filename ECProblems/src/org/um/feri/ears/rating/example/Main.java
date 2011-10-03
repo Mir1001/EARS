@@ -59,31 +59,41 @@ public class Main {
      * @param args
      */
     public static void main(String[] args) {
-        //from the book
+        //Example from the paper
         Player a = new Player("a", new Rating(1500,200,0.06));
         Player a1 = new Player("a1", new Rating(1400,30,0.06));
         Player a2 = new Player("a2", new Rating(1550,100,0.06));
         Player a3 = new Player("a3", new Rating(1700,300,0.06));
-        ArrayList<Game> lg = new ArrayList<Game>();
-        lg.add(new Game(Game.WIN,a,a1));
-        lg.add(new Game(Game.WIN,a,a2));
-        lg.add(new Game(Game.WIN,a,a3));
+        new Game(Game.WIN,a,a1);
+        new Game(Game.WIN,a,a2);
+        new Game(Game.WIN,a,a3);
         System.out.println(a.getR());
+        System.out.println(a1.getR());
+        System.out.println(a2.getR());
+        System.out.println(a3.getR());
         HashMap<String,Player> players = new HashMap<String, Player>();
         players.put(a.getPlayerId(), a);
         players.put(a1.getPlayerId(), a1);
         players.put(a2.getPlayerId(), a2);
-        players.put(a3.getPlayerId(), a3);
-        HashMap<String,ArrayList<Game>> games = new HashMap<String, ArrayList<Game>>();
-        games.put(a.getPlayerId(), lg);
-        
-        RatingCalculations rc = new RatingCalculations();
-        rc.computePlayerRatings(players, games);
-        rc.computePlayerRatings(players, games);
-        rc.computePlayerRatings(players, games);
-        for (int i=0; i<2000; i++) {
-          rc.computePlayerRatings(players, games);
-        }
+        players.put(a3.getPlayerId(), a3);   
+            RatingCalculations.computePlayerRatings(players);
+       System.out.println(a.getR());
+        System.out.println(a1.getR());
+        System.out.println(a2.getR());
+        System.out.println(a3.getR());
+        /* 
+        System.out.println(a.getR());
+        System.out.println(a1.getR());
+        new Game(Game.LOSS,a,a1);
+        new Game(Game.LOSS,a,a2);
+        new Game(Game.WIN,a,a3);
+        RatingCalculations.computePlayerRatings(players);
+        System.out.println(a.getR());
+        System.out.println(a1.getR());
+        new Game(Game.WIN,a,a2);
+        RatingCalculations.computePlayerRatings(players);
+        System.out.println(a.getR());
+        System.out.println(a1.getR());*/
         
     }
 

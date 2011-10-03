@@ -1,5 +1,6 @@
 /**
- * Insert data
+ * Describes result of the one on one match. Result state is always for first one!
+ * 
  * <p>
  * 
  * @author Matej Crepinsek
@@ -44,20 +45,49 @@
 package org.um.feri.ears.rating;
 
 public class Game {
-    public static double LOSS = 0;
-    public static double WIN = 1;
-    public static double DRAW = 0.5;    
+    public static final double LOSS = 0;
+    public static final double WIN = 1;
+    public static final double DRAW = 0.5;    
     private double gameResult;
+    private String info; //some print info data
     private Player a,b;
+    
+    /**
+     * Sets game result for first (a). if a win than b is lost. 
+     * With creation of new object new game result is set. 
+     * 
+     * @param gameResult
+     * @param a
+     * @param b
+     */
     public Game(double gameResult, Player a, Player b) {
         super();
         this.gameResult = gameResult;
         this.a = a;
         this.b = b;
+        a.add(this);
+        b.add(this);
+        info="";
     }
-    public double getGameResult() {
-        return gameResult;
+    
+    public Game(double gameResult, Player a, Player b, String info) {
+    	this(gameResult,a,b);
+    	this.info = info;
     }
+
+    /**
+     * Different result depend for who we are asking. First or second.
+     * 
+     * @param id 
+     * @return 
+     */
+    public double getGameResult(String id) {
+    	if (a.getPlayerId().equals(id)) {
+            return gameResult;    		
+    	}
+        return 1-gameResult; //win -> loss; loss->win draw->draw
+    }
+    
     public void setGameResult(double gameResult) {
         this.gameResult = gameResult;
     }
