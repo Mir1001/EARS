@@ -73,7 +73,7 @@ public class Individual {
 	}
 	
 	public String toString() {
-		return Util.dfc2.format(eval)+" ["+Util.arrayToString(x)+"]";
+		return Util.dfc1.format(eval)+" ["+Util.arrayToString(x)+"]";
 	}
 
 	
