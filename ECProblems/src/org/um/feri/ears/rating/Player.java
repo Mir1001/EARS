@@ -97,5 +97,8 @@ public class Player {
     	listOfGamePlayed.clear();
         this.r = r;
     }
+    public String toString() {
+        return playerId+"; "+r;
+    }
     
 }

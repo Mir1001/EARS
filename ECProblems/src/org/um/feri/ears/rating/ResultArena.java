@@ -1,11 +1,5 @@
-package org.um.feri.ears.algorithms;
-
-import org.um.feri.ears.problems.Individual;
-import org.um.feri.ears.problems.StopCriteriaException;
-import org.um.feri.ears.problems.Task;
-
 /**
- * Every new algorithm needs to implement this interface.
+ * Main class where all results are collected!
  * <p>
  * 
  * @author Matej Crepinsek
@@ -47,20 +41,43 @@ import org.um.feri.ears.problems.Task;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-public interface IAlgorithm {
+package org.um.feri.ears.rating;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import org.um.feri.ears.rating.*;
+
+public class ResultArena {
+	private HashMap<String,Player> players;
+	int id_period;
+	public ResultArena(int id_period) {
+		players = new HashMap<String, Player>();
+		this.id_period = id_period;
+	}
+	public void addPlayer(String id, double rating, double RD, double ratingVolatility){
+		players.put(id, new Player(id,new Rating(rating, RD, ratingVolatility)));
+	}
 	/**
-	 * Search for best solution.
+	 * Players need to be in arena!
 	 * 
-	 * if StopCriteriaException is thrown tasks isStopCriteria method is not used properly.
-	 * 
-	 * @param taskProblem
-	 * @return best solution
-	 * @throws StopCriteriaException 
+	 * @param gameResult
+	 * @param a
+	 * @param b
+	 * @param info
 	 */
-	public Individual run(Task taskProblem) throws StopCriteriaException;
-	public void setDebug(boolean d);
-	public Author getImplementationAuthor();
-	public AlgorithmInfo getAlgorithmInfo();
-	public String getID();
-	
+	public void addGameResult(double gameResult, String a, String b, String info) {
+	    System.out.println(a+":"+b+"="+gameResult+" "+info);
+		new Game(gameResult, players.get(a),players.get(a), info);
+	}
+	/**
+	 * Recalculates ranks and returns list. All ranks need to be updated. 
+	 * @return
+	 */
+	public Collection<Player> recalcRangs() {
+		id_period++;
+		RatingCalculations.computePlayerRatings(players); //changes ratins
+		return players.values();
+		
+	}
 }

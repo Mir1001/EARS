@@ -125,4 +125,11 @@ public class Task {
 		assert false; // Execution should never reach this point!
 		return null; //error
 	}
+
+    /**
+     * @return
+     */
+    public String getProblemShortName() {
+        return p.getName();
+    }
 }

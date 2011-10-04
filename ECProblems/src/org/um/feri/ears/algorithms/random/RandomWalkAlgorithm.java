@@ -87,7 +87,14 @@ public class RandomWalkAlgorithm implements IAlgorithm {
 	}
 	@Override
 	public AlgorithmInfo getAlgorithmInfo() {
-		return new AlgorithmInfo("","","RWS","Random Walk Simple");
+		return new AlgorithmInfo("","","RWSi","Random Walk Simple");
 	}
+    /* (non-Javadoc)
+     * @see org.um.feri.ears.algorithms.IAlgorithm#getID()
+     */
+    @Override
+    public String getID() {
+        return getAlgorithmInfo().getVersionAcronym();
+    }
 
 }
