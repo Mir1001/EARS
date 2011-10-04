@@ -54,10 +54,13 @@ public class RandomWalkAlgorithm implements IAlgorithm {
 	Individual i;
 	
 	boolean debug=false;
+	private AlgorithmInfo ai;
 	public RandomWalkAlgorithm() {
-		this.debug = false; 
+		this.debug = false;
+		ai = new AlgorithmInfo("","","RWSi","Random Walk Simple");
 	}
 	public RandomWalkAlgorithm(boolean d) {
+	    super();
 		setDebug(d); 
 	}
 	
@@ -87,7 +90,7 @@ public class RandomWalkAlgorithm implements IAlgorithm {
 	}
 	@Override
 	public AlgorithmInfo getAlgorithmInfo() {
-		return new AlgorithmInfo("","","RWSi","Random Walk Simple");
+		return ai;
 	}
     /* (non-Javadoc)
      * @see org.um.feri.ears.algorithms.IAlgorithm#getID()

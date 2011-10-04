@@ -132,4 +132,17 @@ public class Task {
     public String getProblemShortName() {
         return p.getName();
     }
+    /**
+     * Works only for basic interval setting!
+     * for example -40<x_i<40 <p>
+     * if x_i <-40 -> -40 same for 40!
+     * 
+     * @param d value
+     * @param i index of dimension
+     * @return
+     */
+    public double feasible(double d, int i){
+        return p.feasible(d, i);
+    }
+    
 }

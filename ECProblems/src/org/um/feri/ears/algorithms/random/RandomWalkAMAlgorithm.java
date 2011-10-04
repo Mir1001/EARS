@@ -54,10 +54,13 @@ import org.um.feri.ears.problems.Task;
 public class RandomWalkAMAlgorithm implements IAlgorithm {
 	Individual i;
 	boolean debug=false;
+	AlgorithmInfo ai;
 	public RandomWalkAMAlgorithm() {
-		this.debug = false; 
+		this.debug = false;
+		ai = new AlgorithmInfo("RWS","","RWAM","Random Walk Arithmetic");
 	}
 	public RandomWalkAMAlgorithm(boolean d) {
+	    super();
 		setDebug(d); 
 	}
 	private double[] xArithmeticMeanOf(double[] x, double[] y) {
@@ -96,7 +99,7 @@ public class RandomWalkAMAlgorithm implements IAlgorithm {
 	}
 	@Override
 	public AlgorithmInfo getAlgorithmInfo() {
-		return new AlgorithmInfo("RWS","","RWAM","Random Walk Arithmetic");
+		return ai;
 	}
     /* (non-Javadoc)
      * @see org.um.feri.ears.algorithms.IAlgorithm#getID()

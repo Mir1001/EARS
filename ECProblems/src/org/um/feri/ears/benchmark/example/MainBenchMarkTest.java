@@ -46,6 +46,7 @@ package org.um.feri.ears.benchmark.example;
 import java.util.ArrayList;
 
 import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.benchmark.RatingSUOPm;
@@ -56,7 +57,7 @@ import org.um.feri.ears.rating.ResultArena;
  * @author Administrator
  *
  */
-public class MainTestRandom {
+public class MainBenchMarkTest {
 
     /**
      * @param args
@@ -64,13 +65,17 @@ public class MainTestRandom {
     public static void main(String[] args) {
         IAlgorithm p1 = new RandomWalkAlgorithm();  
         IAlgorithm p2 = new RandomWalkAMAlgorithm();  
+        IAlgorithm p3 = new ES1p1sAlgorithm();
+        System.out.println(p3.getID());
         ResultArena ra = new ResultArena(100);
         ra.addPlayer(p1.getID(), 1500, 350, 0.06);
         ra.addPlayer(p2.getID(), 1500, 350, 0.06);
+        ra.addPlayer(p3.getID(), 1500, 350, 0.06);
         RatingSUOPm suopm = new RatingSUOPm();
         suopm.registerAlgorithm(p1);
         suopm.registerAlgorithm(p2);
-        suopm.run(ra, 2);
+        suopm.registerAlgorithm(p3);
+        suopm.run(ra, 10);
         ArrayList<Player> list = new ArrayList<Player>();
         list.addAll(ra.recalcRangs());
         for (Player p: list) System.out.println(p);

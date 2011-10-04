@@ -65,6 +65,8 @@ public class Main {
         Player a2 = new Player("a2", new Rating(1550,100,0.06));
         Player a3 = new Player("a3", new Rating(1700,300,0.06));
         new Game(Game.WIN,a,a1);
+        new Game(Game.WIN,a,a1);
+        new Game(Game.WIN,a1,a);
         new Game(Game.WIN,a,a2);
         new Game(Game.WIN,a,a3);
         System.out.println(a.getR());
