@@ -67,8 +67,7 @@ public class ResultArena {
 	 * @param info
 	 */
 	public void addGameResult(double gameResult, String a, String b, String info) {
-	    System.out.println(a+":"+b+"="+gameResult+" "+info);
-		new Game(gameResult, players.get(a),players.get(a), info);
+		new Game(gameResult, players.get(a),players.get(b), info);
 	}
 	/**
 	 * Recalculates ranks and returns list. All ranks need to be updated. 

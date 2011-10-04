@@ -46,36 +46,47 @@ package org.um.feri.ears.rating;
 import java.util.ArrayList;
 
 public class Player {
-    private String playerId; //name
-    private Rating r; //current ration
-    private ArrayList<Game> listOfGamePlayed; //in last period (not evaluated yet)
+    private String playerId; // name
+    private Rating r; // current ration
+    private ArrayList<Game> listOfGamePlayed; // in last period (not evaluated
+                                              // yet)
+    private int win;
+    private int loss;
+    private int draw;
 
     public Player(String playerId, Rating r) {
         super();
+        win = 0;
+        loss = 0;
+        draw = 0;
         this.playerId = playerId;
         this.r = r;
         listOfGamePlayed = new ArrayList<Game>();
     }
-    
+
     public Player(String playerId) {
-        super();
-        this.playerId = playerId;
-        this.r = new Rating(1500, 350, 0.06); //default from org. paper
-        listOfGamePlayed = new ArrayList<Game>();
+        this(playerId, new Rating(1500, 350, 0.06)); // default from org. paper
     }
+
     /**
      * Adds new game
+     * 
      * @param newone
      */
     public void add(Game newone) {
-    	listOfGamePlayed.add(newone);
-    	
+        if (newone.getGameResult(playerId) == Game.DRAW)
+            draw++;
+        else if (newone.getGameResult(playerId) == Game.WIN)
+            win++;
+        else
+            loss++;
+        listOfGamePlayed.add(newone);
+
     }
-    
+
     public ArrayList<Game> getUnEvaluatedGames() {
-    	return listOfGamePlayed;
+        return listOfGamePlayed;
     }
-   
 
     public String getPlayerId() {
         return playerId;
@@ -88,17 +99,19 @@ public class Player {
     public Rating getR() {
         return r;
     }
+
     /**
      * New rating is calculated. listOfGamePlayed is deleted!
      * 
      * @param r
      */
     public void setR(Rating r) {
-    	listOfGamePlayed.clear();
+        listOfGamePlayed.clear();
         this.r = r;
     }
+
     public String toString() {
-        return playerId+"; "+r;
+        return playerId + "; " + r +" W:"+win+" L:"+loss+" D:"+draw;
     }
-    
+
 }

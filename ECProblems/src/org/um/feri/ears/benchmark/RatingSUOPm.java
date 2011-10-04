@@ -54,10 +54,10 @@ import org.um.feri.ears.rating.ResultArena;
 //TODO calculate CD for rating
 public class RatingSUOPm extends RatingBenchmark {
     public static final String name="Solving Unconstrained Optimization Problems with maximum evaluation condition";
-    protected int evaluationsOnDimension=500;
+    protected int evaluationsOnDimension=1000;
     
     public boolean resultEqual(Individual a, Individual b) {
-        if ((a==null) &&(a==null)) return true;
+        if ((a==null) &&(b==null)) return true;
         if (a==null) return false;
         if (b==null) return false;
         if (Math.abs(a.getEval()-b.getEval())<0.0000000001) return true;

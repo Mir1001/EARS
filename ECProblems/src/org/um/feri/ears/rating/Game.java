@@ -88,9 +88,6 @@ public class Game {
         return 1-gameResult; //win -> loss; loss->win draw->draw
     }
     
-    public void setGameResult(double gameResult) {
-        this.gameResult = gameResult;
-    }
     public Player getA() {
         return a;
     }

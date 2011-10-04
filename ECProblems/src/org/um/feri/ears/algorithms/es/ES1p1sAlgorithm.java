@@ -65,12 +65,12 @@ public class ES1p1sAlgorithm implements IAlgorithm {
         this.debug = false;
         varianceOne = 1.;
         ai = new AlgorithmInfo("ES", "", "ES(1+1)", "ES(1+1) 1/5 rule");
-        k=20; //every k is recalculated
-        c= 0.85;  //0.8<=c<=1
+        k=40; //every k is recalculated
+        c= 0.9;  //0.8<=c<=1
     }
 
     public ES1p1sAlgorithm(boolean d) {
-        super();
+        this();
         setDebug(d);
     }
 
@@ -81,13 +81,13 @@ public class ES1p1sAlgorithm implements IAlgorithm {
     @Override
     public Individual run(Task taskProblem) throws StopCriteriaException {
         task = taskProblem;
-        Individual ii, iAritmetic;
+        Individual ii;
         one = taskProblem.getRandomIndividual();
         int everyK=0; //recalculate variance
         int succ=0;
         double oneplus[];
         if (debug)
-            System.out.println(taskProblem.getNumberOfEvaluations() + " " + one);
+            System.out.println(taskProblem.getNumberOfEvaluations() + " start " + one);
         while (!taskProblem.isStopCriteria()) {
             everyK++;
             everyK = everyK%k;
@@ -96,6 +96,7 @@ public class ES1p1sAlgorithm implements IAlgorithm {
                 else if ((succ/k)<0.2) varianceOne = varianceOne * c;
                 succ = 0;
             }
+ //           if (debug) System.out.println( "varianceOne: " + varianceOne);
             oneplus = one.getNewX();
             mutate(oneplus,varianceOne);
             ii = taskProblem.eval(oneplus);
