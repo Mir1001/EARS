@@ -60,15 +60,15 @@ public class Main {
      */
     public static void main(String[] args) {
         //Example from the paper
-        Player a = new Player("a", new Rating(1500,200,0.06));
-        Player a1 = new Player("a1", new Rating(1400,30,0.06));
-        Player a2 = new Player("a2", new Rating(1550,100,0.06));
-        Player a3 = new Player("a3", new Rating(1700,300,0.06));
-        new Game(Game.WIN,a,a1);
-        new Game(Game.WIN,a,a1);
-        new Game(Game.WIN,a1,a);
-        new Game(Game.WIN,a,a2);
-        new Game(Game.WIN,a,a3);
+        Player a = new Player("a", new Rating(1500,200,0.06),0,0,0);
+        Player a1 = new Player("a1", new Rating(1400,30,0.06),0,0,0);
+        Player a2 = new Player("a2", new Rating(1550,100,0.06),0,0,0);
+        Player a3 = new Player("a3", new Rating(1700,300,0.06),0,0,0);
+        new Game(Game.WIN,a,a1,"a");
+        new Game(Game.WIN,a,a1,"a");
+        new Game(Game.WIN,a1,a,"a");
+        new Game(Game.WIN,a,a2,"a");
+        new Game(Game.WIN,a,a3,"a");
         System.out.println(a.getR());
         System.out.println(a1.getR());
         System.out.println(a2.getR());

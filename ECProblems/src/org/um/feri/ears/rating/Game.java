@@ -49,7 +49,7 @@ public class Game {
     public static final double WIN = 1;
     public static final double DRAW = 0.5;    
     private double gameResult;
-    private String info; //some print info data
+    private String idProblem; //some print info data
     private Player a,b;
     
     /**
@@ -60,20 +60,28 @@ public class Game {
      * @param a
      * @param b
      */
-    public Game(double gameResult, Player a, Player b) {
+    public Game(double gameResult, Player a, Player b, String idProblem) {
         super();
         this.gameResult = gameResult;
+        this.idProblem = idProblem; //needed in add
         this.a = a;
         this.b = b;
         a.add(this);
         b.add(this);
-        info="";
+
     }
-    
-    public Game(double gameResult, Player a, Player b, String info) {
-    	this(gameResult,a,b);
-    	this.info = info;
+    public String getOpponent(String one){
+        if (a.getPlayerId().equals(one)) return b.getPlayerId();
+        return a.getPlayerId();
     }
+    public double getGameResult() {
+        return gameResult;
+    }
+
+    public String getIdProblem() {
+        return idProblem;
+    }
+
 
     /**
      * Different result depend for who we are asking. First or second.

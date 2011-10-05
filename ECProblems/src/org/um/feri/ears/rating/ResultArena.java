@@ -55,8 +55,8 @@ public class ResultArena {
 		players = new HashMap<String, Player>();
 		this.id_period = id_period;
 	}
-	public void addPlayer(String id, double rating, double RD, double ratingVolatility){
-		players.put(id, new Player(id,new Rating(rating, RD, ratingVolatility)));
+	public void addPlayer(String id, double rating, double RD, double ratingVolatility, int w, int l, int d){
+		players.put(id, new Player(id,new Rating(rating, RD, ratingVolatility),w,l,d));
 	}
 	/**
 	 * Players need to be in arena!

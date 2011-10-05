@@ -44,28 +44,28 @@
 package org.um.feri.ears.rating;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Player {
     private String playerId; // name
     private Rating r; // current ration
     private ArrayList<Game> listOfGamePlayed; // in last period (not evaluated
-                                              // yet)
-    private int win;
-    private int loss;
-    private int draw;
+    private WinLossDraw  sumWinLossDraw;                                         // yet)
+    private HashMap<String,WinLossDraw> wldPlayers; //id is algorithm
+    private HashMap<String,WinLossDraw> wldProblems; //id is problem
 
-    public Player(String playerId, Rating r) {
+    public Player(String playerId, Rating r, int w, int l, int d) {
         super();
-        win = 0;
-        loss = 0;
-        draw = 0;
+        wldPlayers = new HashMap<String, WinLossDraw>();
+        wldProblems = new HashMap<String, WinLossDraw>();
+        sumWinLossDraw = new WinLossDraw(w, l, d);
         this.playerId = playerId;
         this.r = r;
         listOfGamePlayed = new ArrayList<Game>();
     }
 
     public Player(String playerId) {
-        this(playerId, new Rating(1500, 350, 0.06)); // default from org. paper
+        this(playerId, new Rating(1500, 350, 0.06),0,0,0); // default from org. paper
     }
 
     /**
@@ -74,12 +74,31 @@ public class Player {
      * @param newone
      */
     public void add(Game newone) {
-        if (newone.getGameResult(playerId) == Game.DRAW)
-            draw++;
-        else if (newone.getGameResult(playerId) == Game.WIN)
-            win++;
-        else
-            loss++;
+        WinLossDraw tmpPlayer = wldPlayers.get(newone.getOpponent(playerId));
+        WinLossDraw tmpProblem = wldProblems.get(newone.getIdProblem());
+        if (tmpPlayer==null) {
+            tmpPlayer = new WinLossDraw(0,0,0);
+            wldPlayers.put(newone.getOpponent(playerId), tmpPlayer);
+        }
+        if (tmpProblem==null) {
+            tmpProblem = new WinLossDraw(0,0,0);
+            wldProblems.put(newone.getIdProblem(), tmpProblem);
+        }
+        if (newone.getGameResult(playerId) == Game.DRAW) {
+            sumWinLossDraw.incDraw();
+            tmpPlayer.incDraw();
+            tmpProblem.incDraw();
+        }
+        else if (newone.getGameResult(playerId) == Game.WIN) {
+            sumWinLossDraw.incWin();
+            tmpPlayer.incWin();
+            tmpProblem.incWin();
+        }
+        else {
+            sumWinLossDraw.incLoss();
+            tmpPlayer.incLoss();
+            tmpProblem.incLoss();
+        }
         listOfGamePlayed.add(newone);
 
     }
@@ -111,7 +130,7 @@ public class Player {
     }
 
     public String toString() {
-        return playerId + "; " + r +" W:"+win+" L:"+loss+" D:"+draw;
+        return playerId + "; " + r +sumWinLossDraw+"\n\t Against:"+wldPlayers+"\n\t Problems:"+wldProblems;
     }
 
 }
