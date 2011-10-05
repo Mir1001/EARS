@@ -49,6 +49,7 @@ import org.um.feri.ears.algorithms.IAlgorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
+import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.benchmark.RatingSUOPm;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.ResultArena;
@@ -65,6 +66,7 @@ public class MainBenchMarkTest {
      */
     public static void main(String[] args) {
         Util.rnd.setSeed(System.currentTimeMillis());
+        RatingBenchmark.debugPrint = true; //prints one on one results
         IAlgorithm p1 = new RandomWalkAlgorithm();  
         IAlgorithm p2 = new RandomWalkAMAlgorithm();  
         IAlgorithm p3 = new ES1p1sAlgorithm();
@@ -77,7 +79,7 @@ public class MainBenchMarkTest {
         suopm.registerAlgorithm(p1);
         suopm.registerAlgorithm(p2);
         suopm.registerAlgorithm(p3);
-        suopm.run(ra, 1);
+        suopm.run(ra, 10);
         ArrayList<Player> list = new ArrayList<Player>();
         list.addAll(ra.recalcRangs());
         for (Player p: list) System.out.println(p);

@@ -16,7 +16,7 @@ public class ES1p1AlgorithmTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Task sphere=new Task(EnumStopCriteria.EVALUATIONS,1000,0.001,new ProblemSphere(3));
+		Task sphere=new Task(EnumStopCriteria.EVALUATIONS, 1000, 0.001, new ProblemSphere(2));
 		IAlgorithm test = new ES1p1sAlgorithm(true);
 		Individual best;
         try {

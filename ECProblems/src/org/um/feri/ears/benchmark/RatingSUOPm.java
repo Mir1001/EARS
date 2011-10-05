@@ -81,7 +81,6 @@ public class RatingSUOPm extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        // TODO Auto-generated method stub
         registerTask(new ProblemAckley(2));
         registerTask(new ProblemB2());
         registerTask(new ProblemBeale());

@@ -48,8 +48,8 @@ public class Task {
 	protected int maxEvaluations; // for Stop criteria
 	protected int numberOfEvaluations = 0; // for Stop criteria
 	protected double epsilon; // for Stop criteria
-	private boolean isStop;
-	private boolean isGlobal;
+	protected boolean isStop;
+	protected boolean isGlobal;
 	private Problem p;
 
 	public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p) {
@@ -89,7 +89,9 @@ public class Task {
 	public boolean isFirstBetter(Individual x, Individual y) {
 		return p.isFirstBetter(x.getX(), x.getEval(), y.getX(), y.getEval());
 	}
-	
+	public boolean isMaximize() {
+	    return !p.minimum;
+	}
 	private void incEvaluate() throws StopCriteriaException {
 		if (numberOfEvaluations >= maxEvaluations)
 			throw new StopCriteriaException("Max evaluations");

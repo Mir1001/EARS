@@ -56,5 +56,7 @@ public class TaskWithReset extends Task{
     }
     public void resetCounter() {
         numberOfEvaluations = 0;
+        isStop = false;
+        isGlobal = false;
     }
 }

@@ -51,7 +51,6 @@ import org.um.feri.ears.util.Util;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-//TODO write test if this implementation is ok!
 public class ES1p1sAlgorithm implements IAlgorithm {
     private Individual one;
     private double varianceOne;
@@ -63,12 +62,14 @@ public class ES1p1sAlgorithm implements IAlgorithm {
     //source http://natcomp.liacs.nl/EA/slides/es_basic_algorithm.pdf
     public ES1p1sAlgorithm() {
         this.debug = false;
-        varianceOne = 1.;
-        ai = new AlgorithmInfo("ES", "", "ES(1+1)", "ES(1+1) 1/5 rule");
+        ai = new AlgorithmInfo("ES", "@book{Rechenberg1973,\n author = {Rechenberg, I.}, \n publisher = {Frommann-Holzboog}, \n title = {Evolutionsstrategie: optimierung technischer systeme nach prinzipien der biologischen evolution},\n year = {1973}}", "ES(1+1)", "ES(1+1) 1/5 rule");
+        resetDefault();
+    }
+    private void resetDefault() {
         k=40; //every k is recalculated
         c= 0.9;  //0.8<=c<=1
+        varianceOne = 1.;        
     }
-
     public ES1p1sAlgorithm(boolean d) {
         this();
         setDebug(d);
@@ -80,6 +81,7 @@ public class ES1p1sAlgorithm implements IAlgorithm {
 
     @Override
     public Individual run(Task taskProblem) throws StopCriteriaException {
+        resetDefault(); // init starting values!!
         task = taskProblem;
         Individual ii;
         one = taskProblem.getRandomIndividual();
@@ -96,7 +98,6 @@ public class ES1p1sAlgorithm implements IAlgorithm {
                 else if ((succ/k)<0.2) varianceOne = varianceOne * c;
                 succ = 0;
             }
- //           if (debug) System.out.println( "varianceOne: " + varianceOne);
             oneplus = one.getNewX();
             mutate(oneplus,varianceOne);
             ii = taskProblem.eval(oneplus);

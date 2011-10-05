@@ -57,10 +57,11 @@ import org.um.feri.ears.problems.TaskWithReset;
 import org.um.feri.ears.problems.unconstrained.*;
 import org.um.feri.ears.rating.Game;
 import org.um.feri.ears.rating.ResultArena;
+import org.um.feri.ears.util.Util;
 
 //TODO calculate CD for rating
 public abstract class RatingBenchmark {
-
+    public static boolean debugPrint=false;
     protected ArrayList<TaskWithReset> listOfProblems;
     protected ArrayList<IAlgorithm> listOfAlgorithmsPlayers;
     
@@ -83,11 +84,11 @@ public abstract class RatingBenchmark {
     public abstract String getName(); //long name 
     public abstract String getAcronym(); //short name for tables etc    
     public abstract String getInfo(); //some explanation
-    private void runOneProblem(TaskWithReset p) {
+    private void runOneProblem(TaskWithReset task) {
         for (IAlgorithm al: listOfAlgorithmsPlayers) {
-            p.resetCounter(); //number of evaluations
+            task.resetCounter(); //number of evaluations
             try {
-                results.add(new AlgorithmEvalResult(al.run(p), al));
+                results.add(new AlgorithmEvalResult(al.run(task), al));
             } catch (StopCriteriaException e) {
                 results.add(new AlgorithmEvalResult(null, al));
             }   
@@ -103,11 +104,11 @@ public abstract class RatingBenchmark {
             if (arg0.getBest()!=null) {
                 if (arg1.getBest()!=null){
                    // if (resultEqual(arg0.getBest(), arg1.getBest())) return 0; Normal sor later!
-                    if (t.isFirstBetter(arg0.getBest(), arg1.getBest())) return 1;
-                    else return -1;
-                } else return 1; //second is null
+                    if (t.isFirstBetter(arg0.getBest(), arg1.getBest())) return -1;
+                    else return 1;
+                } else return -1; //second is null
             } else
-                if (arg1.getBest()!= null) return -1; //first null
+                if (arg1.getBest()!= null) return 1; //first null
             return 0; //both equal
         }
     }
@@ -122,6 +123,7 @@ public abstract class RatingBenchmark {
             win = results.get(i);
             for (int j=i+1; j<results.size(); j++) {
                 lose = results.get(j);
+                if (debugPrint) System.out.println("win of "+win.getAl().getID()+" ("+Util.df3.format(win.getBest().getEval())+") against "+lose.getAl().getID()+" ("+Util.df3.format(lose.getBest().getEval())+") for "+t.getProblemShortName());
                 if (resultEqual(win.best, lose.best)) { //Special for this benchmark
                     arena.addGameResult(Game.DRAW, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());
                 } else
