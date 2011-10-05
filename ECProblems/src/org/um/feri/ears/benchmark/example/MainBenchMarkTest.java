@@ -45,6 +45,8 @@ package org.um.feri.ears.benchmark.example;
 
 import java.util.ArrayList;
 
+import net.sourceforge.jswarm_pso.SwarmAlgorithm;
+
 import org.um.feri.ears.algorithms.IAlgorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
@@ -70,15 +72,18 @@ public class MainBenchMarkTest {
         IAlgorithm p1 = new RandomWalkAlgorithm();  
         IAlgorithm p2 = new RandomWalkAMAlgorithm();  
         IAlgorithm p3 = new ES1p1sAlgorithm();
+        IAlgorithm p4 = new SwarmAlgorithm();
         System.out.println(p3.getID());
         ResultArena ra = new ResultArena(100);
         ra.addPlayer(p1.getID(), 1500, 350, 0.06);
         ra.addPlayer(p2.getID(), 1500, 350, 0.06);
         ra.addPlayer(p3.getID(), 1500, 350, 0.06);
+        ra.addPlayer(p4.getID(), 1500, 350, 0.06);
         RatingSUOPm suopm = new RatingSUOPm();
         suopm.registerAlgorithm(p1);
         suopm.registerAlgorithm(p2);
         suopm.registerAlgorithm(p3);
+        suopm.registerAlgorithm(p4);
         suopm.run(ra, 10);
         ArrayList<Player> list = new ArrayList<Player>();
         list.addAll(ra.recalcRangs());
