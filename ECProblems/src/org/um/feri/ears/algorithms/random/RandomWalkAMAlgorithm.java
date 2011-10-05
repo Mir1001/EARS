@@ -8,8 +8,9 @@ import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
 
 /**
- * Similar as Random walk only that in case of finding new best the arithmetic mean of individuals is
- * new best and prior best is calculated and tested.   
+ * Similar as Random walk only that in case of finding new best the arithmetic
+ * mean of individuals is new best and prior best is calculated and tested. Also
+ * new in same direction is tested.
  * <p>
  * 
  * @author Matej Crepinsek
@@ -52,56 +53,88 @@ import org.um.feri.ears.problems.Task;
  * 
  */
 public class RandomWalkAMAlgorithm implements IAlgorithm {
-	Individual i;
-	boolean debug=false;
-	AlgorithmInfo ai;
-	public RandomWalkAMAlgorithm() {
-		this.debug = false;
-		ai = new AlgorithmInfo("RWS","","RWAM","Random Walk Arithmetic");
-	}
-	public RandomWalkAMAlgorithm(boolean d) {
-	    super();
-		setDebug(d); 
-	}
-	private double[] xArithmeticMeanOf(double[] x, double[] y) {
-	    double[] am = new double[x.length];
-	    for (int i=0; i<x.length; i++){
-	        am[i] = (x[i]+y[i])*0.5;
-	    }
-	    return am;
-	}
-	@Override
-	public Individual run(Task taskProblem) throws StopCriteriaException{
-		Individual ii, iAritmetic;
-			i = taskProblem.getRandomIndividual();
-			if (debug) System.out.println(taskProblem.getNumberOfEvaluations()+" "+i);
-			while (!taskProblem.isStopCriteria()) {
-				ii = taskProblem.getRandomIndividual();
-				if (taskProblem.isFirstBetter(ii, i)) {
-				    if (!taskProblem.isStopCriteria()) { //try also arithmetic mean
-				        iAritmetic = taskProblem.eval(xArithmeticMeanOf(i.getX(), ii.getX()));
-		                if (taskProblem.isFirstBetter(iAritmetic, ii)) ii = iAritmetic; //even better				        
-				    }
-					i = ii;
-					if (debug) System.out.println(taskProblem.getNumberOfEvaluations()+" "+i);
-				}
-			}
-		return i;
+    Individual i;
+    Task task;
+    boolean debug = false;
+    AlgorithmInfo ai;
 
-	}
-	@Override
-	public void setDebug(boolean d) {
-		debug = d;
-	}
-	@Override
-	public Author getImplementationAuthor() {
-		return new Author("matej", "matej.crepinsek at uni-mb.si");
-	}
-	@Override
-	public AlgorithmInfo getAlgorithmInfo() {
-		return ai;
-	}
-    /* (non-Javadoc)
+    public RandomWalkAMAlgorithm() {
+        this.debug = false;
+        ai = new AlgorithmInfo("RWS", "", "RWAM", "Random Walk Arithmetic");
+    }
+
+    public RandomWalkAMAlgorithm(boolean d) {
+        super();
+        setDebug(d);
+    }
+
+    private double[] xArithmeticMeanOf(double[] x, double[] y) {
+        double[] am = new double[x.length];
+        for (int i = 0; i < x.length; i++) {
+            am[i] = (x[i] + y[i]) * 0.5;
+        }
+        return am;
+    }
+
+    private double[] xInSameDirection(double[] old, double[] newX) {
+        double[] am = new double[old.length];
+        for (int i = 0; i < old.length; i++) {
+            am[i] = task.feasible(newX[i] + (newX[i] - old[i]), i); // if out of
+                                                                    // range
+        }
+        return am;
+    }
+
+    @Override
+    public Individual run(Task taskProblem) throws StopCriteriaException {
+        Individual ii, iAritmetic, iExtend;
+        task = taskProblem;
+        i = taskProblem.getRandomIndividual();
+        if (debug)
+            System.out.println(taskProblem.getNumberOfEvaluations() + " " + i);
+        while (!taskProblem.isStopCriteria()) {
+            ii = taskProblem.getRandomIndividual();
+            if (taskProblem.isFirstBetter(ii, i)) {
+                if (!taskProblem.isStopCriteria()) { // try also arithmetic mean
+                    iAritmetic = taskProblem.eval(xArithmeticMeanOf(i.getX(), ii.getX()));
+                    if (taskProblem.isFirstBetter(iAritmetic, ii)) {
+                        ii = iAritmetic; // even better
+                    } else {
+                        if (!taskProblem.isStopCriteria()) { // try also extend
+                            iExtend = taskProblem.eval(xArithmeticMeanOf(i.getX(), ii.getX()));
+                            if (taskProblem.isFirstBetter(iExtend, ii)) {
+                                ii = iExtend; // even better
+                            }
+                        }
+                    }
+                }
+                i = ii;
+                if (debug)
+                    System.out.println(taskProblem.getNumberOfEvaluations() + " " + i);
+            }
+        }
+        return i;
+
+    }
+
+    @Override
+    public void setDebug(boolean d) {
+        debug = d;
+    }
+
+    @Override
+    public Author getImplementationAuthor() {
+        return new Author("matej", "matej.crepinsek at uni-mb.si");
+    }
+
+    @Override
+    public AlgorithmInfo getAlgorithmInfo() {
+        return ai;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.um.feri.ears.algorithms.IAlgorithm#getID()
      */
     @Override
