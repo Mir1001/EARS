@@ -44,7 +44,10 @@
 package org.um.feri.ears.rating;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+
+import org.um.feri.ears.benchmark.AlgorithmEvalResult;
 
 public class Player {
     private String playerId; // name
@@ -132,5 +135,15 @@ public class Player {
     public String toString() {
         return playerId + "; " + r +sumWinLossDraw+"\n\t Against:"+wldPlayers+"\n\t Problems:"+wldProblems;
     }
+    
+    public static class RatingComparator implements Comparator<Player> {
+        @Override
+        public int compare(Player a, Player b) {
+            if (a.r.getRating()>b.r.getRating()) return -1;
+            if (a.r.getRating()<b.r.getRating()) return 1;
+            return 0;
+        }
+    }
+
 
 }

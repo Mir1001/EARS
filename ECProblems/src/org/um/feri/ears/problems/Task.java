@@ -108,7 +108,35 @@ public class Task {
 		return isStop||isGlobal;
 	}
 
-
+	/**
+	 * This function is not ok, because you do not get informations about
+	 * constrains, etc.. Just value
+	 *  
+	 * @see org.um.feri.ears.problems.Task#eval(double[])
+	 * @deprecated
+	 * @param ds
+	 * @return
+	 * @throws StopCriteriaException
+	 */
+	public double justEval(double[] ds) throws StopCriteriaException {
+        if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
+            incEvaluate();
+            return p.eval(ds);
+        }
+        if (stopCriteria == EnumStopCriteria.GLOBAL_OPTIMUM_OR_EVALUATIONS) {
+            if (isGlobal)
+                throw new StopCriteriaException("Global optimum already found");
+            incEvaluate();
+            double d = p.eval(ds);
+            if (Math.abs(d - p.getOptimumEval()) <= epsilon) {
+                isGlobal = true;
+            }
+            return d;
+        }
+        assert false; // Execution should never reach this point!
+        return Double.MAX_VALUE; //error
+    }
+	
 	public Individual eval(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
@@ -145,6 +173,28 @@ public class Task {
      */
     public double feasible(double d, int i){
         return p.feasible(d, i);
+    }
+
+    /**
+     * @deprecated
+     * @param d
+     * @param bestEvalCond
+     * @return
+     */
+    public boolean isFirstBetter(double a, double b) {
+        return p.isFirstBetter(a, b);
+    }
+
+    /**
+     * @deprecated
+     * @param ds
+     * @param d
+     * @param es
+     * @param e
+     * @return
+     */
+    public boolean isFirstBetter(double[] ds, double d, double[] es, double e) {
+        return p.isFirstBetter(ds,d,es,e);
     }
     
 }

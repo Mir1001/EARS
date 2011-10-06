@@ -43,9 +43,15 @@
  */
 package org.um.feri.ears.rating;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+
+import org.um.feri.ears.benchmark.AlgorithmEvalResult;
+import org.um.feri.ears.problems.TaskWithReset;
 import org.um.feri.ears.rating.*;
 
 public class ResultArena {
@@ -73,10 +79,14 @@ public class ResultArena {
 	 * Recalculates ranks and returns list. All ranks need to be updated. 
 	 * @return
 	 */
-	public Collection<Player> recalcRangs() {
+	public ArrayList<Player> recalcRangs() {
 		id_period++;
+		ArrayList<Player> ap = new ArrayList<Player>();
 		RatingCalculations.computePlayerRatings(players); //changes ratins
-		return players.values();
+		ap.addAll(players.values());
+		Collections.sort(ap, new Player.RatingComparator());
+		return ap;
 		
 	}
+	
 }

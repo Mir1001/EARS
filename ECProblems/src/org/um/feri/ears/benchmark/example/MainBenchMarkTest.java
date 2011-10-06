@@ -57,6 +57,8 @@ import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
 
+import com.erciyes.karaboga.bee.BeeColonyAlgorithm;
+
 /**
  * @author Administrator
  *
@@ -73,17 +75,21 @@ public class MainBenchMarkTest {
         IAlgorithm p2 = new RandomWalkAMAlgorithm();  
         IAlgorithm p3 = new ES1p1sAlgorithm();
         IAlgorithm p4 = new SwarmAlgorithm();
+        IAlgorithm p5 = new BeeColonyAlgorithm();
+
         System.out.println(p3.getID());
         ResultArena ra = new ResultArena(100);
         ra.addPlayer(p1.getID(), 1500, 350, 0.06,0,0,0);
         ra.addPlayer(p2.getID(), 1500, 350, 0.06,0,0,0);
         ra.addPlayer(p3.getID(), 1500, 350, 0.06,0,0,0);
         ra.addPlayer(p4.getID(), 1500, 350, 0.06,0,0,0);
+        ra.addPlayer(p5.getID(), 1500, 350, 0.06,0,0,0);
         RatingSUOPm suopm = new RatingSUOPm();
         suopm.registerAlgorithm(p1);
         suopm.registerAlgorithm(p2);
         suopm.registerAlgorithm(p3);
         suopm.registerAlgorithm(p4);
+        suopm.registerAlgorithm(p5);
         suopm.run(ra, 30);
         ArrayList<Player> list = new ArrayList<Player>();
         list.addAll(ra.recalcRangs());
