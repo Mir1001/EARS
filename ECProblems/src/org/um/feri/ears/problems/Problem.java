@@ -259,7 +259,7 @@ public abstract class Problem {
 	/**
 	 * 
 	 * 
-	 * @param x list of constrains
+	 * @param x - solution
 	 * @return
 	 */
 	public double constrainsEvaluations(double x[]) {
@@ -278,6 +278,7 @@ public abstract class Problem {
 		}
 		return d;
 	}
+	
 	public double[] getRandomVectorX() {
 		double[] sol=new double[dim];
 		for (int j = 0; j < dim; j++) {

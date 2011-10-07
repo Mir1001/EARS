@@ -1,5 +1,8 @@
 package org.um.feri.ears.problems;
 
+import java.util.Comparator;
+
+import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.util.Util;
 
 /**
@@ -49,16 +52,59 @@ import org.um.feri.ears.util.Util;
 */
 public class Individual {
 	private double[] x;
-	private double eval;
+    private double eval;
+	private double[] constrains; //TODO refactor 2 types of individual for constrained optimization
+	private boolean feasible; //Feasible checks constrains
+	
 	public Individual(Individual i) {
 		x = new double[i.x.length];
 		System.arraycopy(i.x, 0, x, 0, x.length);
 		eval = i.eval;
+		if (!i.feasible) {
+		      constrains = new double[i.constrains.length];
+		      System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
+		}
 	}
+	/**
+	 * This constructor is for unconstrained optimization!
+	 * 
+	 * @param x
+	 * @param eval
+	 */
 	public Individual(double[] x, double eval) {
 		this.x = new double[x.length];
 		System.arraycopy(x, 0, this.x, 0, x.length);
 		this.eval = eval;
+		feasible = true;
+	}
+	/**
+	 * Use this constructor only in case of constrained optimization 
+	 * 
+	 * @param x
+	 * @param eval
+	 * @param constrains
+	 */
+	public Individual(double[] x, double eval, double[] constrains) {
+	        this.x = new double[x.length];
+	        System.arraycopy(x, 0, this.x, 0, x.length);
+	        setFeasible(constrains);
+	        this.eval = eval;
+	}
+	
+	public double[] getConstrains() {
+        return constrains;
+    }
+    public boolean isFeasible() {
+        return feasible;
+    }
+    private void setFeasible(double[] constrains) {
+	    for (int i=0;i<constrains.length; i++) {
+	        if (constrains[i]>0) { //equal constrained needs to be solve in Problem (set 0 if<=0.001)
+	            feasible = false;
+	            this.constrains= new double[constrains.length];
+	            System.arraycopy(constrains, 0, this.constrains, 0, constrains.length);
+	        }
+	    }
 	}
 	public double getEval() {
 		return eval;
@@ -75,6 +121,6 @@ public class Individual {
 	public String toString() {
 		return Util.dfc1.format(eval)+" ["+Util.arrayToString(x)+"]";
 	}
-
+ 
 	
 }

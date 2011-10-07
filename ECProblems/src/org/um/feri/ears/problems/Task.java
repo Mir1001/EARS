@@ -62,7 +62,11 @@ public class Task {
 		this.p = p;
 	}
 	
-	public double[] getIntervalLength(){
+	public int getMaxEvaluations() {
+        return maxEvaluations;
+    }
+
+    public double[] getIntervalLength(){
 		return p.interval;
 	}
 	
@@ -81,7 +85,9 @@ public class Task {
 	public int getDimensions() {
 		return p.getDim();
 	}
-	
+	public int getNumberOfConstrains() {
+	    return p.constrains;
+	}
 	public Individual getRandomIndividual() throws StopCriteriaException {
 		return eval(p.getRandomVectorX()); 
 	}
@@ -150,7 +156,7 @@ public class Task {
 			if (Math.abs(d - p.getOptimumEval()) <= epsilon) {
 				isGlobal = true;
 			}
-			return new Individual(ds,d);
+			return new Individual(ds,d,p.calc_constrains(ds));
 		}
 		assert false; // Execution should never reach this point!
 		return null; //error
