@@ -60,6 +60,7 @@ public class TLBOAlgorithm extends Algorithm {
 	 */
 	public TLBOAlgorithm(int Keep, int pop_size) {
 	    this.Keep = Keep;
+	    this.pop_size = pop_size;
 	    au = new Author("matej", "matej.crepinsek at uni-mb.si");
 	    ai = new AlgorithmInfo(
                 "TLBO",
