@@ -1,5 +1,8 @@
 package org.um.feri.ears.algorithms;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
@@ -47,7 +50,7 @@ import org.um.feri.ears.problems.Task;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-public interface IAlgorithm {
+public abstract class Algorithm {
 	/**
 	 * Search for best solution.
 	 * 
@@ -57,10 +60,52 @@ public interface IAlgorithm {
 	 * @return best solution
 	 * @throws StopCriteriaException 
 	 */
-	public Individual run(Task taskProblem) throws StopCriteriaException;
-	public void setDebug(boolean d);
-	public Author getImplementationAuthor();
-	public AlgorithmInfo getAlgorithmInfo();
-	public String getID();
+    protected boolean debug;
+    protected Author au;
+    protected AlgorithmInfo ai;
+    /**
+     * 
+     * 
+     * @param taskProblem
+     * @return
+     * @throws StopCriteriaException
+     */
+	public abstract Individual run(Task taskProblem) throws StopCriteriaException;
 	
+	/**
+	 * It is called every time before every run! 
+	 */
+	public abstract void resetDefaultsBeforNewRun();
+	public boolean isDebug() {
+        return debug;
+    }
+
+    public void setDebug(boolean debug) {
+        this.debug = debug;
+    }
+
+    public Author getImplementationAuthor() {
+        return au;
+    }
+	public AlgorithmInfo getAlgorithmInfo(){
+	    return ai;
+	}
+	public String getID() {
+	    return ai.getVersionAcronym();
+	}
+	/**
+	 * Returns algorithms with different settings for selecting the best one!
+	 * maxCombinations is usually set to 8!
+	 * If maxCombinations==1 than return combination that is expected to perform best!
+	 * 
+	 * NOTE not static because jave doesnt support abstract static!
+	 * 
+	 * @param taskProblem
+	 * @return
+	 */
+	public List<Algorithm> getAlgorithmParameterTest(Task taskProblem, int maxCombinations) {
+	    List<Algorithm> noAlternative = new ArrayList<Algorithm>();
+	    noAlternative.add(this);
+	    return noAlternative;
+	}
 }

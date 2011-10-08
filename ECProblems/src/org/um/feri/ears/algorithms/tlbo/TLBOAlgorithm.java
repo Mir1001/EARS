@@ -3,11 +3,14 @@ package org.um.feri.ears.algorithms.tlbo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 import org.um.feri.ears.algorithms.AlgorithmInfo;
 import org.um.feri.ears.algorithms.Author;
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.algorithms.EnumAlgorithmParameters;
+import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.StopCriteriaException;
@@ -15,7 +18,7 @@ import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.util.MersenneTwister;
 import org.um.feri.ears.util.Util;
 
-public class TLBOAlgorithm implements IAlgorithm {
+public class TLBOAlgorithm extends Algorithm {
 	int pop_size; // = 50000; //defaults from authors
 	int max_gen; // = 500000; //defaults from authors
 	Task task; //To calculate fitness
@@ -35,17 +38,16 @@ public class TLBOAlgorithm implements IAlgorithm {
 	public static boolean useAll4Mean=true;//used for internal tests
 	private double intervalL[];
     private double interval[];
-	protected AlgorithmInfo ai;
     private ArrayList<Individual> keepList;
-   public static boolean test=false;
+    public static boolean test=false;
    
 	public Statistic getStat() {
 		return stat;
 	}
-
 	private int Keep = 0; // copy best from ex generation
-	private long max_eval;
-
+	public TLBOAlgorithm() {
+	    this(0,20);
+	}
 	/**
 	 * stopCondition GENERATION_STOP_CONDITION or EVALUATIONS_STOP_CONDITION
 	 * 
@@ -56,18 +58,19 @@ public class TLBOAlgorithm implements IAlgorithm {
 	 * @param keep
 	 * @param stopCondition
 	 */
-	public TLBOAlgorithm(int Keep) {
+	public TLBOAlgorithm(int Keep, int pop_size) {
 	    this.Keep = Keep;
+	    au = new Author("matej", "matej.crepinsek at uni-mb.si");
 	    ai = new AlgorithmInfo(
                 "TLBO",
                 "\\bibitem{Rao2011}\nR.V.~Rao, V.J.~Savsani, D.P.~Vakharia.\n\\newblock Teaching-learning-based optimization: A novel method for constrained mechanical design optimization problems.\n\\newblock \\emph{Computer-Aided Design}, 43(3):303--315, 2011.\n",
                 "TLBO", "Teaching Learning Based Optimization");
+	    ai.addParameter(EnumAlgorithmParameters.ELITE, ""+Keep);
+	    ai.addParameter(EnumAlgorithmParameters.POP_SIZE, pop_size+"");
 	    
 	}
 
-//	public TLBO(int i, Task p2, int generations) {
-//		this(i, p2, generations, 2); // default keep
-//	}
+
 
 
 	private double[] mean() {
@@ -270,46 +273,40 @@ public class TLBOAlgorithm implements IAlgorithm {
     public Individual run(Task taskProblem) throws StopCriteriaException {
         task=taskProblem;
         num_var = task.getDimensions();
-        max_eval = task.getMaxEvaluations();
-        this.pop_size = 5+task.getDimensions()*5;
+        //max_eval = task.getMaxEvaluations();
         stat = new Statistic(task);
         init();
         aTeacher();
         return stat.getCurrent_g().best;
     }
 
-    /* (non-Javadoc)
-     * @see org.um.feri.ears.algorithms.IAlgorithm#setDebug(boolean)
-     */
+
+
+
     @Override
-    public void setDebug(boolean d) {
-        // TODO Auto-generated method stub
-        
+    public void resetDefaultsBeforNewRun() {
+        //it sets in init!
     }
-
-    /* (non-Javadoc)
-     * @see org.um.feri.ears.algorithms.IAlgorithm#getImplementationAuthor()
-     */
     @Override
-    public Author getImplementationAuthor() {
-        return new Author("matej", "matej.crepinsek at uni-mb.si");
-
-    }
-
-    /* (non-Javadoc)
-     * @see org.um.feri.ears.algorithms.IAlgorithm#getAlgorithmInfo()
-     */
-    @Override
-    public AlgorithmInfo getAlgorithmInfo() {
-        return ai;
-    }
-
-    /* (non-Javadoc)
-     * @see org.um.feri.ears.algorithms.IAlgorithm#getID()
-     */
-    @Override
-    public String getID() {
-        return getAlgorithmInfo().getVersionAcronym();
+    public List<Algorithm> getAlgorithmParameterTest(Task taskProblem, int maxCombinations) {
+        List<Algorithm> alternative = new ArrayList<Algorithm>();
+        if (maxCombinations==1) {
+            alternative.add(this);
+        } else {
+            int kk[] = {0, 4, 8};
+            int pp[] = {20, 5+task.getDimensions()*2, 10, 50, 30, 100}; 
+              //max 3*6 combinations
+            int counter=0;
+            for (int i=0; (i<kk.length)&&(counter<maxCombinations); i++) {
+                for (int ii=0; ii<(pp.length)&&(counter<maxCombinations);ii++) {
+                    if ((kk[i]+5)<pp[ii]) { //more pop_size than elite
+                      alternative.add(new TLBOAlgorithm(kk[i], pp[ii]));
+                      counter++;
+                    }
+                }
+            }
+        }
+        return alternative;
     }
 
 }

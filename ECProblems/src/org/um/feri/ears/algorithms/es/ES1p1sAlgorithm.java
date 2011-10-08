@@ -1,8 +1,12 @@
 package org.um.feri.ears.algorithms.es;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.um.feri.ears.algorithms.AlgorithmInfo;
 import org.um.feri.ears.algorithms.Author;
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.algorithms.EnumAlgorithmParameters;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
@@ -51,25 +55,35 @@ import org.um.feri.ears.util.Util;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-public class ES1p1sAlgorithm implements IAlgorithm {
+public class ES1p1sAlgorithm extends Algorithm {
     private Individual one;
     private double varianceOne;
-    boolean debug = false;
-    private AlgorithmInfo ai;
-    private int k; // every k aVariance is calculated again
-    private double c;
+    private int k, mem_k; // every k aVariance is calculated again
+    private double c, mem_c;
     Task task;
     //source http://natcomp.liacs.nl/EA/slides/es_basic_algorithm.pdf
     public ES1p1sAlgorithm() {
-        this.debug = false;
+        this(40,0.8);
+    }
+    public ES1p1sAlgorithm(int k, double c) {
+        mem_k = k;
+        mem_c = c;
+        au = new Author("matej", "matej.crepinsek at uni-mb.si");
+        resetDefaultsBeforNewRun();        
         ai = new AlgorithmInfo("ES", "@book{Rechenberg1973,\n author = {Rechenberg, I.}, \n publisher = {Frommann-Holzboog}, \n title = {Evolutionsstrategie: optimierung technischer systeme nach prinzipien der biologischen evolution},\n year = {1973}}", "ES(1+1)", "ES(1+1) 1/5 rule");
-        resetDefault();
+        ai.addParameter(EnumAlgorithmParameters.K_ITERATIONS, ""+k);
+        ai.addParameter(EnumAlgorithmParameters.C_FACTOR, ""+c);
+        
     }
-    private void resetDefault() {
-        k=40; //every k is recalculated
-        c= 0.9;  //0.8<=c<=1
-        varianceOne = 1.;        
-    }
+    @Override
+    public void resetDefaultsBeforNewRun() {
+        k = mem_k; //every k is recalculated
+        c = mem_c;  //0.8<=c<=1
+        varianceOne = 1.;
+        one = null;
+        
+    }   
+  
     public ES1p1sAlgorithm(boolean d) {
         this();
         setDebug(d);
@@ -81,7 +95,7 @@ public class ES1p1sAlgorithm implements IAlgorithm {
 
     @Override
     public Individual run(Task taskProblem) throws StopCriteriaException {
-        resetDefault(); // init starting values!!
+        resetDefaultsBeforNewRun(); //usually no need for this call 
         task = taskProblem;
         Individual ii;
         one = taskProblem.getRandomIndividual();
@@ -123,28 +137,24 @@ public class ES1p1sAlgorithm implements IAlgorithm {
     }
 
     @Override
-    public void setDebug(boolean d) {
-        debug = d;
+    public List<Algorithm> getAlgorithmParameterTest(Task taskProblem, int maxCombinations) {
+        List<Algorithm> alternative = new ArrayList<Algorithm>();
+        if (maxCombinations==1) {
+            alternative.add(this);
+        } else {
+            int kk[] = {40, 30, 50, 80, 90};
+            double cc[] = {0.8, 0.85, 0.9, 0.95};
+            //max 20 combinations
+            int counter=0;
+            for (int i=0; (i<kk.length)&&(counter<maxCombinations); i++) {
+                for (int ii=0; ii<(cc.length)&&(counter<maxCombinations);ii++) {
+                    alternative.add(new ES1p1sAlgorithm(kk[i], cc[ii]));
+                    counter++;
+                }
+            }
+        }
+        return alternative;
     }
 
-    @Override
-    public Author getImplementationAuthor() {
-        return new Author("matej", "matej.crepinsek at uni-mb.si");
-    }
-
-    @Override
-    public AlgorithmInfo getAlgorithmInfo() {
-        return ai;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.um.feri.ears.algorithms.IAlgorithm#getID()
-     */
-    @Override
-    public String getID() {
-        return getAlgorithmInfo().getVersionAcronym();
-    }
 
 }

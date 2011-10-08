@@ -47,7 +47,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
@@ -74,20 +74,20 @@ public class MainBenchMarkTestBig {
     public static void main(String[] args) {
         Util.rnd.setSeed(System.currentTimeMillis());
         RatingBenchmark.debugPrint = true; //prints one on one results
-        ArrayList<IAlgorithm> players = new ArrayList<IAlgorithm>();
+        ArrayList<Algorithm> players = new ArrayList<Algorithm>();
         players.add(new RandomWalkAlgorithm());  
         //players.add(new RandomWalkAMAlgorithm());  
         players.add(new ES1p1sAlgorithm());
-        players.add(new SwarmAlgorithm());
+        //players.add(new SwarmAlgorithm());
         players.add(new BeeColonyAlgorithm());
-        players.add(new TLBOAlgorithm(0));
+        players.add(new TLBOAlgorithm());
         for (int k=1;k<11;k++)
         players.add(new DEAlgorithm(k,100));
         players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,100));
 
         ResultArena ra = new ResultArena(100);
         RatingSUOP_dim30 suopm = new RatingSUOP_dim30(30,150000);
-        for (IAlgorithm al:players) {
+        for (Algorithm al:players) {
           ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
           suopm.registerAlgorithm(al);
         }

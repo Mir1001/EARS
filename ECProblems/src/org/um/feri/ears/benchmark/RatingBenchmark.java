@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
@@ -63,13 +63,13 @@ import org.um.feri.ears.util.Util;
 public abstract class RatingBenchmark {
     public static boolean debugPrint=false;
     protected ArrayList<TaskWithReset> listOfProblems;
-    protected ArrayList<IAlgorithm> listOfAlgorithmsPlayers;
+    protected ArrayList<Algorithm> listOfAlgorithmsPlayers;
     
     protected EnumStopCriteria stopCriteria = EnumStopCriteria.EVALUATIONS; //default
     private ArrayList<AlgorithmEvalResult> results;
     public RatingBenchmark() {
         listOfProblems = new ArrayList<TaskWithReset>();
-        listOfAlgorithmsPlayers = new ArrayList<IAlgorithm>();
+        listOfAlgorithmsPlayers = new ArrayList<Algorithm>();
         results = new ArrayList<AlgorithmEvalResult>();
         //initFullProblemList();
     }
@@ -77,7 +77,7 @@ public abstract class RatingBenchmark {
     protected abstract void registerTask(Problem p);
     protected abstract void initFullProblemList(); 
     
-    public void registerAlgorithm(IAlgorithm al) {
+    public void registerAlgorithm(Algorithm al) {
         listOfAlgorithmsPlayers.add(al);
     }
     public abstract boolean resultEqual(Individual a, Individual b);
@@ -85,7 +85,7 @@ public abstract class RatingBenchmark {
     public abstract String getAcronym(); //short name for tables etc    
     public abstract String getInfo(); //some explanation
     private void runOneProblem(TaskWithReset task) {
-        for (IAlgorithm al: listOfAlgorithmsPlayers) {
+        for (Algorithm al: listOfAlgorithmsPlayers) {
             task.resetCounter(); //number of evaluations
             try {
                 results.add(new AlgorithmEvalResult(al.run(task), al));

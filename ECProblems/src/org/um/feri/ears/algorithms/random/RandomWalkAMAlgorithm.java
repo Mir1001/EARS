@@ -2,7 +2,7 @@ package org.um.feri.ears.algorithms.random;
 
 import org.um.feri.ears.algorithms.AlgorithmInfo;
 import org.um.feri.ears.algorithms.Author;
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
@@ -52,21 +52,16 @@ import org.um.feri.ears.problems.Task;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-public class RandomWalkAMAlgorithm implements IAlgorithm {
+public class RandomWalkAMAlgorithm extends Algorithm {
     Individual i;
     Task task;
-    boolean debug = false;
-    AlgorithmInfo ai;
 
     public RandomWalkAMAlgorithm() {
         this.debug = false;
         ai = new AlgorithmInfo("RWS", "", "RWAM", "Random Walk Arithmetic");
+        au = new Author("matej", "matej.crepinsek at uni-mb.si");
     }
 
-    public RandomWalkAMAlgorithm(boolean d) {
-        super();
-        setDebug(d);
-    }
 
     private double[] xArithmeticMeanOf(double[] x, double[] y) {
         double[] am = new double[x.length];
@@ -101,7 +96,7 @@ public class RandomWalkAMAlgorithm implements IAlgorithm {
                         ii = iAritmetic; // even better
                     } else {
                         if (!taskProblem.isStopCriteria()) { // try also extend
-                            iExtend = taskProblem.eval(xArithmeticMeanOf(i.getX(), ii.getX()));
+                            iExtend = taskProblem.eval(xInSameDirection(i.getX(), ii.getX()));
                             if (taskProblem.isFirstBetter(iExtend, ii)) {
                                 ii = iExtend; // even better
                             }
@@ -117,29 +112,12 @@ public class RandomWalkAMAlgorithm implements IAlgorithm {
 
     }
 
-    @Override
-    public void setDebug(boolean d) {
-        debug = d;
-    }
+
 
     @Override
-    public Author getImplementationAuthor() {
-        return new Author("matej", "matej.crepinsek at uni-mb.si");
-    }
-
-    @Override
-    public AlgorithmInfo getAlgorithmInfo() {
-        return ai;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.um.feri.ears.algorithms.IAlgorithm#getID()
-     */
-    @Override
-    public String getID() {
-        return getAlgorithmInfo().getVersionAcronym();
+    public void resetDefaultsBeforNewRun() {
+      i = null;
+        
     }
 
 }

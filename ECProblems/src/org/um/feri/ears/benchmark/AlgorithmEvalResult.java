@@ -43,7 +43,7 @@
  */
 package org.um.feri.ears.benchmark;
 
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 
@@ -53,8 +53,8 @@ import org.um.feri.ears.problems.Problem;
  */
 public class AlgorithmEvalResult {
     Individual best;
-    IAlgorithm al;
-    public AlgorithmEvalResult(Individual best, IAlgorithm al) {
+    Algorithm al;
+    public AlgorithmEvalResult(Individual best, Algorithm al) {
         super();
         this.best = best;
         this.al = al;
@@ -65,10 +65,10 @@ public class AlgorithmEvalResult {
     public void setBest(Individual best) {
         this.best = best;
     }
-    public IAlgorithm getAl() {
+    public Algorithm getAl() {
         return al;
     }
-    public void setAl(IAlgorithm al) {
+    public void setAl(Algorithm al) {
         this.al = al;
     }
     

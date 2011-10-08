@@ -1,6 +1,6 @@
 package org.um.feri.ears.examples;
 
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
@@ -15,7 +15,7 @@ public class RandomAlgorithmTest {
 	 */
 	public static void main(String[] args) {
 		Task sphere=new Task(EnumStopCriteria.EVALUATIONS,1000,0.001,new ProblemSphere(4));
-		IAlgorithm test = new RandomWalkAlgorithm(true);
+		Algorithm test = new RandomWalkAlgorithm(true);
 		Individual best;
         try {
             best = test.run(sphere);
