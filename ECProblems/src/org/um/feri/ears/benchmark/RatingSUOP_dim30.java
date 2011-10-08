@@ -52,20 +52,21 @@ import org.um.feri.ears.problems.unconstrained.*;
 import org.um.feri.ears.rating.ResultArena;
 
 //TODO calculate CD for rating
-public class RatingSUOPm extends RatingBenchmark {
+public class RatingSUOP_dim30 extends RatingBenchmark {
     public static final String name="Solving Unconstrained Optimization Problems with maximum evaluation condition";
-    protected int evaluationsOnDimension=1000;
-    
+    protected int evaluations=1000;
+    int dim;
     public boolean resultEqual(Individual a, Individual b) {
         if ((a==null) &&(b==null)) return true;
         if (a==null) return false;
         if (b==null) return false;
-        if (Math.abs(a.getEval()-b.getEval())<0.000000001) return true;
+        if (Math.abs(a.getEval()-b.getEval())<0.000001) return true;
         return false;
     }
-    public RatingSUOPm() {
+    public RatingSUOP_dim30(int D, int EV) {
         super();
-        evaluationsOnDimension=1000;
+        evaluations=150000;
+        dim = D;
         initFullProblemList();
     }
     /* (non-Javadoc)
@@ -73,7 +74,7 @@ public class RatingSUOPm extends RatingBenchmark {
      */
     @Override
     protected void registerTask(Problem p) {
-        listOfProblems.add(new TaskWithReset(stopCriteria, p.getDim()*evaluationsOnDimension, 0.001, p));
+        listOfProblems.add(new TaskWithReset(stopCriteria,evaluations, 0.001, p));
     }
     
     /* (non-Javadoc)
@@ -81,22 +82,13 @@ public class RatingSUOPm extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        registerTask(new ProblemAckley(2));
-        registerTask(new ProblemB2());
-        registerTask(new ProblemBeale());
-        registerTask(new ProblemBooth());
-        registerTask(new ProblemBranin());
-        registerTask(new ProblemDeJong());
-        registerTask(new ProblemEasom());
-        registerTask(new ProblemGoldSteinAndPrice());
-        registerTask(new ProblemGriewank(2));
-        registerTask(new ProblemMartinAndGaddy());
-        registerTask(new ProblemPowellBadlyScaledFunction());
-        registerTask(new ProblemRastrigin(2));
-        registerTask(new ProblemRosenbrock(2));
-        registerTask(new ProblemSchwefel(2));
-        registerTask(new ProblemSchwefelRidge(2)); 
-        registerTask(new ProblemSphere(2));
+        registerTask(new ProblemAckley(dim));
+        registerTask(new ProblemGriewank(dim));
+        registerTask(new ProblemRastrigin(dim));
+        registerTask(new ProblemRosenbrock(dim));
+        registerTask(new ProblemSchwefel(dim));
+        registerTask(new ProblemSchwefelRidge(dim)); 
+        registerTask(new ProblemSphere(dim));
     }
         
     /* (non-Javadoc)
@@ -112,7 +104,7 @@ public class RatingSUOPm extends RatingBenchmark {
      */
     @Override
     public String getAcronym() {
-        return "SUOPOm";
+        return "SUOPOm Dim("+dim+")";
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#getInfo()

@@ -126,9 +126,10 @@ public abstract class RatingBenchmark {
                 if (resultEqual(win.best, lose.best)) { //Special for this benchmark
                     if (debugPrint) System.out.println("draw of "+win.getAl().getID()+" ("+Util.df3.format(win.getBest().getEval())+") against "+lose.getAl().getID()+" ("+Util.df3.format(lose.getBest().getEval())+") for "+t.getProblemShortName());
                     arena.addGameResult(Game.DRAW, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());
-                } else
+                } else {
                     if (debugPrint) System.out.println("win of "+win.getAl().getID()+" ("+Util.df3.format(win.getBest().getEval())+") against "+lose.getAl().getID()+" ("+Util.df3.format(lose.getBest().getEval())+") for "+t.getProblemShortName());
                     arena.addGameResult(Game.WIN, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());
+                }
                     
             }
         }

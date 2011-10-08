@@ -60,6 +60,7 @@ public class Individual {
 		x = new double[i.x.length];
 		System.arraycopy(i.x, 0, x, 0, x.length);
 		eval = i.eval;
+		this.feasible = i.feasible;
 		if (!i.feasible) {
 		      constrains = new double[i.constrains.length];
 		      System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
@@ -98,6 +99,7 @@ public class Individual {
         return feasible;
     }
     private void setFeasible(double[] constrains) {
+        feasible = true;
 	    for (int i=0;i<constrains.length; i++) {
 	        if (constrains[i]>0) { //equal constrained needs to be solve in Problem (set 0 if<=0.001)
 	            feasible = false;
@@ -119,7 +121,7 @@ public class Individual {
 	}
 	
 	public String toString() {
-		return Util.dfc1.format(eval)+" ["+Util.arrayToString(x)+"]";
+		return Util.dfcshort.format(eval)+" ["+Util.arrayToString(x)+"]";
 	}
  
 	

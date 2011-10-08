@@ -66,7 +66,7 @@ import com.um.feri.brest.de.DEAlgorithm;
  * @author Administrator
  *
  */
-public class MainBenchMarkTest {
+public class MainBenchMarkTestBig {
 
     /**
      * @param args
@@ -76,22 +76,22 @@ public class MainBenchMarkTest {
         RatingBenchmark.debugPrint = true; //prints one on one results
         ArrayList<IAlgorithm> players = new ArrayList<IAlgorithm>();
         players.add(new RandomWalkAlgorithm());  
-        players.add(new RandomWalkAMAlgorithm());  
+        //players.add(new RandomWalkAMAlgorithm());  
         players.add(new ES1p1sAlgorithm());
         players.add(new SwarmAlgorithm());
         players.add(new BeeColonyAlgorithm());
         players.add(new TLBOAlgorithm(0));
         for (int k=1;k<11;k++)
-        players.add(new DEAlgorithm(k,20));
-        players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20));
+        players.add(new DEAlgorithm(k,100));
+        players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,100));
 
         ResultArena ra = new ResultArena(100);
-        RatingSUOPm suopm = new RatingSUOPm();
+        RatingSUOP_dim30 suopm = new RatingSUOP_dim30(30,150000);
         for (IAlgorithm al:players) {
           ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
           suopm.registerAlgorithm(al);
         }
-        suopm.run(ra, 30);
+        suopm.run(ra, 10);
         ArrayList<Player> list = new ArrayList<Player>();
         list.addAll(ra.recalcRangs());
         for (Player p: list) System.out.println(p);

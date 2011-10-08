@@ -70,6 +70,9 @@ public class Game {
         b.add(this);
 
     }
+    public String toString(){
+        return a.getPlayerId()+" : "+b.getPlayerId()+" r:"+gameResult;
+    }
     public String getOpponent(String one){
         if (a.getPlayerId().equals(one)) return b.getPlayerId();
         return a.getPlayerId();
