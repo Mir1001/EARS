@@ -7,6 +7,7 @@ import org.um.feri.ears.algorithms.AlgorithmInfo;
 import org.um.feri.ears.algorithms.Author;
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.EnumAlgorithmParameters;
+import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
@@ -136,25 +137,25 @@ public class ES1p1sAlgorithm extends Algorithm {
         
     }
 
+
     @Override
     public List<Algorithm> getAlgorithmParameterTest(Task taskProblem, int maxCombinations) {
         List<Algorithm> alternative = new ArrayList<Algorithm>();
-        if (maxCombinations==1) {
+        if (maxCombinations == 1) {
             alternative.add(this);
         } else {
-            int kk[] = {40, 30, 50, 80, 90};
-            double cc[] = {0.8, 0.85, 0.9, 0.95};
-            //max 20 combinations
-            int counter=0;
-            for (int i=0; (i<kk.length)&&(counter<maxCombinations); i++) {
-                for (int ii=0; ii<(cc.length)&&(counter<maxCombinations);ii++) {
-                    alternative.add(new ES1p1sAlgorithm(kk[i], cc[ii]));
-                    counter++;
-                }
+            double paramCombinations[][] = { // {k, c}
+            { 40, 0.8}, { 40, 0.85 }, { 30, 0.8 }, { 30,0.85}, { 50, 0.8 }, { 50, 0.85 }, { 20, 0.8 }, { 100,  0.9 }};
+            int counter = 0;
+            for (int i = 0; (i < paramCombinations.length) && (counter < maxCombinations); i++) {
+                alternative.add(new ES1p1sAlgorithm((int)paramCombinations[i][0], paramCombinations[i][1]));
+                counter++;
+
             }
         }
         return alternative;
     }
 
+   
 
 }

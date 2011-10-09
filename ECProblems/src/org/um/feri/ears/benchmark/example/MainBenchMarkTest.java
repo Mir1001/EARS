@@ -78,8 +78,8 @@ public class MainBenchMarkTest {
         players.add(new RandomWalkAlgorithm());  
         players.add(new RandomWalkAMAlgorithm());  
         players.add(new ES1p1sAlgorithm());
-       // players.add(new SwarmAlgorithm());
-        //players.add(new BeeColonyAlgorithm());
+        players.add(new SwarmAlgorithm());
+        players.add(new BeeColonyAlgorithm());
         players.add(new TLBOAlgorithm());
         for (int k=1;k<11;k++)
         players.add(new DEAlgorithm(k,20));

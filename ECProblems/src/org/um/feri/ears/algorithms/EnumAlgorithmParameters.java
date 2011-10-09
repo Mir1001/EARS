@@ -57,6 +57,9 @@ public enum EnumAlgorithmParameters {
     TAO_0("ES learning rate ","tao_0"),
     K_ITERATIONS("recalculate/refresh after k iterations","k"),
     C_FACTOR("ES sigma*c","c"),
+    W_INTERIA("interia","w"), //http://dsp.szu.edu.cn/pso/ispo/download/a%20modified%20pso.pdf
+    C1("particle increment","c1"),
+    C2("particle globalincrement","c2"),
     UNNAMED1("Unnamed parameter 1","param1"),  //if there is no parameter to select
     UNNAMED2("Unnamed parameter 2","param2"),  //if there is no parameter to select
     UNNAMED3("Unnamed parameter 3","param3"),  //if there is no parameter to select
