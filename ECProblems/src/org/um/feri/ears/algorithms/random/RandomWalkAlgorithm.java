@@ -2,7 +2,7 @@ package org.um.feri.ears.algorithms.random;
 
 import org.um.feri.ears.algorithms.AlgorithmInfo;
 import org.um.feri.ears.algorithms.Author;
-import org.um.feri.ears.algorithms.IAlgorithm;
+import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
@@ -50,14 +50,14 @@ import org.um.feri.ears.problems.Task;
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-public class RandomWalkAlgorithm implements IAlgorithm {
+public class RandomWalkAlgorithm extends Algorithm {
 	Individual i;
 	
 	boolean debug=false;
-	private AlgorithmInfo ai;
 	public RandomWalkAlgorithm() {
 		this.debug = false;
 		ai = new AlgorithmInfo("","","RWSi","Random Walk Simple");
+		au =  new Author("matej", "matej.crepinsek at uni-mb.si");
 	}
 	public RandomWalkAlgorithm(boolean d) {
 	    super();
@@ -80,24 +80,11 @@ public class RandomWalkAlgorithm implements IAlgorithm {
 		return i;
 
 	}
-	@Override
-	public void setDebug(boolean d) {
-		debug = d;
-	}
-	@Override
-	public Author getImplementationAuthor() {
-		return new Author("matej", "matej.crepinsek at uni-mb.si");
-	}
-	@Override
-	public AlgorithmInfo getAlgorithmInfo() {
-		return ai;
-	}
-    /* (non-Javadoc)
-     * @see org.um.feri.ears.algorithms.IAlgorithm#getID()
-     */
+
     @Override
-    public String getID() {
-        return getAlgorithmInfo().getVersionAcronym();
+    public void resetDefaultsBeforNewRun() {
+        i=null;
+        
     }
 
 }

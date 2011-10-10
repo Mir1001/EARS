@@ -49,7 +49,7 @@ import org.um.feri.ears.problems.Task;
  *          ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
- */
+ */ 
 public abstract class Algorithm {
 	/**
 	 * Search for best solution.

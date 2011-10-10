@@ -1,4 +1,9 @@
 package org.um.feri.ears.algorithms;
+
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
+
 /**
  * Data about algorithm, where it is published, what is different, etc...
  * versionAcronym is used in reports.
@@ -45,18 +50,32 @@ package org.um.feri.ears.algorithms;
  */
 public class AlgorithmInfo {
     private String publishedAcronym; // from papers (ES(1,1), PSO, DE, ...)
+
     private String paperBib; // latex bib format name of the original published
                              // paper
     private String versionAcronym; // if you made some semantic changes compared
                                    // to original
     private String versionDescription; // what is different from original
+    private EnumMap<EnumAlgorithmParameters,String> parameters; //add all specific parameters
 
+    //returns parameters
+    public Map<EnumAlgorithmParameters,String> getParameters(){
+        Map<EnumAlgorithmParameters,String> tmp = new EnumMap<EnumAlgorithmParameters,String>(parameters);
+        tmp = Collections.unmodifiableMap(tmp);
+        return tmp;
+    }
+    
+    public void addParameter(EnumAlgorithmParameters id, String value) {
+        parameters.put(id, value);
+    }
     public AlgorithmInfo(String publishedName, String paperBib, String versionName, String versionDescription) {
         super();
         this.publishedAcronym = publishedName;
         this.paperBib = paperBib;
         this.versionAcronym = versionName;
         this.versionDescription = versionDescription;
+        //http://download.oracle.com/javase/1,5.0/docs/guide/language/enums.html
+        parameters = new EnumMap<EnumAlgorithmParameters, String>(EnumAlgorithmParameters.class);
     }
 
     /**
@@ -87,7 +106,7 @@ public class AlgorithmInfo {
     }
     
     /**
-     * This is actualy alg. id
+     * This is actually algorithms id
      * @return
      */
     public String getVersionAcronym() {
