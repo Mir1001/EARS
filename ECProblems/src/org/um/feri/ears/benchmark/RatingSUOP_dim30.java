@@ -44,6 +44,7 @@
  */
 package org.um.feri.ears.benchmark;
 
+import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.Task;
@@ -73,8 +74,8 @@ public class RatingSUOP_dim30 extends RatingBenchmark {
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)
      */
     @Override
-    protected void registerTask(Problem p) {
-        listOfProblems.add(new TaskWithReset(stopCriteria,evaluations, 0.001, p));
+    protected void registerTask(Problem p, EnumStopCriteria sc, int eval, double epsilon) {
+        listOfProblems.add(new TaskWithReset(sc, eval, epsilon, p));
     }
     
     /* (non-Javadoc)
@@ -82,13 +83,13 @@ public class RatingSUOP_dim30 extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        registerTask(new ProblemAckley(dim));
-        registerTask(new ProblemGriewank(dim));
-        registerTask(new ProblemRastrigin(dim));
-        registerTask(new ProblemRosenbrock(dim));
-        registerTask(new ProblemSchwefel(dim));
-        registerTask(new ProblemSchwefelRidge(dim)); 
-        registerTask(new ProblemSphere(dim));
+        registerTask(new ProblemAckley(dim),stopCriteria, evaluations, 0.001);
+        registerTask(new ProblemGriewank(dim),stopCriteria, evaluations, 0.001);
+        registerTask(new ProblemRastrigin(dim),stopCriteria, evaluations, 0.001);
+        registerTask(new ProblemRosenbrock(dim),stopCriteria, evaluations, 0.001);
+        registerTask(new ProblemSchwefel(dim),stopCriteria, evaluations, 0.001);
+        registerTask(new ProblemSchwefelRidge(dim),stopCriteria, evaluations, 0.001);
+        registerTask(new ProblemSphere(dim),stopCriteria, evaluations, 0.001);
     }
         
     /* (non-Javadoc)

@@ -74,7 +74,7 @@ public abstract class RatingBenchmark {
         //initFullProblemList();
     }
     
-    protected abstract void registerTask(Problem p);
+    protected abstract void registerTask(Problem p, EnumStopCriteria sc, int eval, double epsilon);
     protected abstract void initFullProblemList(); 
     
     public void registerAlgorithm(Algorithm al) {

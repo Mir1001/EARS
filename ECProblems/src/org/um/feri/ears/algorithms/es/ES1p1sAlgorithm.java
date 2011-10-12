@@ -150,7 +150,6 @@ public class ES1p1sAlgorithm extends Algorithm {
             for (int i = 0; (i < paramCombinations.length) && (counter < maxCombinations); i++) {
                 alternative.add(new ES1p1sAlgorithm((int)paramCombinations[i][0], paramCombinations[i][1]));
                 counter++;
-
             }
         }
         return alternative;

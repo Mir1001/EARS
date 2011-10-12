@@ -44,10 +44,12 @@
 package org.um.feri.ears.benchmark.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
 import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.algorithms.PlayerAlgorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
@@ -56,6 +58,7 @@ import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.benchmark.RatingSUOP_dim30;
 import org.um.feri.ears.benchmark.RatingSUOPm;
 import org.um.feri.ears.rating.Player;
+import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
 
@@ -87,14 +90,19 @@ public class MainBenchMarkTest {
 
         ResultArena ra = new ResultArena(100);
         RatingSUOPm suopm = new RatingSUOPm();
+        ArrayList<PlayerAlgorithm> listAll = new ArrayList<PlayerAlgorithm>();
+        PlayerAlgorithm tmp;
         for (Algorithm al:players) {
-          ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
+          //ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
+          tmp = new PlayerAlgorithm(al, new Rating(1500, 350, 0.06));
+          listAll.add(tmp);
+          ra.addPlayer(tmp);
           suopm.registerAlgorithm(al);
-        }
+        } 
         suopm.run(ra, 30);
-        ArrayList<Player> list = new ArrayList<Player>();
-        list.addAll(ra.recalcRangs());
-        for (Player p: list) System.out.println(p);
+        ra.recalcRangs();
+        Collections.sort(listAll, new Player.RatingComparator());
+        for (PlayerAlgorithm p: listAll) System.out.println(p);
 
     }
 

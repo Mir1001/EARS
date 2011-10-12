@@ -1,6 +1,5 @@
 /**
- * Describes result of the one on one match. Result state is always for first one!
- * 
+ * Insert data
  * <p>
  * 
  * @author Matej Crepinsek
@@ -42,78 +41,21 @@
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package org.um.feri.ears.rating;
+package org.um.feri.ears.algorithms;
 
-public class Game {
-    public static final double LOSS = 0;
-    public static final double WIN = 1;
-    public static final double DRAW = 0.5;    
-    private double gameResult;
-    private String idProblem; //some print info data
-    private Player a,b;
-    
-    public Game() {
+import org.um.feri.ears.rating.Player;
+import org.um.feri.ears.rating.Rating;
+
+/**
+ * @author Administrator
+ *
+ */
+public class PlayerAlgorithm extends Player {
+    Algorithm alg;
+    public PlayerAlgorithm(Algorithm a, Rating r){
+        super(a.getID(), r, 0, 0, 0);
+        alg = a;
         
     }
-    /**
-     * Sets game result for first (a). if a win than b is lost. 
-     * With creation of new object new game result is set. 
-     * 
-     * @param gameResult
-     * @param a
-     * @param b
-     */
-    public Game(double gameResult, Player a, Player b, String idProblem) {
-        super();
-        this.gameResult = gameResult;
-        this.idProblem = idProblem; //needed in add
-        this.a = a;
-        this.b = b;
-        a.add(this);
-        b.add(this);
-
-    }
-    public String toString(){
-        return a.getPlayerId()+" : "+b.getPlayerId()+" r:"+gameResult;
-    }
-    public String getOpponent(String one){
-        if (a.getPlayerId().equals(one)) return b.getPlayerId();
-        return a.getPlayerId();
-    }
-    public double getGameResult() {
-        return gameResult;
-    }
-
-    public String getIdProblem() {
-        return idProblem;
-    }
-
-
-    /**
-     * Different result depend for who we are asking. First or second.
-     * 
-     * @param id 
-     * @return 
-     */
-    public double getGameResult(String id) {
-    	if (a.getPlayerId().equals(id)) {
-            return gameResult;    		
-    	}
-        return 1-gameResult; //win -> loss; loss->win draw->draw
-    }
-    
-    public Player getA() {
-        return a;
-    }
-    public void setA(Player a) {
-        this.a = a;
-    }
-    public Player getB() {
-        return b;
-    }
-    public void setB(Player b) {
-        this.b = b;
-    }
-    
 
 }
