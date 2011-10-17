@@ -54,8 +54,8 @@ public class Player {
     protected Rating r; // current ration
     protected ArrayList<Game> listOfGamePlayed; // in last period (not evaluated
     protected WinLossDraw  sumWinLossDraw;                                         // yet)
-    protected HashMap<String,WinLossDraw> wldPlayers; //id is algorithm
-    protected HashMap<String,WinLossDraw> wldProblems; //id is problem
+    public HashMap<String,WinLossDraw> wldPlayers; //id is algorithm
+    public HashMap<String,WinLossDraw> wldProblems; //id is problem
 
     public Player(String playerId, Rating r, int w, int l, int d) {
         super();
