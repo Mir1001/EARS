@@ -50,12 +50,12 @@ import java.util.HashMap;
 import org.um.feri.ears.benchmark.AlgorithmEvalResult;
 
 public class Player {
-    private String playerId; // name
-    private Rating r; // current ration
-    private ArrayList<Game> listOfGamePlayed; // in last period (not evaluated
-    private WinLossDraw  sumWinLossDraw;                                         // yet)
-    private HashMap<String,WinLossDraw> wldPlayers; //id is algorithm
-    private HashMap<String,WinLossDraw> wldProblems; //id is problem
+    protected String playerId; // name
+    protected Rating r; // current ration
+    protected ArrayList<Game> listOfGamePlayed; // in last period (not evaluated
+    protected WinLossDraw  sumWinLossDraw;                                         // yet)
+    protected HashMap<String,WinLossDraw> wldPlayers; //id is algorithm
+    protected HashMap<String,WinLossDraw> wldProblems; //id is problem
 
     public Player(String playerId, Rating r, int w, int l, int d) {
         super();
@@ -131,7 +131,9 @@ public class Player {
         listOfGamePlayed.clear();
         this.r = r;
     }
-
+    public WinLossDraw getSumWinLossDraw() {
+        return sumWinLossDraw;
+    }
     public String toString() {
         return playerId + "; " + r +sumWinLossDraw+"\n\t Against:"+wldPlayers+"\n\t Problems:"+wldProblems;
     }

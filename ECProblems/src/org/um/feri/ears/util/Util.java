@@ -60,6 +60,13 @@ public class Util {
 	public static DecimalFormat intf = new DecimalFormat("###,###,###");
 	public static long randomseed = 316227711; //to be able too repeat experiment
 	public static Random rnd = new MersenneTwister(randomseed);
+    public static double roundDouble3(double r) {
+        return roundDouble(r, 3); 
+    }
+	public static double roundDouble(double r, int dec) {
+	    r = Math.round(r*Math.pow(10, dec));
+	    return r/Math.pow(10, dec);
+	}
 	public static String arrayToString(double d[]) {
 		String s = "";
 		for (int i = 0; i < d.length; i++) {
