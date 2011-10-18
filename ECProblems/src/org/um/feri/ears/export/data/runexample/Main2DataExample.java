@@ -58,12 +58,12 @@ import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.benchmark.RatingSUOPm;
-import org.um.feri.ears.export.data.BenchmarkRunArena;
-import org.um.feri.ears.export.data.StatP2PList;
-import org.um.feri.ears.export.data.StatP2TaskList;
-import org.um.feri.ears.export.data.StatPlayer2Player;
-import org.um.feri.ears.export.data.StatPlayer2Task;
-import org.um.feri.ears.export.data.WinnLossDraw;
+import org.um.feri.ears.export.data.EDBenchmarkRunArena;
+import org.um.feri.ears.export.data.EDStatP2PList;
+import org.um.feri.ears.export.data.EDStatP2TaskList;
+import org.um.feri.ears.export.data.EDStatPlayer2Player;
+import org.um.feri.ears.export.data.EDStatPlayer2Task;
+import org.um.feri.ears.export.data.EDWinnLossDraw;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
@@ -82,7 +82,7 @@ public class Main2DataExample {
         Util.rnd.setSeed(System.currentTimeMillis());
         long stTime = System.currentTimeMillis();
         RatingBenchmark.debugPrint = true; // prints one on one results
-        BenchmarkRunArena data = new BenchmarkRunArena();
+        EDBenchmarkRunArena data = new EDBenchmarkRunArena();
         ArrayList<Algorithm> players = new ArrayList<Algorithm>();
         players.add(new RandomWalkAlgorithm());
         // players.add(new RandomWalkAMAlgorithm());
@@ -112,10 +112,10 @@ public class Main2DataExample {
         Collections.sort(listAll, new Player.RatingComparator());
         int i = 0;
         ArrayList<String> keys = new ArrayList<String>();
-        StatP2PList spl = new StatP2PList(data.ID);
-        StatP2TaskList sptl = new StatP2TaskList(data.ID);
-        StatPlayer2Player p2pTmp;
-        data.players = new org.um.feri.ears.export.data.Player[listAll.size()];
+        EDStatP2PList spl = new EDStatP2PList(data.ID);
+        EDStatP2TaskList sptl = new EDStatP2TaskList(data.ID);
+        EDStatPlayer2Player p2pTmp;
+        data.players = new org.um.feri.ears.export.data.EDPlayer[listAll.size()];
         for (PlayerAlgorithmExport p: listAll) {
             System.out.println(p);  
             data.players[i++] = p.getExportPlayer();
@@ -123,10 +123,10 @@ public class Main2DataExample {
             for (String alid : play) {
                 if (!keys.contains(alid + p.getPlayerId())) //get info from A or B
                     if (!keys.contains(p.getPlayerId() + alid)) {
-                        p2pTmp = new StatPlayer2Player();
+                        p2pTmp = new EDStatPlayer2Player();
                         p2pTmp.idPlayerOne = p.getPlayerId();
                         p2pTmp.idPlayerTwo = alid;
-                        p2pTmp.data = new WinnLossDraw();
+                        p2pTmp.data = new EDWinnLossDraw();
                         org.um.feri.ears.rating.WinLossDraw wl = p.wldPlayers.get(alid);
                         p2pTmp.data.d = wl.getDraw();
                         p2pTmp.data.w = wl.getWin();
@@ -136,12 +136,12 @@ public class Main2DataExample {
                     }
             }
             Set<String> problist = p.wldProblems.keySet();
-            StatPlayer2Task sptTmp;
+            EDStatPlayer2Task sptTmp;
             for (String probid: problist) {
-                sptTmp = new StatPlayer2Task();
+                sptTmp = new EDStatPlayer2Task();
                 org.um.feri.ears.rating.WinLossDraw wl = p.wldProblems.get(probid);
                 sptTmp.taskID = probid;
-                sptTmp.stat = new WinnLossDraw();;
+                sptTmp.stat = new EDWinnLossDraw();;
                 sptTmp.stat.d = wl.getDraw();
                 sptTmp.stat.w = wl.getWin();
                 sptTmp.stat.l = wl.getLoss();
@@ -153,9 +153,9 @@ public class Main2DataExample {
         data.milisecDate = endTime;
 
         Gson gson = new Gson();
-        String jsonRepresentation = gson.toJson(data, BenchmarkRunArena.class);
-        String jsonP2P = gson.toJson(spl, StatP2PList.class);
-        String jsonP2T = gson.toJson(sptl, StatP2TaskList.class);
+        String jsonRepresentation = gson.toJson(data, EDBenchmarkRunArena.class);
+        String jsonP2P = gson.toJson(spl, EDStatP2PList.class);
+        String jsonP2T = gson.toJson(sptl, EDStatP2TaskList.class);
         // String jsonRepresentation = gson.toJson(p2);
         System.out.println(jsonRepresentation);
         System.out.println(jsonP2P);

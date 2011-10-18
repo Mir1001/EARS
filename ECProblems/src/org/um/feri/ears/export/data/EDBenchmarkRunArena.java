@@ -49,19 +49,19 @@ import java.util.UUID;
  * @author Administrator
  *
  */
-public class BenchmarkRunArena {
+public class EDBenchmarkRunArena {
     public String ID; 
     public String arenaOwner; 
     public String arenaName;
     public String arenaType; //main, tmp, etc...
-    public Player players[];
-    public Benchmark benchmark;
+    public EDPlayer players[];
+    public EDBenchmark benchmark;
     public long milisecDate;
     public long duration;
     public String info;
    // public StatPlayer2Player statDuels[];
    // public StatPlayer2Task statTask[];
-    public BenchmarkRunArena() {
+    public EDBenchmarkRunArena() {
         ID = UUID.randomUUID().toString();
     }
 }

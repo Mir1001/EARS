@@ -43,7 +43,7 @@
  */
 package org.um.feri.ears.algorithms;
 
-import org.um.feri.ears.export.data.Author;
+import org.um.feri.ears.export.data.EDAuthor;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.util.Util;
@@ -61,27 +61,27 @@ public class PlayerAlgorithmExport extends Player {
         alg = a;     
     }
     
-    public org.um.feri.ears.export.data.Player getExportPlayer() {
-        org.um.feri.ears.export.data.Player p = new org.um.feri.ears.export.data.Player();
+    public org.um.feri.ears.export.data.EDPlayer getExportPlayer() {
+        org.um.feri.ears.export.data.EDPlayer p = new org.um.feri.ears.export.data.EDPlayer();
         p.id_version = alg.ai.getVersionAcronym();
         p.description = alg.ai.getVersionDescription();
         p.source = alg.ai.getPaperBib(); //TODO safe format escapes!
         p.info =   alg.ai.getParameters().toString(); //TODO
-        p.sourceCode = new Author();
+        p.sourceCode = new EDAuthor();
         p.sourceCode.email = alg.au.getEmail(); //TODO replaces @ with at...!
         p.sourceCode.firstName = alg.au.getFirstName();
         p.sourceCode.lastName = alg.au.getLastName();
         p.sourceCode.nickName = alg.au.getNickName();
         p.sourceCode.info = alg.au.getInfo();
-        p.oldRating = new org.um.feri.ears.export.data.Rating();
+        p.oldRating = new org.um.feri.ears.export.data.EDRating();
         p.oldRating.rating = Util.roundDouble3(start.getRating());
         p.oldRating.RD = Util.roundDouble3(start.getRD());
         p.oldRating.rv = Util.roundDouble3(start.getRatingVolatility());
-        p.newRating = new org.um.feri.ears.export.data.Rating();
+        p.newRating = new org.um.feri.ears.export.data.EDRating();
         p.newRating.rating = Util.roundDouble3(this.getR().getRating());
         p.newRating.RD = Util.roundDouble3(this.getR().getRD());
         p.newRating.rv = Util.roundDouble3(this.getR().getRatingVolatility());
-        p.stat = new org.um.feri.ears.export.data.WinnLossDraw();
+        p.stat = new org.um.feri.ears.export.data.EDWinnLossDraw();
         p.stat.d = sumWinLossDraw.getDraw();
         p.stat.l = sumWinLossDraw.getLoss();
         p.stat.w = sumWinLossDraw.getWin();

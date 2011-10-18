@@ -47,7 +47,8 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class Task {
-    public String name;
-    public String info; //settings
+public class EDWinnLossDraw {
+    public int w;
+    public int l;
+    public int d;
 }

@@ -43,15 +43,12 @@
  */
 package org.um.feri.ears.export.data;
 
-import java.util.ArrayList;
-
 /**
  * @author Administrator
  *
  */
-public class Benchmark {
-    public String name; 
-    public String acronym;    
-    public String info;
-    public ArrayList<Task> tasks;
+public class EDStatPlayer2Player {
+    public String idPlayerOne;
+    public String idPlayerTwo;
+    public EDWinnLossDraw data;
 }

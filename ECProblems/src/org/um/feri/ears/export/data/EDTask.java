@@ -47,8 +47,7 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class Rating {
-    public double rating;
-    public double RD;
-    public double rv;
+public class EDTask {
+    public String name;
+    public String info; //settings
 }

@@ -47,7 +47,8 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class StatPlayer2Task {
-    public String taskID;
-    public WinnLossDraw stat;
+public class EDRating {
+    public double rating;
+    public double RD;
+    public double rv;
 }

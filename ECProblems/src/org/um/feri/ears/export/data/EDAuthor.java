@@ -1,6 +1,6 @@
 package org.um.feri.ears.export.data;
 
-public class Author {
+public class EDAuthor {
 	public String firstName; 
 	public String lastName;
 	public String nickName; //mandatory
