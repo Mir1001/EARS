@@ -41,7 +41,7 @@
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package org.um.feri.ears.export.data.runexample;
+package org.um.feri.ears.run.experiment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,6 +53,7 @@ import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.PlayerAlgorithmExport;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
+import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
@@ -80,17 +81,16 @@ import com.um.feri.brest.de.DEAlgorithm;
  * @author Administrator
  * 
  */
-public class Main2DataExample {
+public class Experiment1 {
     public static void main(String[] args) {
         Util.rnd.setSeed(System.currentTimeMillis());
         long stTime = System.currentTimeMillis();
         RatingBenchmark.debugPrint = true; // prints one on one results
         EDBenchmarkRunArena data = new EDBenchmarkRunArena();
         data.ID = UUID.randomUUID().toString();
-        //data.runType = EDEnumBenchmarkRunType.TEST;
         ArrayList<Algorithm> players = new ArrayList<Algorithm>();
         players.add(new RandomWalkAlgorithm());
-        // players.add(new RandomWalkAMAlgorithm());
+        players.add(new RandomWalkAMAlgorithm());
         players.add(new ES1p1sAlgorithm());
         players.add(new SwarmAlgorithm());
         players.add(new BeeColonyAlgorithm());
@@ -169,5 +169,4 @@ public class Main2DataExample {
         System.out.println(jsonP2T);
         System.out.println(jsonPlayerMoreDataLString);
     }
-
 }
