@@ -44,6 +44,8 @@
 package org.um.feri.ears.algorithms;
 
 import org.um.feri.ears.export.data.EDAuthor;
+import org.um.feri.ears.export.data.EDPlayer;
+import org.um.feri.ears.export.data.EDPlayerMoreInfo;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.util.Util;
@@ -60,10 +62,9 @@ public class PlayerAlgorithmExport extends Player {
         this.start = new Rating(start);
         alg = a;     
     }
-    
-    public org.um.feri.ears.export.data.EDPlayer getExportPlayer() {
-        org.um.feri.ears.export.data.EDPlayer p = new org.um.feri.ears.export.data.EDPlayer();
-        p.id_version = alg.ai.getVersionAcronym();
+    public EDPlayerMoreInfo getExportPlayerMoreInfo() {
+        EDPlayerMoreInfo p = new EDPlayerMoreInfo();
+        p.id = alg.ai.getVersionAcronym();
         p.description = alg.ai.getVersionDescription();
         p.source = alg.ai.getPaperBib(); //TODO safe format escapes!
         p.info =   alg.ai.getParameters().toString(); //TODO
@@ -73,6 +74,13 @@ public class PlayerAlgorithmExport extends Player {
         p.sourceCode.lastName = alg.au.getLastName();
         p.sourceCode.nickName = alg.au.getNickName();
         p.sourceCode.info = alg.au.getInfo();
+        return p;
+    }
+    
+    public EDPlayer getExportPlayer() {
+        EDPlayer p = new EDPlayer();
+        p.id_version = alg.ai.getVersionAcronym();
+        p.info ="";//   alg.ai.getParameters().toString(); //TODO
         p.oldRating = new org.um.feri.ears.export.data.EDRating();
         p.oldRating.rating = Util.roundDouble3(start.getRating());
         p.oldRating.RD = Util.roundDouble3(start.getRD());

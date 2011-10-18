@@ -51,4 +51,8 @@ public class EDWinnLossDraw {
     public int w;
     public int l;
     public int d;
+    @Override
+    public String toString() {
+        return "EDWinnLossDraw [w=" + w + ", l=" + l + ", d=" + d + "]";
+    }
 }

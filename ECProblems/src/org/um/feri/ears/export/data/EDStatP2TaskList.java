@@ -13,4 +13,9 @@ public class EDStatP2TaskList {
         list = new ArrayList<EDStatPlayer2Task>();
         benchmarkRunArenaID = id;
     }
+
+    @Override
+    public String toString() {
+        return "EDStatP2TaskList [benchmarkRunArenaID=" + benchmarkRunArenaID + ", list=" + list + "]";
+    }
 }

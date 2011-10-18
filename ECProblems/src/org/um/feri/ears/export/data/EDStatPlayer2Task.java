@@ -50,4 +50,8 @@ package org.um.feri.ears.export.data;
 public class EDStatPlayer2Task {
     public String taskID;
     public EDWinnLossDraw stat;
+    @Override
+    public String toString() {
+        return "EDStatPlayer2Task [taskID=" + taskID + ", stat=" + stat + "]";
+    }
 }

@@ -51,4 +51,8 @@ public class EDRating {
     public double rating;
     public double RD;
     public double rv;
+    @Override
+    public String toString() {
+        return "EDRating [rating=" + rating + ", RD=" + RD + ", rv=" + rv + "]";
+    }
 }

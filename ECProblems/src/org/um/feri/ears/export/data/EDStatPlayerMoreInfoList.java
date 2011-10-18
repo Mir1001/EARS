@@ -43,15 +43,24 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.util.ArrayList;
+
 /**
  * @author Administrator
  *
  */
-public class EDTask {
-    public String name;
-    public String info; //settings
+public class EDStatPlayerMoreInfoList {
+    public String benchmarkRunArenaID;
+    public ArrayList<EDPlayerMoreInfo> list;
+    public EDStatPlayerMoreInfoList() {
+        this("");
+    }
+    public EDStatPlayerMoreInfoList(String id) {
+        list = new ArrayList<EDPlayerMoreInfo>();
+        benchmarkRunArenaID = id;
+    }
     @Override
     public String toString() {
-        return "EDTask [name=" + name + ", info=" + info + "]";
+        return "EDStatPlayerMoreInfoList [benchmarkRunArenaID=" + benchmarkRunArenaID + ", list=" + list + "]";
     }
 }

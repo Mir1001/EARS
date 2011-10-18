@@ -12,4 +12,8 @@ public class EDStatP2PList {
         list = new ArrayList<EDStatPlayer2Player>();
         benchmarkRunArenaID = id;
     }
+    @Override
+    public String toString() {
+        return "EDStatP2PList [benchmarkRunArenaID=" + benchmarkRunArenaID + ", list=" + list + "]";
+    }
 }

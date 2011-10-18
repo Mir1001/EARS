@@ -48,6 +48,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.export.data.EDBenchmark;
+import org.um.feri.ears.export.data.EDTask;
 import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
@@ -67,6 +69,20 @@ public abstract class RatingBenchmark {
     
     protected EnumStopCriteria stopCriteria = EnumStopCriteria.EVALUATIONS; //default
     private ArrayList<AlgorithmEvalResult> results;
+    public EDBenchmark export() {
+        EDBenchmark ed=new EDBenchmark();
+        ed.acronym = getAcronym();
+        ed.name = getName();
+        ed.info = getInfo();
+        EDTask tmp;
+        for (TaskWithReset ta:listOfProblems) {
+            tmp = new EDTask();
+            tmp.name = ta.getProblemShortName();
+            tmp.info = ta.getStopCriteriaDescription();
+            ed.tasks.add(tmp);
+        }
+        return ed;
+    }
     public RatingBenchmark() {
         listOfProblems = new ArrayList<TaskWithReset>();
         listOfAlgorithmsPlayers = new ArrayList<Algorithm>();

@@ -54,4 +54,11 @@ public class EDBenchmark {
     public String acronym;    
     public String info;
     public ArrayList<EDTask> tasks;
+    public EDBenchmark() {
+        tasks = new ArrayList<EDTask>();
+    }
+    @Override
+    public String toString() {
+        return "EDBenchmark [name=" + name + ", acronym=" + acronym + ", info=" + info + ", tasks=" + tasks + "]";
+    }
 }

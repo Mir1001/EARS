@@ -51,4 +51,8 @@ public class EDStatPlayer2Player {
     public String idPlayerOne;
     public String idPlayerTwo;
     public EDWinnLossDraw data;
+    @Override
+    public String toString() {
+        return "EDStatPlayer2Player [idPlayerOne=" + idPlayerOne + ", idPlayerTwo=" + idPlayerTwo + ", data=" + data + "]";
+    }
 }

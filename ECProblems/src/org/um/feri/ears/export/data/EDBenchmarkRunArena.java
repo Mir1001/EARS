@@ -43,7 +43,8 @@
  */
 package org.um.feri.ears.export.data;
 
-import java.util.UUID;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * @author Administrator
@@ -51,17 +52,25 @@ import java.util.UUID;
  */
 public class EDBenchmarkRunArena {
     public String ID; 
+    public String parentID; //ratings parant 
     public String arenaOwner; 
     public String arenaName;
-    public String arenaType; //main, tmp, etc...
+    public EDEnumBenchmarkRunType runType; 
     public EDPlayer players[];
     public EDBenchmark benchmark;
-    public long milisecDate;
+    public Date runDate;
     public long duration;
     public String info;
    // public StatPlayer2Player statDuels[];
    // public StatPlayer2Task statTask[];
     public EDBenchmarkRunArena() {
-        ID = UUID.randomUUID().toString();
+        ID = "";
+        parentID="";
+        runDate = new Date();
+    }
+    @Override
+    public String toString() {
+        return "EDBenchmarkRunArena [ID=" + ID + ", arenaOwner=" + arenaOwner + ", arenaName=" + arenaName + ", arenaType=" + runType.toString() + ", players="
+                + Arrays.toString(players) + ", benchmark=" + benchmark + ", runDate=" + runDate + ", duration=" + duration + ", info=" + info + "]";
     }
 }

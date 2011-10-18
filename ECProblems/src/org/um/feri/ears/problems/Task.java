@@ -143,6 +143,16 @@ public class Task {
         return Double.MAX_VALUE; //error
     }
 	
+	public String getStopCriteriaDescription() {
+        if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
+            return "E="+getMaxEvaluations();
+        }
+        if (stopCriteria == EnumStopCriteria.GLOBAL_OPTIMUM_OR_EVALUATIONS) {
+                return "Global optimum epsilon="+epsilon+" or  E="+getMaxEvaluations();
+        }
+        return "not defened";
+	}
+	
 	public Individual eval(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();

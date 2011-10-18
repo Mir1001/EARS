@@ -45,24 +45,27 @@ package org.um.feri.ears.export.data.runexample;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Hashtable;
 import java.util.Set;
+import java.util.UUID;
 
 import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
 import org.um.feri.ears.algorithms.Algorithm;
-import org.um.feri.ears.algorithms.PlayerAlgorithm;
 import org.um.feri.ears.algorithms.PlayerAlgorithmExport;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.benchmark.RatingSUOPm;
+import org.um.feri.ears.export.data.EDBenchmark;
 import org.um.feri.ears.export.data.EDBenchmarkRunArena;
+import org.um.feri.ears.export.data.EDEnumBenchmarkRunType;
+import org.um.feri.ears.export.data.EDPlayerMoreInfo;
 import org.um.feri.ears.export.data.EDStatP2PList;
 import org.um.feri.ears.export.data.EDStatP2TaskList;
 import org.um.feri.ears.export.data.EDStatPlayer2Player;
 import org.um.feri.ears.export.data.EDStatPlayer2Task;
+import org.um.feri.ears.export.data.EDStatPlayerMoreInfoList;
 import org.um.feri.ears.export.data.EDWinnLossDraw;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
@@ -83,6 +86,8 @@ public class Main2DataExample {
         long stTime = System.currentTimeMillis();
         RatingBenchmark.debugPrint = true; // prints one on one results
         EDBenchmarkRunArena data = new EDBenchmarkRunArena();
+        data.ID = UUID.randomUUID().toString();
+        //data.runType = EDEnumBenchmarkRunType.TEST;
         ArrayList<Algorithm> players = new ArrayList<Algorithm>();
         players.add(new RandomWalkAlgorithm());
         // players.add(new RandomWalkAMAlgorithm());
@@ -116,9 +121,11 @@ public class Main2DataExample {
         EDStatP2TaskList sptl = new EDStatP2TaskList(data.ID);
         EDStatPlayer2Player p2pTmp;
         data.players = new org.um.feri.ears.export.data.EDPlayer[listAll.size()];
+        EDStatPlayerMoreInfoList playersMoreData = new EDStatPlayerMoreInfoList(data.ID);
         for (PlayerAlgorithmExport p: listAll) {
             System.out.println(p);  
             data.players[i++] = p.getExportPlayer();
+            playersMoreData.list.add(p.getExportPlayerMoreInfo());
             Set<String> play = p.wldPlayers.keySet();
             for (String alid : play) {
                 if (!keys.contains(alid + p.getPlayerId())) //get info from A or B
@@ -150,16 +157,17 @@ public class Main2DataExample {
         }
         long endTime = System.currentTimeMillis();
         data.duration = endTime - stTime;
-        data.milisecDate = endTime;
 
         Gson gson = new Gson();
         String jsonRepresentation = gson.toJson(data, EDBenchmarkRunArena.class);
         String jsonP2P = gson.toJson(spl, EDStatP2PList.class);
         String jsonP2T = gson.toJson(sptl, EDStatP2TaskList.class);
+        String jsonPlayerMoreDataLString = gson.toJson(playersMoreData, EDStatPlayerMoreInfoList.class);
         // String jsonRepresentation = gson.toJson(p2);
         System.out.println(jsonRepresentation);
         System.out.println(jsonP2P);
         System.out.println(jsonP2T);
+        System.out.println(jsonPlayerMoreDataLString);
     }
 
 }
