@@ -78,7 +78,7 @@ public abstract class Algorithm {
 	public abstract void resetDefaultsBeforNewRun();
 	public boolean isDebug() {
         return debug;
-    }
+	}
 
     public void setDebug(boolean debug) {
         this.debug = debug;

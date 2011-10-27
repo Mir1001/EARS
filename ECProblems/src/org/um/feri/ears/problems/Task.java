@@ -61,7 +61,13 @@ public class Task {
 		isGlobal = false;
 		this.p = p;
 	}
+	public double getEpsilon() {
+	    return epsilon;
+	}
 	
+	public int getPrecisionMinDecimal() {
+	    return (int) Math.log10((1./epsilon)+1);
+	}
 	public int getMaxEvaluations() {
         return maxEvaluations;
     }
