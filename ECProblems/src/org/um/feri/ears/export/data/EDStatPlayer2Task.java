@@ -47,8 +47,11 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class Rating {
-    public double rating;
-    public double RD;
-    public double rv;
+public class EDStatPlayer2Task {
+    public String taskID;
+    public EDWinnLossDraw stat;
+    @Override
+    public String toString() {
+        return "EDStatPlayer2Task [taskID=" + taskID + ", stat=" + stat + "]";
+    }
 }

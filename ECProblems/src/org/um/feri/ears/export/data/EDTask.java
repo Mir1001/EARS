@@ -47,7 +47,11 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class Task {
+public class EDTask {
     public String name;
     public String info; //settings
+    @Override
+    public String toString() {
+        return "EDTask [name=" + name + ", info=" + info + "]";
+    }
 }

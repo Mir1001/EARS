@@ -43,15 +43,18 @@
  */
 package org.um.feri.ears.export.data;
 
-import java.util.ArrayList;
-
 /**
  * @author Administrator
  *
  */
-public class Benchmark {
-    public String name; 
-    public String acronym;    
+public class EDPlayerMoreInfo {
+    public String id;
+    public EDAuthor sourceCode;
+    public String source; // latex bib format name of the original published
+    public String description; // what is different from original
     public String info;
-    public ArrayList<Task> tasks;
+    @Override
+    public String toString() {
+        return "EDPlayerMoreInfo [id=" + id + ", sourceCode=" + sourceCode + ", source=" + source + ", description=" + description + ", info=" + info + "]";
+    }
 }

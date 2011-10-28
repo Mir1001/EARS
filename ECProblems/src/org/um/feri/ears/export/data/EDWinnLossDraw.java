@@ -47,7 +47,12 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class StatPlayer2Task {
-    public String taskID;
-    public WinnLossDraw stat;
+public class EDWinnLossDraw {
+    public int w;
+    public int l;
+    public int d;
+    @Override
+    public String toString() {
+        return "EDWinnLossDraw [w=" + w + ", l=" + l + ", d=" + d + "]";
+    }
 }

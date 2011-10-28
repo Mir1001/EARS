@@ -47,8 +47,17 @@ package org.um.feri.ears.export.data;
  * @author Administrator
  *
  */
-public class StatPlayer2Player {
-    public String idPlayerOne;
-    public String idPlayerTwo;
-    public WinnLossDraw data;
+public enum EDEnumBenchmarkRunType {
+    OFFICIAL("Official"),
+    TEST("Test"),
+    STUDENT("Student");
+    
+    private EDEnumBenchmarkRunType(String n) {
+        name = n;
+    }
+    private String name;
+    
+    public String toString(){
+        return name;
+    }
 }
