@@ -202,6 +202,24 @@ public abstract class Problem {
 	public abstract double eval(double[] ds);
 	
 	/**
+	 * with no evaluations just checks
+	 * if algorithm result is in interval.
+	 * This is not checking constrains, just basic intervals!  
+	 * 
+	 * @param ds vector of possible solution
+	 * @return
+	 */
+	public boolean areDimensionsInFeasableInterval(double[] ds) {
+	    for (int i=0; i<dim; i++) {
+        if (ds[i] < intervalL[i])
+            return false;
+        if (ds[i] > (intervalL[i] + interval[i]))
+            return false;
+	    }
+        return true;
+	    
+	}
+	/**
 	 * If selected value in interval is not feasible  
 	 * 
 	 * @param d

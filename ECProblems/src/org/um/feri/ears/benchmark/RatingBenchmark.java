@@ -80,20 +80,40 @@ public abstract class RatingBenchmark {
     public void registerAlgorithm(Algorithm al) {
         listOfAlgorithmsPlayers.add(al);
     }
+    
     public abstract boolean resultEqual(Individual a, Individual b);
     public abstract String getName(); //long name 
     public abstract String getAcronym(); //short name for tables etc    
     public abstract String getInfo(); //some explanation
+    
+    /**
+     * TODO  this function can be done parallel - asynchrony
+     * 
+     * @param task
+     */
     private void runOneProblem(TaskWithReset task) {
         for (Algorithm al: listOfAlgorithmsPlayers) {
-            task.resetCounter(); //number of evaluations
+            task.resetCounter(); //number of evaluations  
             try {
-                results.add(new AlgorithmEvalResult(al.run(task), al));
+                Individual bestByALg = al.run(task); //check if result is fake!
+                task.resetCounter(); //for one eval!
+                if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
+                  Individual best = task.eval(bestByALg.getX());
+                  if (best.getEval()!=bestByALg.getEval()) 
+                  System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result real"+best.getEval()+" is different than "+bestByALg.getEval());
+                  results.add(new AlgorithmEvalResult(best, al)); 
+                }
+                else {
+                    System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result "+bestByALg+" is out of intervals!");
+                    results.add(new AlgorithmEvalResult(null, al)); // this can be done parallel - asynchrony                    
+                }
             } catch (StopCriteriaException e) {
+                System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" StopCriteriaException for:"+task);
                 results.add(new AlgorithmEvalResult(null, al));
             }   
         }
     }
+    
     class FitnessComparator implements Comparator<AlgorithmEvalResult> {
         TaskWithReset t;
         public FitnessComparator(TaskWithReset t) {
@@ -127,6 +147,18 @@ public abstract class RatingBenchmark {
                     if (debugPrint) System.out.println("draw of "+win.getAl().getID()+" ("+Util.df3.format(win.getBest().getEval())+") against "+lose.getAl().getID()+" ("+Util.df3.format(lose.getBest().getEval())+") for "+t.getProblemShortName());
                     arena.addGameResult(Game.DRAW, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());
                 } else {
+                    if (win.getAl()==null) {
+                        System.out.println("NULL");
+                    }
+                    if (win.getBest()==null) {
+                        System.out.println("NULL");
+                    }                    
+                    if (lose.getAl()==null) {
+                        System.out.println("NULL");
+                    }
+                    if (lose.getBest()==null) {
+                        System.out.println("NULL");
+                    }                     
                     if (debugPrint) System.out.println("win of "+win.getAl().getID()+" ("+Util.df3.format(win.getBest().getEval())+") against "+lose.getAl().getID()+" ("+Util.df3.format(lose.getBest().getEval())+") for "+t.getProblemShortName());
                     arena.addGameResult(Game.WIN, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());
                 }

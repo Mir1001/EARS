@@ -50,23 +50,39 @@ public class Task {
 	protected double epsilon; // for Stop criteria
 	protected boolean isStop;
 	protected boolean isGlobal;
+	protected int precisionOfRealNumbersInDecimalPlaces; //used only for discreet problem presentation (bit presentation in GA)
 	private Problem p;
 
 	public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p) {
-		stopCriteria = stop;
-		maxEvaluations = eval;
-		numberOfEvaluations = 0;
-		this.epsilon = epsilon;
-		isStop = false;
-		isGlobal = false;
-		this.p = p;
+	    this(stop, eval, epsilon, p,  (int) Math.log10((1./epsilon)+1));
 	}
+    public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p, int precisonOfRealNumbers) {
+        precisionOfRealNumbersInDecimalPlaces = precisonOfRealNumbers;
+        stopCriteria = stop;
+        maxEvaluations = eval;
+        numberOfEvaluations = 0;
+        this.epsilon = epsilon;
+        isStop = false;
+        isGlobal = false;
+        this.p = p;
+    }
+    
+    /**
+     * When you subtract 2 solutions and difference is less or equal epsilon,
+     * solution are treated as equal good (draw in algorithm match)!
+     * 
+     * @return condition that is used when 2 solutions are equal good!
+     */
 	public double getEpsilon() {
 	    return epsilon;
 	}
 	
+	/**
+	 * Used only for discreet problem presentation (bit presentation in GA)
+	 * @return
+	 */
 	public int getPrecisionMinDecimal() {
-	    return (int) Math.log10((1./epsilon)+1);
+	    return precisionOfRealNumbersInDecimalPlaces;
 	}
 	public int getMaxEvaluations() {
         return maxEvaluations;
@@ -101,6 +117,14 @@ public class Task {
 	public boolean isFirstBetter(Individual x, Individual y) {
 		return p.isFirstBetter(x.getX(), x.getEval(), y.getX(), y.getEval());
 	}
+	/**
+	 * @deprecated
+	 * Deprecated is because it is better to use individuals and
+	 * isFirstBetter that already is influenced by this parameter.
+	 * Returns true id global maximum searching!
+	 * 
+	 * @return
+	 */
 	public boolean isMaximize() {
 	    return !p.minimum;
 	}
@@ -149,6 +173,19 @@ public class Task {
         return Double.MAX_VALUE; //error
     }
 	
+	 /**
+     * with no evaluations just checks
+     * if algorithm result is in interval.
+     * This is not checking constrains, just basic intervals!  
+     * Delegated from Problem!
+     * 
+     * @param ds vector of possible solution
+     * @return
+     */
+	public boolean areDimensionsInFeasableInterval(double[] ds) {
+	    return p.areDimensionsInFeasableInterval(ds);
+	}
+
 	public Individual eval(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
@@ -207,6 +244,12 @@ public class Task {
      */
     public boolean isFirstBetter(double[] ds, double d, double[] es, double e) {
         return p.isFirstBetter(ds,d,es,e);
+    }
+    @Override
+    public String toString() {
+        return "Task [stopCriteria=" + stopCriteria + ", maxEvaluations=" + maxEvaluations + ", numberOfEvaluations=" + numberOfEvaluations + ", epsilon="
+                + epsilon + ", isStop=" + isStop + ", isGlobal=" + isGlobal + ", precisionOfRealNumbersInDecimalPlaces="
+                + precisionOfRealNumbersInDecimalPlaces + ", p=" + p + "]";
     }
     
 }

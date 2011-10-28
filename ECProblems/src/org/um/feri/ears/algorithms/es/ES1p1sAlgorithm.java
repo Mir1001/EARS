@@ -132,7 +132,7 @@ public class ES1p1sAlgorithm extends Algorithm {
      */
     private void mutate(double[] oneplus, double varianceOne) {
         for (int i=0; i<oneplus.length; i++) {
-            oneplus[i] = task.feasible(oneplus[i]+getGaussian(0, varianceOne),1); 
+            oneplus[i] = task.feasible(oneplus[i]+getGaussian(0, varianceOne),i); 
         }
         
     }
