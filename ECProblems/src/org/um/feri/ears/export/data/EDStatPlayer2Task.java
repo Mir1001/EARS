@@ -43,11 +43,17 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
+
 /**
  * @author Administrator
  *
  */
-public class EDStatPlayer2Task {
+public class EDStatPlayer2Task implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3019337052285727668L;
     public String taskID;
     public EDWinnLossDraw stat;
     @Override

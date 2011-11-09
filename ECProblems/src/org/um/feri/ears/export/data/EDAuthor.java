@@ -1,7 +1,13 @@
 package org.um.feri.ears.export.data;
 
-public class EDAuthor {
-	public String firstName; 
+import java.io.Serializable;
+
+public class EDAuthor implements Serializable {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 6286602913886179602L;
+    public String firstName; 
 	public String lastName;
 	public String nickName; //mandatory
 	public String email; //mandatory used as id

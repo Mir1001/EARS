@@ -157,7 +157,9 @@ public class Main2DataExample {
         }
         long endTime = System.currentTimeMillis();
         data.duration = endTime - stTime;
-
+        data.benchmark = suopm.export();
+        data.arenaName = "ER Year 2011";
+        data.arenaOwner = "matej crepinsek";
         Gson gson = new Gson();
         String jsonRepresentation = gson.toJson(data, EDBenchmarkRunArena.class);
         String jsonP2P = gson.toJson(spl, EDStatP2PList.class);
@@ -173,5 +175,4 @@ public class Main2DataExample {
         System.out.println(a.benchmark.acronym);
         System.out.println(a.runDate);
     }
-
 }

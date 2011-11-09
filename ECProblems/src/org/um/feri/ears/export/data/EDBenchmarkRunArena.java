@@ -43,6 +43,7 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -50,7 +51,11 @@ import java.util.Date;
  * @author Administrator
  *
  */
-public class EDBenchmarkRunArena {
+public class EDBenchmarkRunArena implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3778172015162418493L;
     public String ID; 
     public String parentID; //ratings parant 
     public String arenaOwner; 

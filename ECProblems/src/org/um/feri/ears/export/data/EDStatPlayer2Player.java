@@ -43,11 +43,17 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
+
 /**
  * @author Administrator
  *
  */
-public class EDStatPlayer2Player {
+public class EDStatPlayer2Player implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3981115464667941123L;
     public String idPlayerOne;
     public String idPlayerTwo;
     public EDWinnLossDraw data;

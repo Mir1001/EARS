@@ -43,11 +43,17 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
+
 /**
  * @author Administrator
  *
  */
-public class EDWinnLossDraw {
+public class EDWinnLossDraw implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5996059385460471739L;
     public int w;
     public int l;
     public int d;

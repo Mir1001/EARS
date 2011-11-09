@@ -43,11 +43,17 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
+
 /**
  * @author Administrator
  *
  */
-public class EDRating {
+public class EDRating implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1092730396537720435L;
     public double rating;
     public double RD;
     public double rv;

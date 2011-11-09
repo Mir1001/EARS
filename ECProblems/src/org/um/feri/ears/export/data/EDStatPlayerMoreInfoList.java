@@ -43,13 +43,18 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Administrator
  *
  */
-public class EDStatPlayerMoreInfoList {
+public class EDStatPlayerMoreInfoList implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5333771395912402487L;
     public String benchmarkRunArenaID;
     public ArrayList<EDPlayerMoreInfo> list;
     public EDStatPlayerMoreInfoList() {

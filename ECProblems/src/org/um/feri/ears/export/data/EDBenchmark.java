@@ -43,13 +43,18 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * @author Administrator
  *
  */
-public class EDBenchmark {
+public class EDBenchmark implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1274664140903660587L;
     public String name; 
     public String acronym;    
     public String info;

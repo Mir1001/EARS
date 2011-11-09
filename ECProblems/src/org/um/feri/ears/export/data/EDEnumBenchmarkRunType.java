@@ -43,11 +43,13 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
+
 /**
  * @author Administrator
  *
  */
-public enum EDEnumBenchmarkRunType {
+public enum EDEnumBenchmarkRunType implements Serializable {
     OFFICIAL("Official"),
     TEST("Test"),
     STUDENT("Student");

@@ -43,11 +43,17 @@
  */
 package org.um.feri.ears.export.data;
 
+import java.io.Serializable;
+
 /**
  * @author Administrator
  *
  */
-public class EDPlayerMoreInfo {
+public class EDPlayerMoreInfo implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7544432950105917238L;
     public String id;
     public EDAuthor sourceCode;
     public String source; // latex bib format name of the original published

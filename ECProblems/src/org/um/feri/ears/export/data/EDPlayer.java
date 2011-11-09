@@ -1,5 +1,12 @@
 package org.um.feri.ears.export.data;
-public class EDPlayer {
+
+import java.io.Serializable;
+
+public class EDPlayer implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4571489341636728590L;
     public String acronym; // acronym 
     public String id_version; // if you made some semantic changes compared
     public String info;
