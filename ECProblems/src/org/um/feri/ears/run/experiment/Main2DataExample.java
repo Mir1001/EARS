@@ -56,7 +56,7 @@ import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
-import org.um.feri.ears.benchmark.RatingSUOPm;
+import org.um.feri.ears.benchmark.RatingRPUOed2;
 import org.um.feri.ears.export.data.EDBenchmark;
 import org.um.feri.ears.export.data.EDBenchmarkRunArena;
 import org.um.feri.ears.export.data.EDEnumBenchmarkRunType;
@@ -100,7 +100,7 @@ public class Main2DataExample {
         players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin, 20));
 
         ResultArena ra = new ResultArena(100);
-        RatingSUOPm suopm = new RatingSUOPm();
+        RatingRPUOed2 suopm = new RatingRPUOed2();
         ArrayList<PlayerAlgorithmExport> listAll = new ArrayList<PlayerAlgorithmExport>();
         PlayerAlgorithmExport tmp;
         Rating tmpr;

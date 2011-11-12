@@ -47,26 +47,29 @@ package org.um.feri.ears.benchmark;
 import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
-import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.TaskWithReset;
-import org.um.feri.ears.problems.unconstrained.*;
-import org.um.feri.ears.rating.ResultArena;
+import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction1;
+import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction2;
+import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction3;
+import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction4;
+import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction5;
 
 //TODO calculate CD for rating
-public class RatingSUOPm extends RatingBenchmark {
-    public static final String name="Solving Unconstrained Optimization Problems with maximum evaluation condition";
-    protected int evaluationsOnDimension=1000;
+public class RatingRPCOe1 extends RatingBenchmark {
+    public static final String name="Solving Real parameter Constrained Optimization with maximum evaluation condition";
     
-    public boolean resultEqual(Individual a, Individual b) {
+    public boolean resultEqual(Individual a, Individual b) { //Tie
         if ((a==null) &&(b==null)) return true;
         if (a==null) return false;
         if (b==null) return false;
+        if (!a.isFeasible()&&b.isFeasible()) return false;
+        if (a.isFeasible()&&!b.isFeasible()) return false;
+        if (!a.isFeasible()&&!b.isFeasible()) return true;
         if (Math.abs(a.getEval()-b.getEval())<0.000000001) return true;
         return false;
     }
-    public RatingSUOPm() {
+    public RatingRPCOe1() {
         super();
-        evaluationsOnDimension=1000;
         initFullProblemList();
     }
     /* (non-Javadoc)
@@ -82,22 +85,11 @@ public class RatingSUOPm extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        registerTask(new ProblemAckley(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemB2(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemBeale(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemBooth(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemBranin(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemDeJong(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemEasom(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemGoldSteinAndPrice(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemGriewank(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemMartinAndGaddy(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemPowellBadlyScaledFunction(),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemRastrigin(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemRosenbrock(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemSchwefel(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemSchwefelRidge(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
-        registerTask(new ProblemSphere(2),stopCriteria, 2*evaluationsOnDimension, 0.001);
+        registerTask(new TLBOBenchmarkFunction1(),stopCriteria, 200000, 0.001);
+        registerTask(new TLBOBenchmarkFunction2(),stopCriteria, 200000, 0.001);
+        registerTask(new TLBOBenchmarkFunction3(),stopCriteria, 200000, 0.001);
+        registerTask(new TLBOBenchmarkFunction4(),stopCriteria, 200000, 0.001);
+        registerTask(new TLBOBenchmarkFunction5(),stopCriteria, 200000, 0.001);
     }
         
     /* (non-Javadoc)
@@ -113,7 +105,7 @@ public class RatingSUOPm extends RatingBenchmark {
      */
     @Override
     public String getAcronym() {
-        return "SUOPOm";
+        return "RPCOe1";
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#getInfo()

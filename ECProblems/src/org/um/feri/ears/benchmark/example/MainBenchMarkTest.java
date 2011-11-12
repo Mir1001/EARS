@@ -55,8 +55,8 @@ import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
-import org.um.feri.ears.benchmark.RatingSUOP_dim30;
-import org.um.feri.ears.benchmark.RatingSUOPm;
+import org.um.feri.ears.benchmark.RatingRPUOed30;
+import org.um.feri.ears.benchmark.RatingRPUOed2;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
@@ -89,7 +89,7 @@ public class MainBenchMarkTest {
         players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20));
 
         ResultArena ra = new ResultArena(100);
-        RatingSUOPm suopm = new RatingSUOPm();
+        RatingRPUOed2 suopm = new RatingRPUOed2();
         ArrayList<PlayerAlgorithm> listAll = new ArrayList<PlayerAlgorithm>();
         PlayerAlgorithm tmp;
         for (Algorithm al:players) {

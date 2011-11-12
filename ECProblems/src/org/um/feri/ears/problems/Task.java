@@ -84,6 +84,7 @@ public class Task {
 	public int getPrecisionMinDecimal() {
 	    return precisionOfRealNumbersInDecimalPlaces;
 	}
+	
 	public int getMaxEvaluations() {
         return maxEvaluations;
     }
@@ -200,7 +201,7 @@ public class Task {
 	public Individual eval(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
-			return new Individual(ds,p.eval(ds));
+			return new Individual(ds,p.eval(ds),p.calc_constrains(ds));
 		}
 		if (stopCriteria == EnumStopCriteria.GLOBAL_OPTIMUM_OR_EVALUATIONS) {
 			if (isGlobal)

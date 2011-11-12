@@ -62,12 +62,13 @@ public class Individual {
 		eval = i.eval;
 		this.feasible = i.feasible;
 		if (!i.feasible) {
-		      constrains = new double[i.constrains.length];
-		      System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
+		  constrains = new double[i.constrains.length];
+		  System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
 		}
 	}
+	
 	/**
-	 * This constructor is for unconstrained optimization!
+	 * !!!This constructor is for unconstrained optimization!
 	 * 
 	 * @param x
 	 * @param eval
@@ -108,14 +109,17 @@ public class Individual {
 	        }
 	    }
 	}
+    
 	public double getEval() {
 		return eval;
 	}
+	
 	public double[] getNewX() {
 		double[] xx = new double[x.length];
 		System.arraycopy(x, 0, xx, 0, x.length);
 		return xx;
 	}
+	
 	public double[] getX() {
 		return x;
 	}

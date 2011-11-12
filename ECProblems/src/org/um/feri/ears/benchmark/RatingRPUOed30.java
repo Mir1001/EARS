@@ -53,8 +53,8 @@ import org.um.feri.ears.problems.unconstrained.*;
 import org.um.feri.ears.rating.ResultArena;
 
 //TODO calculate CD for rating
-public class RatingSUOP_dim30 extends RatingBenchmark {
-    public static final String name="Solving Unconstrained Optimization Problems with maximum evaluation condition";
+public class RatingRPUOed30 extends RatingBenchmark {
+    public static final String name="Real Parameter Unconstrained Optimization Problems with maximum evaluation condition";
     protected int evaluations=1000;
     int dim;
     public boolean resultEqual(Individual a, Individual b) {
@@ -64,7 +64,7 @@ public class RatingSUOP_dim30 extends RatingBenchmark {
         if (Math.abs(a.getEval()-b.getEval())<0.000001) return true;
         return false;
     }
-    public RatingSUOP_dim30(int D, int EV) {
+    public RatingRPUOed30(int D, int EV) {
         super();
         evaluations=150000;
         dim = D;
@@ -105,7 +105,7 @@ public class RatingSUOP_dim30 extends RatingBenchmark {
      */
     @Override
     public String getAcronym() {
-        return "SUOPOm Dim("+dim+")";
+        return "RPUOed30";
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#getInfo()

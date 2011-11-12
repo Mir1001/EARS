@@ -102,6 +102,8 @@ public class TLBOAlgorithm extends Algorithm {
         double tmp3[];
         for (int i = 0; i < pop_size; i++) {
             for (int j = i + 1; j < pop_size; j++) {
+                if (task.isStopCriteria())
+                    return; // end jump out
                 System.arraycopy(population[i].getX(), 0, tmp1, 0, num_var);
                 System.arraycopy(population[j].getX(), 0, tmp2, 0, num_var);
                 Arrays.sort(tmp1);
@@ -113,9 +115,9 @@ public class TLBOAlgorithm extends Algorithm {
                     tmp3 = population[j].getNewX();
 
                     tmp3[pos] = intervalL[pos] + Util.rnd.nextDouble() * interval[pos];
+                    StopCriteriaException.id =" 3";
                     population[j] = task.eval(tmp3);
-                    if (task.isStopCriteria())
-                        return; // end jump out
+                   
                 }
             }
         }
@@ -278,7 +280,11 @@ public class TLBOAlgorithm extends Algorithm {
         // max_eval = task.getMaxEvaluations();
         stat = new Statistic(task);
         init();
+        try {
         aTeacher();
+        } catch(StopCriteriaException e) {
+            System.out.println("KDO?"+e);
+        }
         return stat.getCurrent_g().best;
     }
 

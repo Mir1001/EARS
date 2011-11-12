@@ -62,7 +62,7 @@ public abstract class Problem {
 	public static final int CONSTRAINED_TYPE_COUNT=1;
 	public static final int CONSTRAINED_TYPE_SUM=2;
 	public static final int CONSTRAINED_TYPE_NORMALIZATION=3;
-	public static int constrained_type = CONSTRAINED_TYPE_NORMALIZATION;
+	public static int constrained_type = CONSTRAINED_TYPE_SUM;
 	// http://www.ints.info.hiroshima-cu.ac.jp/~takahama/eng/index.html
 	
 	/**

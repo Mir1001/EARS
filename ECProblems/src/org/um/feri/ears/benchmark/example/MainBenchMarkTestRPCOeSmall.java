@@ -44,18 +44,22 @@
 package org.um.feri.ears.benchmark.example;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
 import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.algorithms.PlayerAlgorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
+import org.um.feri.ears.benchmark.RatingRPCOe1;
 import org.um.feri.ears.benchmark.RatingRPUOed30;
 import org.um.feri.ears.benchmark.RatingRPUOed2;
 import org.um.feri.ears.rating.Player;
+import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
 
@@ -66,7 +70,7 @@ import com.um.feri.brest.de.DEAlgorithm;
  * @author Administrator
  *
  */
-public class MainBenchMarkTestBig {
+public class MainBenchMarkTestRPCOeSmall {
 
     /**
      * @param args
@@ -76,25 +80,28 @@ public class MainBenchMarkTestBig {
         RatingBenchmark.debugPrint = true; //prints one on one results
         ArrayList<Algorithm> players = new ArrayList<Algorithm>();
         players.add(new RandomWalkAlgorithm());  
-        //players.add(new RandomWalkAMAlgorithm());  
+        players.add(new RandomWalkAMAlgorithm());  
         players.add(new ES1p1sAlgorithm());
-        //players.add(new SwarmAlgorithm());
-        players.add(new BeeColonyAlgorithm());
         players.add(new TLBOAlgorithm());
-        for (int k=1;k<11;k++)
-        players.add(new DEAlgorithm(k,100));
-        players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,100));
+        //for (int k=1;k<11;k++)
+        //players.add(new DEAlgorithm(k,20));
+        //players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20));
 
         ResultArena ra = new ResultArena(100);
-        RatingRPUOed30 suopm = new RatingRPUOed30(30,150000);
+        RatingRPCOe1 suopm = new RatingRPCOe1();
+        ArrayList<PlayerAlgorithm> listAll = new ArrayList<PlayerAlgorithm>();
+        PlayerAlgorithm tmp;
         for (Algorithm al:players) {
-          ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
+          //ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
+          tmp = new PlayerAlgorithm(al, new Rating(1500, 350, 0.06));
+          listAll.add(tmp);
+          ra.addPlayer(tmp);
           suopm.registerAlgorithm(al);
-        }
+        } 
         suopm.run(ra, 10);
-        ArrayList<Player> list = new ArrayList<Player>();
-        list.addAll(ra.recalcRangs());
-        for (Player p: list) System.out.println(p);
+        ra.recalcRangs();
+        Collections.sort(listAll, new Player.RatingComparator());
+        for (PlayerAlgorithm p: listAll) System.out.println(p);
 
     }
 
