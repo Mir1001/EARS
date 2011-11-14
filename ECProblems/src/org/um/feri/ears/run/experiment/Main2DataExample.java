@@ -160,6 +160,7 @@ public class Main2DataExample {
         data.benchmark = suopm.export();
         data.arenaName = "ER Year 2011";
         data.arenaOwner = "matej crepinsek";
+        data.runType = EDEnumBenchmarkRunType.TEST;
         Gson gson = new Gson();
         String jsonRepresentation = gson.toJson(data, EDBenchmarkRunArena.class);
         String jsonP2P = gson.toJson(spl, EDStatP2PList.class);

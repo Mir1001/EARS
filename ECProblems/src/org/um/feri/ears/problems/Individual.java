@@ -72,6 +72,7 @@ public class Individual {
 	 * 
 	 * @param x
 	 * @param eval
+	 * @deprecated
 	 */
 	public Individual(double[] x, double eval) {
 		this.x = new double[x.length];
