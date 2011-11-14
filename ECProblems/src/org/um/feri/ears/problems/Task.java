@@ -197,6 +197,16 @@ public class Task {
         }
         return "not defened";
 	}
+	/**
+	 * Better use method eval returns Individual with calculated fitness and constrains
+	 * @deprecated
+	 * 
+	 * @param ds real vector to be evaluated (just calc constraines
+	 * @return
+	 */
+	public double[] calcConstrains(double[] ds) {
+	    return p.calc_constrains(ds);
+	}
 	
 	public Individual eval(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
