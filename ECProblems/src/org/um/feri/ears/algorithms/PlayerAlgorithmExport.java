@@ -80,7 +80,9 @@ public class PlayerAlgorithmExport extends Player {
     public EDPlayer getExportPlayer() {
         EDPlayer p = new EDPlayer();
         p.id_version = alg.ai.getVersionAcronym();
-        p.info ="";//   alg.ai.getParameters().toString(); //TODO
+        if (alg.au!=null)
+            p.info = alg.au.getNickName();
+        else p.info ="";//   alg.ai.getParameters().toString(); //TODO
         p.oldRating = new org.um.feri.ears.export.data.EDRating();
         p.oldRating.rating = Util.roundDouble3(start.getRating());
         p.oldRating.RD = Util.roundDouble3(start.getRD());
