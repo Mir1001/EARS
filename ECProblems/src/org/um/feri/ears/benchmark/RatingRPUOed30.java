@@ -64,6 +64,9 @@ public class RatingRPUOed30 extends RatingBenchmark {
         if (Math.abs(a.getEval()-b.getEval())<0.000001) return true;
         return false;
     }
+    public RatingRPUOed30() {
+    	this(30,1);
+    }
     public RatingRPUOed30(int D, int EV) {
         super();
         evaluations=150000;

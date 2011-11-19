@@ -108,10 +108,14 @@ public abstract class RatingBenchmark {
      * @param task
      */
     private void runOneProblem(TaskWithReset task) {
+    	long start;
         for (Algorithm al: listOfAlgorithmsPlayers) {
             task.resetCounter(); //number of evaluations  
             try {
+            	start = System.currentTimeMillis();
+            	System.out.print(al.getID()+": ");
                 Individual bestByALg = al.run(task); //check if result is fake!
+                System.out.println((System.currentTimeMillis()-start)/1000);
                 task.resetCounter(); //for one eval!
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
                   Individual best = task.eval(bestByALg.getX());
@@ -164,16 +168,16 @@ public abstract class RatingBenchmark {
                     arena.addGameResult(Game.DRAW, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());
                 } else {
                     if (win.getAl()==null) {
-                        System.out.println("NULL");
+                        System.out.println("NULL ID "+win.getClass().getName());
                     }
                     if (win.getBest()==null) {
-                        System.out.println("NULL");
+                        System.out.println(win.getAl().getID()+" NULL");
                     }                    
                     if (lose.getAl()==null) {
-                        System.out.println("NULL");
+                        System.out.println("NULL ID "+lose.getClass().getName());
                     }
                     if (lose.getBest()==null) {
-                        System.out.println("NULL");
+                        System.out.println(lose.getAl().getID()+" NULL");
                     }                     
                     if (debugPrint) System.out.println("win of "+win.getAl().getID()+" ("+Util.df3.format(win.getBest().getEval())+", feasable="+win.getBest().isFeasible()+") against "+lose.getAl().getID()+" ("+Util.df3.format(lose.getBest().getEval())+", feasable="+lose.getBest().isFeasible()+") for "+t.getProblemShortName());
                     arena.addGameResult(Game.WIN, win.getAl().getAlgorithmInfo().getVersionAcronym(), lose.getAl().getAlgorithmInfo().getVersionAcronym(), t.getProblemShortName());

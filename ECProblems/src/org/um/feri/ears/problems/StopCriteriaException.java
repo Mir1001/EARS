@@ -47,6 +47,6 @@ public class StopCriteriaException extends Exception {
 	public StopCriteriaException(String msg) {
 		super(msg);
 		if (id.length()>0)
-          System.err.println("--------------- "+id);
+          System.err.println("Stop criteria! "+id);
     }
 }
