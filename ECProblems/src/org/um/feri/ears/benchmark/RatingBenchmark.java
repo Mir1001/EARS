@@ -69,6 +69,8 @@ public abstract class RatingBenchmark {
     
     protected EnumStopCriteria stopCriteria = EnumStopCriteria.EVALUATIONS; //default
     private ArrayList<AlgorithmEvalResult> results;
+    public static boolean printSingleRunDuration=false;
+    
     public EDBenchmark export() {
         EDBenchmark ed=new EDBenchmark();
         ed.acronym = getAcronym();
@@ -108,14 +110,16 @@ public abstract class RatingBenchmark {
      * @param task
      */
     private void runOneProblem(TaskWithReset task) {
-    	long start;
+    	long start=0;;
         for (Algorithm al: listOfAlgorithmsPlayers) {
             task.resetCounter(); //number of evaluations  
             try {
-            	start = System.currentTimeMillis();
-            	System.out.print(al.getID()+": ");
+                if (printSingleRunDuration) {
+                    start = System.currentTimeMillis();
+            	  System.out.print(al.getID()+": ");
+                }
                 Individual bestByALg = al.run(task); //check if result is fake!
-                System.out.println((System.currentTimeMillis()-start)/1000);
+                if (printSingleRunDuration) System.out.println((System.currentTimeMillis()-start)/1000);
                 task.resetCounter(); //for one eval!
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
                   Individual best = task.eval(bestByALg.getX());
