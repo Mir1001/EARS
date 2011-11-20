@@ -72,6 +72,8 @@ public class RatingRPUOed30 extends RatingBenchmark {
         evaluations=150000;
         dim = D;
         initFullProblemList();
+        addParameter(EnumBenchmarkInfoParameters.DIMENSION,String.valueOf(D));
+        addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluations));
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)

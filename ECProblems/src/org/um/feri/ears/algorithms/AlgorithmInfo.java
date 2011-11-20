@@ -56,6 +56,24 @@ public class AlgorithmInfo {
     private String versionAcronym; // if you made some semantic changes compared
                                    // to original
     private String versionDescription; // what is different from original
+    private String linkURL_original; // what is different from original
+    private String linkURL_internal; // what is different from original
+    public String getLinkURL_original() {
+        return linkURL_original;
+    }
+
+    public void setLinkURL_original(String linkURL_original) {
+        this.linkURL_original = linkURL_original;
+    }
+
+    public String getLinkURL_internal() {
+        return linkURL_internal;
+    }
+
+    public void setLinkURL_internal(String linkURL_internal) {
+        this.linkURL_internal = linkURL_internal;
+    }
+
     private EnumMap<EnumAlgorithmParameters,String> parameters; //add all specific parameters
 
     //returns parameters

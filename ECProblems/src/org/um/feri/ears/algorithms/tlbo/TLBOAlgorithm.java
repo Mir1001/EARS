@@ -3,6 +3,7 @@ package org.um.feri.ears.algorithms.tlbo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Random;
 
@@ -11,6 +12,7 @@ import org.um.feri.ears.algorithms.Author;
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.EnumAlgorithmParameters;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
+import org.um.feri.ears.benchmark.EnumBenchmarkInfoParameters;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.StopCriteriaException;
@@ -294,7 +296,7 @@ public class TLBOAlgorithm extends Algorithm {
     }
 
     @Override
-    public List<Algorithm> getAlgorithmParameterTest(Task taskProblem, int maxCombinations) {
+    public List<Algorithm> getAlgorithmParameterTest(EnumMap<EnumBenchmarkInfoParameters, String> param, int maxCombinations) {
         List<Algorithm> alternative = new ArrayList<Algorithm>();
         if (maxCombinations == 1) {
             alternative.add(this);

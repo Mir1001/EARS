@@ -71,6 +71,9 @@ public class RatingRPCOe1 extends RatingBenchmark {
     public RatingRPCOe1() {
         super();
         initFullProblemList();
+        addParameter(EnumBenchmarkInfoParameters.DIMENSION,String.valueOf("10")); //everage
+        addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(200000));
+        addParameter(EnumBenchmarkInfoParameters.CONSTRAINED,"yes");
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)

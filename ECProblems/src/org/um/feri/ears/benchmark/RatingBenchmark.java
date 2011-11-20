@@ -46,6 +46,7 @@ package org.um.feri.ears.benchmark;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumMap;
 
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.export.data.EDBenchmark;
@@ -56,7 +57,6 @@ import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.TaskWithReset;
-import org.um.feri.ears.problems.unconstrained.*;
 import org.um.feri.ears.rating.Game;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
@@ -69,7 +69,24 @@ public abstract class RatingBenchmark {
     
     protected EnumStopCriteria stopCriteria = EnumStopCriteria.EVALUATIONS; //default
     private ArrayList<AlgorithmEvalResult> results;
+    private EnumMap<EnumBenchmarkInfoParameters,String> parameters; //add all specific parameters
     public static boolean printSingleRunDuration=false;
+    
+    public void addParameter(EnumBenchmarkInfoParameters id, String value){
+        parameters.put(id, value);
+    }
+    
+    public EnumMap<EnumBenchmarkInfoParameters, String> getParameters() {
+        return parameters;
+    }
+
+    public ArrayList<Task> getAllTasks() {
+        ArrayList<Task> a = new  ArrayList<Task>();
+        for (TaskWithReset tw:listOfProblems) {
+            a.add(tw);
+        }
+        return a;
+    }
     
     public EDBenchmark export() {
         EDBenchmark ed=new EDBenchmark();
@@ -89,6 +106,7 @@ public abstract class RatingBenchmark {
         listOfProblems = new ArrayList<TaskWithReset>();
         listOfAlgorithmsPlayers = new ArrayList<Algorithm>();
         results = new ArrayList<AlgorithmEvalResult>();
+        parameters = new  EnumMap<EnumBenchmarkInfoParameters, String>(EnumBenchmarkInfoParameters.class);
         //initFullProblemList();
     }
     

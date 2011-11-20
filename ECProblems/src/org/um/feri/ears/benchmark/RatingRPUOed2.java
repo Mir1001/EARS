@@ -68,6 +68,8 @@ public class RatingRPUOed2 extends RatingBenchmark {
         super();
         evaluationsOnDimension=1000;
         initFullProblemList();
+        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"2");
+        addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluationsOnDimension*2));
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)

@@ -1,16 +1,8 @@
-package org.um.feri.ears.algorithms;
-
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-
-import org.um.feri.ears.benchmark.EnumBenchmarkInfoParameters;
-import org.um.feri.ears.problems.Individual;
-import org.um.feri.ears.problems.StopCriteriaException;
-import org.um.feri.ears.problems.Task;
-
+package org.um.feri.ears.benchmark;
 /**
- * Every new algorithm needs to implement this interface.
+ * This parameters can be used for dynamically tuning algorithms, based
+ * on parameters!
+ * 
  * <p>
  * 
  * @author Matej Crepinsek
@@ -51,63 +43,27 @@ import org.um.feri.ears.problems.Task;
  *          ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
- */ 
-public abstract class Algorithm {
-	/**
-	 * Search for best solution.
-	 * 
-	 * if StopCriteriaException is thrown tasks isStopCriteria method is not used properly.
-	 * 
-	 * @param taskProblem
-	 * @return best solution
-	 * @throws StopCriteriaException 
-	 */
-    protected boolean debug;
-    protected Author au;
-    protected AlgorithmInfo ai;
-    /**
-     * 
-     * 
-     * @param taskProblem
-     * @return
-     * @throws StopCriteriaException
-     */
-	public abstract Individual run(Task taskProblem) throws StopCriteriaException;
-	
-	/**
-	 * It is called every time before every run! 
-	 */
-	public abstract void resetDefaultsBeforNewRun();
-	public boolean isDebug() {
-        return debug;
-	}
-
-    public void setDebug(boolean debug) {
-        this.debug = debug;
+ */
+public enum EnumBenchmarkInfoParameters {
+    DIMENSION("number of real parameters","D"),  
+    EVAL("number of evaluations","E"),
+    CONSTRAINED("constrained optimization","C_O"),
+    STOP_IF_GLOBAL("stops when global optimum was founded","GLOBAL_STOP");
+    private String description, shortName;
+    private EnumBenchmarkInfoParameters(String s, String sh) {
+        description = s;
+        shortName = sh;
+        
+    }   
+    public String getDescription() {
+        return description;
     }
 
-    public Author getImplementationAuthor() {
-        return au;
+    public String getShortName() {
+        return shortName;
     }
-	public AlgorithmInfo getAlgorithmInfo(){
-	    return ai;
-	}
-	public String getID() {
-	    return ai.getVersionAcronym();
-	}
-	/**
-	 * Returns algorithms with different settings for selecting the best one!
-	 * maxCombinations is usually set to 8!
-	 * If maxCombinations==1 than return combination that is expected to perform best!
-	 * 
-	 * NOTE not static because jave doesnt support abstract static!
-	 * 
-	 * @param taskProblem
-	 * @return
-	 */
-	public List<Algorithm> getAlgorithmParameterTest(EnumMap<EnumBenchmarkInfoParameters, String> parameters, int maxCombinations) {
-	    List<Algorithm> noAlternative = new ArrayList<Algorithm>();
-	    noAlternative.add(this);
-	    return noAlternative;
-	}
+
+    public String toString() {
+        return shortName;
+    }
 }

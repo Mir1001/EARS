@@ -19,6 +19,7 @@ public class RunMain {
     private ResultArena ra;
     private RatingBenchmark suopm; // suopm = new RatingRPUOed2();
     private long duration;
+    private boolean internal;
 
     public ArrayList<PlayerAlgorithmExport> getListAll() {
         return listAll;
@@ -35,6 +36,16 @@ public class RunMain {
     public void setRa(ResultArena ra) {
         this.ra = ra;
     }
+    private RunMain(RatingBenchmark banchmark) {
+        internal = true;
+        players = new ArrayList<Algorithm>();
+        this.printDebug = printDebug;
+        suopm = banchmark;
+        listAll = new ArrayList<PlayerAlgorithmExport>();
+        Util.rnd.setSeed(System.currentTimeMillis());
+        ra = new ResultArena(100);
+        this.printSingleRunDuration = printSingleRunDuration;     
+    }
     /**
      * Set all data!
      * 
@@ -45,6 +56,7 @@ public class RunMain {
      */
     public RunMain(boolean printDebug, boolean printSingleRunDuration, RatingBenchmark banchmark) {
         Util.rnd.setSeed(System.currentTimeMillis());
+        internal = false;
         players = new ArrayList<Algorithm>();
         this.printDebug = printDebug;
         suopm = banchmark;
@@ -61,6 +73,10 @@ public class RunMain {
      * @param startRating
      */
     public void addAlgorithm(Algorithm al, Rating startRating) {
+        if (!internal) {
+            RunMain inte= new RunMain(suopm);
+            
+        }
         players.add(al);
         if (al==null) System.out.println("Add null algorithm");
         if (al.getAlgorithmInfo()==null) System.out.println("Add algorithm with null AlgorithmInfo "+al.getClass().getName());
