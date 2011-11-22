@@ -146,7 +146,7 @@ public abstract class RatingBenchmark {
                   results.add(new AlgorithmEvalResult(best, al)); 
                 }
                 else {
-                    System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result "+bestByALg+" is out of intervals!");
+                    System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result "+bestByALg+" is out of intervals! For task:"+task.getProblemShortName());
                     results.add(new AlgorithmEvalResult(null, al)); // this can be done parallel - asynchrony                    
                 }
             } catch (StopCriteriaException e) {
