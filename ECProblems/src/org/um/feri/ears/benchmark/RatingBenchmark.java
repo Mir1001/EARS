@@ -79,6 +79,10 @@ public abstract class RatingBenchmark {
     public EnumMap<EnumBenchmarkInfoParameters, String> getParameters() {
         return parameters;
     }
+    public void clearPlayers() {
+        listOfAlgorithmsPlayers.clear();
+        results.clear();
+    }
 
     public ArrayList<Task> getAllTasks() {
         ArrayList<Task> a = new  ArrayList<Task>();

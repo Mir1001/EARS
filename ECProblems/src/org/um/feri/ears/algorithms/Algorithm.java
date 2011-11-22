@@ -65,6 +65,11 @@ public abstract class Algorithm {
     protected boolean debug;
     protected Author au;
     protected AlgorithmInfo ai;
+    
+    public void setAlgorithmInfo(AlgorithmInfo aii) {
+        ai = aii;
+    }
+    
     /**
      * 
      * 

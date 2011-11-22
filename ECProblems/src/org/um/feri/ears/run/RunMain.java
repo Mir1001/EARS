@@ -17,9 +17,8 @@ public class RunMain {
     private boolean printSingleRunDuration;
     private ArrayList<Algorithm> players;
     private ResultArena ra;
-    private RatingBenchmark suopm; // suopm = new RatingRPUOed2();
+    protected RatingBenchmark benchMark; // suopm = new RatingRPUOed2();
     private long duration;
-    private boolean internal;
 
     public ArrayList<PlayerAlgorithmExport> getListAll() {
         return listAll;
@@ -28,7 +27,7 @@ public class RunMain {
         return printDebug;
     }
     public RatingBenchmark getRatingBenchmark() {
-        return suopm;
+        return benchMark;
     }
     public long getDuration() {
         return duration;
@@ -36,16 +35,7 @@ public class RunMain {
     public void setRa(ResultArena ra) {
         this.ra = ra;
     }
-    private RunMain(RatingBenchmark banchmark) {
-        internal = true;
-        players = new ArrayList<Algorithm>();
-        this.printDebug = printDebug;
-        suopm = banchmark;
-        listAll = new ArrayList<PlayerAlgorithmExport>();
-        Util.rnd.setSeed(System.currentTimeMillis());
-        ra = new ResultArena(100);
-        this.printSingleRunDuration = printSingleRunDuration;     
-    }
+
     /**
      * Set all data!
      * 
@@ -56,10 +46,9 @@ public class RunMain {
      */
     public RunMain(boolean printDebug, boolean printSingleRunDuration, RatingBenchmark banchmark) {
         Util.rnd.setSeed(System.currentTimeMillis());
-        internal = false;
         players = new ArrayList<Algorithm>();
         this.printDebug = printDebug;
-        suopm = banchmark;
+        benchMark = banchmark;
         listAll = new ArrayList<PlayerAlgorithmExport>();
         Util.rnd.setSeed(System.currentTimeMillis());
         ra = new ResultArena(100);
@@ -73,10 +62,7 @@ public class RunMain {
      * @param startRating
      */
     public void addAlgorithm(Algorithm al, Rating startRating) {
-        if (!internal) {
-            RunMain inte= new RunMain(suopm);
-            
-        }
+
         players.add(al);
         if (al==null) System.out.println("Add null algorithm");
         if (al.getAlgorithmInfo()==null) System.out.println("Add algorithm with null AlgorithmInfo "+al.getClass().getName());
@@ -85,14 +71,18 @@ public class RunMain {
         tmp = new PlayerAlgorithmExport(al, startRating, 0, 0, 0);
         listAll.add(tmp);
         ra.addPlayer(tmp);
-        suopm.registerAlgorithm(al);
+        benchMark.registerAlgorithm(al);
     }
-
+    /**
+     * In the end algorithms are sorted by their rating. Best is first!
+     * 
+     * @param repeat number of repetitions 
+     */
     public void run(int repeat) {
         long stTime = System.currentTimeMillis();
         RatingBenchmark.debugPrint = printDebug; // prints one on one results
         RatingBenchmark.printSingleRunDuration = printSingleRunDuration;
-        suopm.run(ra, repeat);
+        benchMark.run(ra, repeat);
         ra.recalcRangs();
         Collections.sort(listAll, new Player.RatingComparator());
         long endTime = System.currentTimeMillis();
@@ -102,7 +92,7 @@ public class RunMain {
     
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append("Results for benchmark:").append(suopm.getAcronym()).append("Benchmark DURATION: ("+duration/1000+"s)").append("\n").append("\n");;
+        sb.append("Results for benchmark:").append(benchMark.getAcronym()).append("Benchmark DURATION: ("+duration/1000+"s)").append("\n").append("\n");;
         for (PlayerAlgorithmExport a:listAll) {
             sb.append(a.getPlayerId()).append(" ").append(a.getR().toString()).append("\n");
         }

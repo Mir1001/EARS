@@ -49,6 +49,8 @@ import java.util.Map;
  * 
  */
 public class AlgorithmInfo {
+    private static final int NO_PARAM_SELECTION = -1;
+
     private String publishedAcronym; // from papers (ES(1,1), PSO, DE, ...)
 
     private String paperBib; // latex bib format name of the original published
@@ -58,6 +60,15 @@ public class AlgorithmInfo {
     private String versionDescription; // what is different from original
     private String linkURL_original; // what is different from original
     private String linkURL_internal; // what is different from original
+    private int selectedParameterCombination;
+    public int getSelectedParameterCombination() {
+        return selectedParameterCombination;
+    }
+
+    public void setSelectedParameterCombination(int selectedParameterCombination) {
+        this.selectedParameterCombination = selectedParameterCombination;
+    }
+
     public String getLinkURL_original() {
         return linkURL_original;
     }
@@ -88,6 +99,7 @@ public class AlgorithmInfo {
     }
     public AlgorithmInfo(String publishedName, String paperBib, String versionName, String versionDescription) {
         super();
+        selectedParameterCombination = NO_PARAM_SELECTION;
         this.publishedAcronym = publishedName;
         this.paperBib = paperBib;
         this.versionAcronym = versionName;

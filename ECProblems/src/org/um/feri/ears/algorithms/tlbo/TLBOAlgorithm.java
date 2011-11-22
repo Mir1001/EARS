@@ -298,11 +298,14 @@ public class TLBOAlgorithm extends Algorithm {
     @Override
     public List<Algorithm> getAlgorithmParameterTest(EnumMap<EnumBenchmarkInfoParameters, String> param, int maxCombinations) {
         List<Algorithm> alternative = new ArrayList<Algorithm>();
+        int dim=10;
+        String sd = param.get(EnumBenchmarkInfoParameters.DIMENSION);
+        if (sd!=null) dim = Integer.parseInt(sd);
         if (maxCombinations == 1) {
             alternative.add(this);
         } else {
             int paramCombinations[][] = { // {elite, pop_size}
-            { 4, 5 + task.getDimensions() * 2 }, { 0, 20 }, { 4, 20 }, { 0, 5 + task.getDimensions() * 2 }, { 0, 50 }, { 4, 50 }, { 0, 100 }, { 4, 100 },
+            { 4, 5 + dim * 2 }, { 0, 20 }, { 4, 20 }, { 0, 5 + dim * 2 }, { 0, 50 }, { 4, 50 }, { 0, 100 }, { 4, 100 },
                     { 8, 100 } };
             int counter = 0;
             for (int i = 0; (i < paramCombinations.length) && (counter < maxCombinations); i++) {

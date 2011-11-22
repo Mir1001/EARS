@@ -62,6 +62,9 @@ public class PlayerAlgorithmExport extends Player {
         this.start = new Rating(start);
         alg = a;     
     }
+    public Algorithm getAlgorithm() {
+        return alg;
+    }
     public EDPlayerMoreInfo getExportPlayerMoreInfo() {
         EDPlayerMoreInfo p = new EDPlayerMoreInfo();
         p.id = alg.ai.getVersionAcronym();
