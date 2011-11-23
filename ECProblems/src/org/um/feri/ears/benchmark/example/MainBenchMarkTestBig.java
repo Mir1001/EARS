@@ -43,20 +43,16 @@
  */
 package org.um.feri.ears.benchmark.example;
 
-import java.util.ArrayList;
-
 import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
-import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.benchmark.RatingRPUOed30;
-import org.um.feri.ears.benchmark.RatingRPUOed2;
-import org.um.feri.ears.rating.Player;
-import org.um.feri.ears.rating.ResultArena;
+import org.um.feri.ears.rating.Rating;
+import org.um.feri.ears.run.RunMainBestAlgSettings;
 import org.um.feri.ears.util.Util;
 
 import com.erciyes.karaboga.bee.BeeColonyAlgorithm;
@@ -74,28 +70,18 @@ public class MainBenchMarkTestBig {
     public static void main(String[] args) {
         Util.rnd.setSeed(System.currentTimeMillis());
         RatingBenchmark.debugPrint = true; //prints one on one results
-        ArrayList<Algorithm> players = new ArrayList<Algorithm>();
-        players.add(new RandomWalkAlgorithm());  
-        //players.add(new RandomWalkAMAlgorithm());  
-        players.add(new ES1p1sAlgorithm());
-        //players.add(new SwarmAlgorithm());
-        players.add(new BeeColonyAlgorithm());
-        players.add(new TLBOAlgorithm());
+        RunMainBestAlgSettings rbs = new RunMainBestAlgSettings(true,false, new RatingRPUOed30());
+        rbs.addAlgorithm(new RandomWalkAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new RandomWalkAMAlgorithm(),new Rating(1500, 350, 0.06))  ;  
+        rbs.addAlgorithm(new ES1p1sAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new SwarmAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new BeeColonyAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new TLBOAlgorithm(),new Rating(1500, 350, 0.06));  
         for (int k=1;k<11;k++)
-        players.add(new DEAlgorithm(k,100));
-        players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,100));
-
-        ResultArena ra = new ResultArena(100);
-        RatingRPUOed30 suopm = new RatingRPUOed30(30,150000);
-        for (Algorithm al:players) {
-          ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
-          suopm.registerAlgorithm(al);
-        }
-        suopm.run(ra, 10);
-        ArrayList<Player> list = new ArrayList<Player>();
-        list.addAll(ra.recalcRangs());
-        for (Player p: list) System.out.println(p);
-
+            rbs.addAlgorithm(new DEAlgorithm(k,20),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20),new Rating(1500, 350, 0.06));  
+        rbs.run(30);
+        System.out.println(rbs);
     }
 
 }

@@ -65,6 +65,21 @@ public abstract class Algorithm {
     protected boolean debug;
     protected Author au;
     protected AlgorithmInfo ai;
+    protected AlgorithmInfo tmpAi;
+    protected AlgorithmRunTime art;
+    public void addRunDuration(long duration) {
+        if (art==null) {
+            art = new AlgorithmRunTime();
+        }
+        art.addRunDuration(duration);
+    }
+    public void setAlgorithmTmpInfo(AlgorithmInfo aii) {
+        tmpAi = ai;
+        ai = aii;
+    }
+    public void setAlgorithmInfoFromTmp() {
+        ai = tmpAi;
+    }
     
     public void setAlgorithmInfo(AlgorithmInfo aii) {
         ai = aii;
@@ -115,4 +130,7 @@ public abstract class Algorithm {
 	    noAlternative.add(this);
 	    return noAlternative;
 	}
+    public void resetDuration() {
+        art = new AlgorithmRunTime();
+    }
 }

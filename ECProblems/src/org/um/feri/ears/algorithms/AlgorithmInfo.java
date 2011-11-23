@@ -61,12 +61,14 @@ public class AlgorithmInfo {
     private String linkURL_original; // what is different from original
     private String linkURL_internal; // what is different from original
     private int selectedParameterCombination;
+    
     public int getSelectedParameterCombination() {
         return selectedParameterCombination;
     }
 
     public void setSelectedParameterCombination(int selectedParameterCombination) {
         this.selectedParameterCombination = selectedParameterCombination;
+        parameters.put(EnumAlgorithmParameters.SETTINGS_PARAM_COMBINATION, selectedParameterCombination+"");
     }
 
     public String getLinkURL_original() {

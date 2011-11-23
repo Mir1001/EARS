@@ -86,6 +86,10 @@ public class PlayerAlgorithmExport extends Player {
         if (alg.au!=null)
             p.info = alg.au.getNickName();
         else p.info ="";//   alg.ai.getParameters().toString(); //TODO
+        p.benchmarkRunDuration = 0;
+        if (alg.art!=null) {
+            p.benchmarkRunDuration = alg.art.getSumTime();
+        }
         p.oldRating = new org.um.feri.ears.export.data.EDRating();
         p.oldRating.rating = Util.roundDouble3(start.getRating());
         p.oldRating.RD = Util.roundDouble3(start.getRD());

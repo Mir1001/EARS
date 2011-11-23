@@ -132,16 +132,19 @@ public abstract class RatingBenchmark {
      * @param task
      */
     private void runOneProblem(TaskWithReset task) {
-    	long start=0;;
+    	long start=0;
+    	long duration=0;
         for (Algorithm al: listOfAlgorithmsPlayers) {
             task.resetCounter(); //number of evaluations  
             try {
+                start = System.currentTimeMillis();
                 if (printSingleRunDuration) {
-                    start = System.currentTimeMillis();
             	  System.out.print(al.getID()+": ");
                 }
                 Individual bestByALg = al.run(task); //check if result is fake!
-                if (printSingleRunDuration) System.out.println((System.currentTimeMillis()-start)/1000);
+                duration = System.currentTimeMillis()-start;
+                al.addRunDuration(duration);
+                if (printSingleRunDuration) System.out.println(duration/1000);
                 task.resetCounter(); //for one eval!
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
                   Individual best = task.eval(bestByALg.getX());

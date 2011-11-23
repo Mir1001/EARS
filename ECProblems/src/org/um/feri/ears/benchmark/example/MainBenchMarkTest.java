@@ -60,6 +60,8 @@ import org.um.feri.ears.benchmark.RatingRPUOed2;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
+import org.um.feri.ears.run.RunMain;
+import org.um.feri.ears.run.RunMainBestAlgSettings;
 import org.um.feri.ears.util.Util;
 
 import com.erciyes.karaboga.bee.BeeColonyAlgorithm;
@@ -77,33 +79,19 @@ public class MainBenchMarkTest {
     public static void main(String[] args) {
         Util.rnd.setSeed(System.currentTimeMillis());
         RatingBenchmark.debugPrint = true; //prints one on one results
-        ArrayList<Algorithm> players = new ArrayList<Algorithm>();
-        players.add(new RandomWalkAlgorithm());  
-        players.add(new RandomWalkAMAlgorithm());  
-        players.add(new ES1p1sAlgorithm());
-        players.add(new SwarmAlgorithm());
-        players.add(new BeeColonyAlgorithm());
-        players.add(new TLBOAlgorithm());
+        RunMainBestAlgSettings rbs = new RunMainBestAlgSettings(true,false, new RatingRPUOed2());
+        rbs.addAlgorithm(new RandomWalkAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new RandomWalkAMAlgorithm(),new Rating(1500, 350, 0.06))  ;  
+        rbs.addAlgorithm(new ES1p1sAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new SwarmAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new BeeColonyAlgorithm(),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new TLBOAlgorithm(),new Rating(1500, 350, 0.06));  
         for (int k=1;k<11;k++)
-        players.add(new DEAlgorithm(k,20));
-        players.add(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20));
-
-        ResultArena ra = new ResultArena(100);
-        RatingRPUOed2 suopm = new RatingRPUOed2();
-        ArrayList<PlayerAlgorithm> listAll = new ArrayList<PlayerAlgorithm>();
-        PlayerAlgorithm tmp;
-        for (Algorithm al:players) {
-          //ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0);
-          tmp = new PlayerAlgorithm(al, new Rating(1500, 350, 0.06));
-          listAll.add(tmp);
-          ra.addPlayer(tmp);
-          suopm.registerAlgorithm(al);
-        } 
-        suopm.run(ra, 30);
-        ra.recalcRangs();
-        Collections.sort(listAll, new Player.RatingComparator());
-        for (PlayerAlgorithm p: listAll) System.out.println(p);
-
+            rbs.addAlgorithm(new DEAlgorithm(k,20),new Rating(1500, 350, 0.06));  
+        rbs.addAlgorithm(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20),new Rating(1500, 350, 0.06));  
+        rbs.run(30);
+        System.out.println(rbs);
+ 
     }
 
 }

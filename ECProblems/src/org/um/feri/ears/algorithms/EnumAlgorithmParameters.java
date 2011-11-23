@@ -66,7 +66,8 @@ public enum EnumAlgorithmParameters {
     UNNAMED4("Unnamed parameter 4","param4"),  //if there is no parameter to select
     UNNAMED5("Unnamed parameter 5","param5"),  //if there is no parameter to select
     UNNAMED6("Unnamed parameter 6","param6"),  //if there is no parameter to select
-    UNNAMED7("Unnamed parameter 7","param7"); //if there is no parameter to select
+    UNNAMED7("Unnamed parameter 7","param7"), 
+    SETTINGS_PARAM_COMBINATION("Algorithem settings parameters selection ID","PARA_ID"); //if there is no parameter to select
     private String description, shortName;
     private EnumAlgorithmParameters(String s, String sh) {
         description = s;

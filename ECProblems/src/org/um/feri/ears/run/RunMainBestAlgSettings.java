@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.AlgorithmInfo;
+import org.um.feri.ears.algorithms.AlgorithmRunTime;
 import org.um.feri.ears.algorithms.PlayerAlgorithmExport;
 import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.rating.Rating;
@@ -32,7 +33,6 @@ public class RunMainBestAlgSettings extends RunMain {
     public void addAlgorithm(Algorithm al, Rating startRating) {
         allAlgorithmWithBestSettingsRating.add(startRating);
         RunMain findBestSettings = new RunMain(false, false, benchMark);
-        AlgorithmInfo org = al.getAlgorithmInfo();
         //System.out.println("Add:"+al.getID());
         List<Algorithm> allSettings = al.getAlgorithmParameterTest(benchMark.getParameters(), 8);
         //allSettings.add(al);
@@ -48,16 +48,18 @@ public class RunMainBestAlgSettings extends RunMain {
             Algorithm a;
             for (int k = 0; k < allSettings.size(); k++) {
                 a = allSettings.get(k);
-                a.setAlgorithmInfo(new AlgorithmInfo("" + k, "", "" + k, ""));
+                a.setAlgorithmTmpInfo(new AlgorithmInfo("" + k, "", "" + k, ""));
                 findBestSettings.addAlgorithm(a, new Rating(startRating));
             }
             findBestSettings.run(NUMBER_OF_EVALUATIONS);
             //System.out.println(findBestSettings);
-            ArrayList<PlayerAlgorithmExport> all = findBestSettings.getListAll();
+            ArrayList<PlayerAlgorithmExport> all = findBestSettings.getListAll(); //sorted
             a =  all.get(0).getAlgorithm();
-            org.setSelectedParameterCombination(Integer.parseInt(a.getAlgorithmInfo().getVersionAcronym()));
-            a.setAlgorithmInfo(org);
-            
+            System.out.println(a.getID());
+            int ver=Integer.parseInt(a.getAlgorithmInfo().getVersionAcronym());
+            a.setAlgorithmInfoFromTmp();
+            a.getAlgorithmInfo().setSelectedParameterCombination(ver);
+            a.resetDuration();
             allAlgorithmWithBestSettings.add(a);
             benchMark.clearPlayers();
                                                                         // BEST

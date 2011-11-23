@@ -13,6 +13,7 @@ public class EDPlayer implements Serializable{
     public EDRating newRating;
     public EDRating oldRating;
     public EDWinnLossDraw stat;
+    public long benchmarkRunDuration; 
     @Override
     public String toString() {
         return "EDPlayer [acronym=" + acronym + ", id_version=" + id_version + ", info=" + info + ", newRating=" + newRating + ", oldRating=" + oldRating
