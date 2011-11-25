@@ -19,7 +19,6 @@ public class RunMain {
     private ResultArena ra;
     protected RatingBenchmark benchMark; // suopm = new RatingRPUOed2();
     private long duration;
-
     public ArrayList<PlayerAlgorithmExport> getListAll() {
         return listAll;
     }

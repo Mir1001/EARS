@@ -56,12 +56,13 @@ import org.um.feri.ears.rating.ResultArena;
 public class RatingRPUOed30 extends RatingBenchmark {
     public static final String name="Real Parameter Unconstrained Optimization Problems with maximum evaluation condition";
     protected int evaluations=1000;
+    public static double DRAW_LIMIT = 0.000001;
     int dim;
     public boolean resultEqual(Individual a, Individual b) {
         if ((a==null) &&(b==null)) return true;
         if (a==null) return false;
         if (b==null) return false;
-        if (Math.abs(a.getEval()-b.getEval())<0.000001) return true;
+        if (Math.abs(a.getEval()-b.getEval())<DRAW_LIMIT) return true;
         return false;
     }
     public RatingRPUOed30() {
@@ -74,6 +75,7 @@ public class RatingRPUOed30 extends RatingBenchmark {
         initFullProblemList();
         addParameter(EnumBenchmarkInfoParameters.DIMENSION,String.valueOf(D));
         addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluations));
+        addParameter(EnumBenchmarkInfoParameters.DRAW_PARAM,"abs(evaluation_diff) < "+DRAW_LIMIT);
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)
@@ -117,7 +119,7 @@ public class RatingRPUOed30 extends RatingBenchmark {
      */
     @Override
     public String getInfo() {
-        return "Number of tests "+listOfProblems.size()+"\n Most dimensions=2\n Compare if difference<=E-10 is tie.";
+        return "";
     }
     
 }

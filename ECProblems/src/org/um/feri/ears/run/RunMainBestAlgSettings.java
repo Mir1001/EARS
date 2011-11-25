@@ -7,11 +7,13 @@ import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.AlgorithmInfo;
 import org.um.feri.ears.algorithms.AlgorithmRunTime;
 import org.um.feri.ears.algorithms.PlayerAlgorithmExport;
+import org.um.feri.ears.benchmark.EnumBenchmarkInfoParameters;
 import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.rating.Rating;
 
 public class RunMainBestAlgSettings extends RunMain {
-    public static final int NUMBER_OF_EVALUATIONS = 30;
+    public static final int NUMBER_OF_EVALUATIONS = 50;
+    public static final int MAX_PARAM_TEST=8;
     private ArrayList<Algorithm> allAlgorithmWithBestSettings;
     private ArrayList<Rating> allAlgorithmWithBestSettingsRating;
 
@@ -19,6 +21,7 @@ public class RunMainBestAlgSettings extends RunMain {
         super(printDebug, printSingleRunDuration, banchmark);
         allAlgorithmWithBestSettings = new ArrayList<Algorithm>();
         allAlgorithmWithBestSettingsRating = new ArrayList<Rating>();
+        banchmark.addParameter(EnumBenchmarkInfoParameters.NUMBER_OF_TEST_CONFIGURATIONS, MAX_PARAM_TEST+"");
     }
     @Override
     public void run(int repeat) {

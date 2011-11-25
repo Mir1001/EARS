@@ -71,7 +71,7 @@ public abstract class RatingBenchmark {
     private ArrayList<AlgorithmEvalResult> results;
     private EnumMap<EnumBenchmarkInfoParameters,String> parameters; //add all specific parameters
     public static boolean printSingleRunDuration=false;
-    
+    protected int duelNumber;
     public void addParameter(EnumBenchmarkInfoParameters id, String value){
         parameters.put(id, value);
     }
@@ -91,17 +91,29 @@ public abstract class RatingBenchmark {
         }
         return a;
     }
-    
+    public String getParams() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("Parameters:\n");
+        for (EnumBenchmarkInfoParameters a:parameters.keySet()) {
+            sb.append(a.getShortName()).append(" = ").append(parameters.get(a)).append("\t").append("(").append(a.getDescription()).append(")\n");
+        }
+        return sb.toString();
+    }
+    public void updateParameters() {
+        parameters.put(EnumBenchmarkInfoParameters.NUMBER_OF_TASKS, ""+listOfProblems.size());  
+    }
     public EDBenchmark export() {
+        updateParameters();
         EDBenchmark ed=new EDBenchmark();
         ed.acronym = getAcronym();
         ed.name = getName();
-        ed.info = getInfo();
+        ed.info = getParams();
+        if (getInfo().length()>3) ed.info=ed.info+"\n"+getInfo();
         EDTask tmp;
         for (TaskWithReset ta:listOfProblems) {
             tmp = new EDTask();
             tmp.name = ta.getProblemShortName();
-            tmp.info = ta.getStopCriteriaDescription();
+            tmp.info = ta.getStopCriteriaDescription(); //tu!!!
             ed.tasks.add(tmp);
         }
         return ed;
@@ -223,6 +235,8 @@ public abstract class RatingBenchmark {
      * @param repetition
      */
     public void run(ResultArena arena, int repetition) {
+        duelNumber = repetition;
+        parameters.put(EnumBenchmarkInfoParameters.NUMBER_OF_DEULS, ""+repetition);
         for (TaskWithReset t:listOfProblems) {
             for (int i=0; i<repetition; i++) {
                 runOneProblem(t);

@@ -55,21 +55,23 @@ import org.um.feri.ears.rating.ResultArena;
 //TODO calculate CD for rating
 public class RatingRPUOed2 extends RatingBenchmark {
     public static final String name="Real Parameter Unconstrained Optimization Problems with maximum evaluation condition";
-    protected int evaluationsOnDimension=1000;
+    protected int evaluationsOnDimension=1500;
+    public static final double DRAW_LIMIT=0.000000001;
     
     public boolean resultEqual(Individual a, Individual b) {
         if ((a==null) &&(b==null)) return true;
         if (a==null) return false;
         if (b==null) return false;
-        if (Math.abs(a.getEval()-b.getEval())<0.000000001) return true;
+        if (Math.abs(a.getEval()-b.getEval())<DRAW_LIMIT) return true;
         return false;
     }
     public RatingRPUOed2() {
         super();
-        evaluationsOnDimension=1000;
+        evaluationsOnDimension=1500;
         initFullProblemList();
         addParameter(EnumBenchmarkInfoParameters.DIMENSION,"2");
         addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluationsOnDimension*2));
+        addParameter(EnumBenchmarkInfoParameters.DRAW_PARAM,"abs(evaluation_diff) < "+DRAW_LIMIT);
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)
@@ -122,7 +124,7 @@ public class RatingRPUOed2 extends RatingBenchmark {
      */
     @Override
     public String getInfo() {
-        return "Number of tests "+listOfProblems.size()+"\n Most dimensions=2\n Compare if difference<=E-10 is tie.";
+        return "";
     }
     
 }
