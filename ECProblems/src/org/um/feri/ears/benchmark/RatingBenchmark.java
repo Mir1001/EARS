@@ -153,6 +153,7 @@ public abstract class RatingBenchmark {
                 if (printSingleRunDuration) {
             	  System.out.print(al.getID()+": ");
                 }
+                
                 Individual bestByALg = al.run(task); //check if result is fake!
                 duration = System.currentTimeMillis()-start;
                 al.addRunDuration(duration);

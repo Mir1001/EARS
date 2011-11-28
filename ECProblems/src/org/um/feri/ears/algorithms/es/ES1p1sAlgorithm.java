@@ -69,7 +69,9 @@ public class ES1p1sAlgorithm extends Algorithm {
     }
     public ES1p1sAlgorithm(int k, double c) {
         mem_k = k;
+        this.k = k;
         mem_c = c;
+        this.c= c;
         au = new Author("matej", "matej.crepinsek at uni-mb.si");
         resetDefaultsBeforNewRun();        
         ai = new AlgorithmInfo("ES", "@book{Rechenberg1973,\n author = {Rechenberg, I.}, \n publisher = {Frommann-Holzboog}, \n title = {Evolutionsstrategie: optimierung technischer systeme nach prinzipien der biologischen evolution},\n year = {1973}}", "ES(1+1)", "ES(1+1) 1/5 rule");

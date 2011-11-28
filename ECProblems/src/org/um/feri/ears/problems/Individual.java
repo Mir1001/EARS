@@ -61,7 +61,7 @@ public class Individual {
 		System.arraycopy(i.x, 0, x, 0, x.length);
 		eval = i.eval;
 		this.feasible = i.feasible;
-		if (!i.feasible) {
+		if (i.constrains!=null) {
 		  constrains = new double[i.constrains.length];
 		  System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
 		}

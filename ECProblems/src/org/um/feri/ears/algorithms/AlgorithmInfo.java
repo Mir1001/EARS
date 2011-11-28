@@ -70,6 +70,14 @@ public class AlgorithmInfo {
         this.selectedParameterCombination = selectedParameterCombination;
         parameters.put(EnumAlgorithmParameters.SETTINGS_PARAM_COMBINATION, selectedParameterCombination+"");
     }
+    
+    public String paramsToString() {
+    	StringBuffer sb = new StringBuffer();
+    	for (EnumAlgorithmParameters t:parameters.keySet()) {
+    		sb.append(t.getShortName()+" = "+parameters.get(t)).append("\n");
+    	}
+    	return sb.toString();
+    }
 
     public String getLinkURL_original() {
         return linkURL_original;

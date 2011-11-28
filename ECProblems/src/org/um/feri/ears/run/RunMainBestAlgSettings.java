@@ -12,7 +12,7 @@ import org.um.feri.ears.benchmark.RatingBenchmark;
 import org.um.feri.ears.rating.Rating;
 
 public class RunMainBestAlgSettings extends RunMain {
-    public static final int NUMBER_OF_EVALUATIONS = 50;
+    public static final int NUMBER_OF_EVALUATIONS = 3;
     public static final int MAX_PARAM_TEST=8;
     private ArrayList<Algorithm> allAlgorithmWithBestSettings;
     private ArrayList<Rating> allAlgorithmWithBestSettingsRating;
@@ -34,6 +34,8 @@ public class RunMainBestAlgSettings extends RunMain {
     
     @Override
     public void addAlgorithm(Algorithm al, Rating startRating) {
+    	System.out.println(al.getID());
+    	long t=System.currentTimeMillis();
         allAlgorithmWithBestSettingsRating.add(startRating);
         RunMain findBestSettings = new RunMain(false, false, benchMark);
         //System.out.println("Add:"+al.getID());
@@ -67,6 +69,7 @@ public class RunMainBestAlgSettings extends RunMain {
             benchMark.clearPlayers();
                                                                         // BEST
         } 
+        System.out.println("Time min:"+((System.currentTimeMillis()-t)/60000));
         //System.out.println("End:"+al.getID());
     }
 

@@ -56,7 +56,7 @@ import org.um.feri.ears.util.Util;
  */
 public class PlayerAlgorithmExport extends Player {
     Rating start;
-    Algorithm alg;
+    Algorithm alg; 
     public PlayerAlgorithmExport(Algorithm a, Rating start, int win, int l, int d){
         super(a.getID(), start, win, l, d);
         this.start = new Rating(start);
