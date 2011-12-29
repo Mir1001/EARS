@@ -56,6 +56,7 @@ public class Task {
 	public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p) {
 	    this(stop, eval, epsilon, p,  (int) Math.log10((1./epsilon)+1));
 	}
+	
     public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p, int precisonOfRealNumbers) {
         precisionOfRealNumbersInDecimalPlaces = precisonOfRealNumbers;
         stopCriteria = stop;
@@ -235,6 +236,7 @@ public class Task {
     }
     /**
      * Works only for basic interval setting!
+     * Sets interval!
      * for example -40<x_i<40 <p>
      * if x_i <-40 -> -40 same for 40!
      * 

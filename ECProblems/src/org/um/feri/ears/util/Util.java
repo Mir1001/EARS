@@ -50,6 +50,7 @@ import java.util.Random;
 import org.um.feri.ears.problems.Problem;
 
 public class Util {
+    public static DecimalFormat df0 = new DecimalFormat("####.##");
 	public static DecimalFormat df1 = new DecimalFormat("#,###.#");
 	public static DecimalFormat df = new DecimalFormat("#,###.##");
 	public static DecimalFormat df3 = new DecimalFormat("#,###.###");

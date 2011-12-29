@@ -2,6 +2,7 @@ package org.um.feri.ears.problems.constrained;
 
 import java.util.Arrays;
 
+import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 
 
@@ -119,5 +120,8 @@ public class TLBOBenchmarkFunction1 extends Problem {
 	public double getOptimumEval() {
 		return -15;
 	}
+
+
+
 	
 }

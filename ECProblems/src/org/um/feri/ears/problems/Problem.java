@@ -48,6 +48,7 @@ import org.um.feri.ears.util.Util;
 * 
 */
 public abstract class Problem {
+    public static final EnumProblemTypes TYPE = EnumProblemTypes.MORPO;
 	public double interval[];
 	public double intervalL[];
 	protected int dim;
@@ -195,9 +196,10 @@ public abstract class Problem {
 
 	/**
 	 * When overriding, call incEvaluate!
-	 * Implement problem!  
+	 * Implement problem! 
 	 * @param ds
 	 * @return
+	 * @deprecated 
 	 */
 	public abstract double eval(double[] ds);
 	
@@ -304,6 +306,7 @@ public abstract class Problem {
 		}
 		return sol;
 	}
+	
 	/**
 	 * Not just fitness value but also constrained. 
 	 * 
