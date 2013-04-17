@@ -59,4 +59,8 @@ public class TaskWithReset extends Task{
         isStop = false;
         isGlobal = false;
     }
+    
+    public Problem getProblem() {
+    	return p;
+    }
 }

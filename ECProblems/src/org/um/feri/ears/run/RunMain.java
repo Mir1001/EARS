@@ -6,12 +6,14 @@ import java.util.Collections;
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.PlayerAlgorithmExport;
 import org.um.feri.ears.benchmark.RatingBenchmark;
+import org.um.feri.ears.problems.results.BankOfResults;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
 
 public class RunMain {
+	private BankOfResults allSingleProblemRunResults;
     private ArrayList<PlayerAlgorithmExport> listAll;
     private boolean printDebug;
     private boolean printSingleRunDuration;
@@ -52,6 +54,7 @@ public class RunMain {
         Util.rnd.setSeed(System.currentTimeMillis());
         ra = new ResultArena(100);
         this.printSingleRunDuration = printSingleRunDuration;
+        allSingleProblemRunResults =  new BankOfResults();
     }
     /**
      * Add algorithms in arena.
@@ -81,7 +84,7 @@ public class RunMain {
         long stTime = System.currentTimeMillis();
         RatingBenchmark.debugPrint = printDebug; // prints one on one results
         RatingBenchmark.printSingleRunDuration = printSingleRunDuration;
-        benchMark.run(ra, repeat);
+        benchMark.run(ra,allSingleProblemRunResults, repeat);
         ra.recalcRangs();
         Collections.sort(listAll, new Player.RatingComparator());
         long endTime = System.currentTimeMillis();
@@ -96,6 +99,9 @@ public class RunMain {
             sb.append(a.getPlayerId()).append(" ").append(a.getR().toString()).append("\n");
         }
        return sb.toString();
+    }
+    public BankOfResults getBankOfResults() {
+    	return allSingleProblemRunResults;
     }
 
 }

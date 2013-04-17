@@ -57,6 +57,7 @@ import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.TaskWithReset;
+import org.um.feri.ears.problems.results.BankOfResults;
 import org.um.feri.ears.rating.Game;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
@@ -142,8 +143,9 @@ public abstract class RatingBenchmark {
      * TODO  this function can be done parallel - asynchrony
      * 
      * @param task
+     * @param allSingleProblemRunResults 
      */
-    private void runOneProblem(TaskWithReset task) {
+    private void runOneProblem(TaskWithReset task, BankOfResults allSingleProblemRunResults) {
     	long start=0;
     	long duration=0;
         for (Algorithm al: listOfAlgorithmsPlayers) {
@@ -155,6 +157,7 @@ public abstract class RatingBenchmark {
                 }
                 
                 Individual bestByALg = al.run(task); //check if result is fake!
+                
                 duration = System.currentTimeMillis()-start;
                 al.addRunDuration(duration);
                 if (printSingleRunDuration) System.out.println(duration/1000);
@@ -162,8 +165,9 @@ public abstract class RatingBenchmark {
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
                   Individual best = task.eval(bestByALg.getX());
                   if (best.getEval()!=bestByALg.getEval()) 
-                  System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result real"+best.getEval()+" is different than "+bestByALg.getEval());
+                     System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result real"+best.getEval()+" is different than "+bestByALg.getEval());
                   results.add(new AlgorithmEvalResult(best, al)); 
+                  allSingleProblemRunResults.add(task.getProblem(), best, al);
                 }
                 else {
                     System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result "+bestByALg+" is out of intervals! For task:"+task.getProblemShortName());
@@ -233,14 +237,15 @@ public abstract class RatingBenchmark {
      * Fill all data!
      *  
      * @param arena needs to be filed with players and their ratings
+     * @param allSingleProblemRunResults 
      * @param repetition
      */
-    public void run(ResultArena arena, int repetition) {
+    public void run(ResultArena arena, BankOfResults allSingleProblemRunResults, int repetition) {
         duelNumber = repetition;
         parameters.put(EnumBenchmarkInfoParameters.NUMBER_OF_DEULS, ""+repetition);
         for (TaskWithReset t:listOfProblems) {
             for (int i=0; i<repetition; i++) {
-                runOneProblem(t);
+                runOneProblem(t,allSingleProblemRunResults);
                 setWinLoseFromResultList(arena,t);
                 results.clear();
             }
