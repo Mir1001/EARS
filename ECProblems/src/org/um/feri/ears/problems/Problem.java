@@ -64,6 +64,8 @@ public abstract class Problem {
 	public static final int CONSTRAINED_TYPE_SUM=2;
 	public static final int CONSTRAINED_TYPE_NORMALIZATION=3;
 	public static int constrained_type = CONSTRAINED_TYPE_SUM;
+	public static final int NOT_SHIFTED=0;
+	public static final int SHIFTED=1;
 	// http://www.ints.info.hiroshima-cu.ac.jp/~takahama/eng/index.html
 	
 	/**
