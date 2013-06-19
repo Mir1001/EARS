@@ -7,14 +7,24 @@ import java.util.Random;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.SchwefelShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
+
 public class F19 extends Problem {
 	
 	int[] P;
+	SchwefelShifted schwefel_shifted;
 
 	// F19 CEC 2010
 	// Shifted Schwefel's Problem 1.2
 	public F19(int d) {
 		dim = d;
+		schwefel_shifted = new SchwefelShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 200);
@@ -32,10 +42,7 @@ public class F19 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		
-		SchwefelShifted schwefel_shifted = new SchwefelShifted(dim);
 		F = schwefel_shifted.eval(x,P,0,dim);
-		
 		return F;
 	}
 

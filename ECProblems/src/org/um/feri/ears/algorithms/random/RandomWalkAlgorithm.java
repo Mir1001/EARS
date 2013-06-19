@@ -60,7 +60,7 @@ public class RandomWalkAlgorithm extends Algorithm {
 		au =  new Author("matej", "matej.crepinsek at uni-mb.si");
 	}
 	public RandomWalkAlgorithm(boolean d) {
-	    super();
+	    this();
 		setDebug(d); 
 	}
 	

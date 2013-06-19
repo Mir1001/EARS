@@ -7,14 +7,24 @@ import java.util.Random;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.AckleyShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
+
 public class F3 extends Problem {
 	
 	int[] P;
+	AckleyShifted ackley_shifted;
 	
 	// F3 CEC 2010
 	// Shifted Ackley's Function
 	public F3(int d) {
 		dim = d;
+		ackley_shifted = new AckleyShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 64);
@@ -32,7 +42,6 @@ public class F3 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		AckleyShifted ackley_shifted = new AckleyShifted(dim);
 		F = ackley_shifted.eval(x,P,0,dim);
 		return F;
 	}

@@ -1,21 +1,30 @@
 package org.um.feri.ears.problems.unconstrained.cec2010;
 
-
 import java.util.Arrays;
 import java.util.Random;
 
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.SchwefelShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
+
 public class F17 extends Problem {
 	
 	int[] P;
 	int m;
+	SchwefelShifted schwefel_shifted;
 	
 	// F17 CEC 2010
 	// D/m-group Shifted and m-rotated Schwefel's Problem 1.2
 	public F17(int d) {
 		dim = d;
+		schwefel_shifted = new SchwefelShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 200);
@@ -35,11 +44,9 @@ public class F17 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		SchwefelShifted schwefel_shifted = new SchwefelShifted(dim);
 		for (int k=0; k<dim/m; k++){
 			F = F + schwefel_shifted.eval(x,P,k*m+1,(k+1)*m);
 		}
-		
 		return F;
 	}
 

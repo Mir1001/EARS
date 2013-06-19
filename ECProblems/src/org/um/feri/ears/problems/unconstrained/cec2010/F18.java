@@ -7,15 +7,25 @@ import java.util.Random;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.RosenbrockShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
+
 public class F18 extends Problem {
 	
 	int[] P;
 	int m;
+	RosenbrockShifted rosenbrock_shifted;
 	
 	// F18 CEC 2010
 	// D/m-group Shifted and m-rotated Rosenbrock's Problem 1.2
 	public F18(int d) {
 		dim = d;
+		rosenbrock_shifted = new RosenbrockShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 200);
@@ -35,7 +45,6 @@ public class F18 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		RosenbrockShifted rosenbrock_shifted = new RosenbrockShifted(dim);
 		for (int k=0; k<dim/m; k++){
 			F = F + rosenbrock_shifted.eval(x,P,k*m+1,(k+1)*m);
 		}

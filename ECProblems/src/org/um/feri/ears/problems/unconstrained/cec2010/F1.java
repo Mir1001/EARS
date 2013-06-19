@@ -9,9 +9,8 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.EllipticShifted;
 
 /**
  * Problem function!
- * <p>
  * 
- * @author Matej Crepinsek
+ * @author Niki Vecek
  * @version 1
  * 
  **/	
@@ -19,11 +18,13 @@ public class F1 extends Problem {
      
 	int[] P;
 	int type;
+	EllipticShifted elliptic_shifted;
 	// F1 CEC 2010
 	// Shifted Elliptic Function
 	public F1(int d) {
 		type=Problem.SHIFTED;
 		dim = d;
+		elliptic_shifted = new EllipticShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 200);
@@ -41,7 +42,6 @@ public class F1 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		EllipticShifted elliptic_shifted = new EllipticShifted(dim);
 		F = elliptic_shifted.eval(x,P,0,dim);
 		return F;
 	}

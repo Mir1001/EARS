@@ -8,15 +8,27 @@ import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.SchwefelShifted;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.SphereShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
+
 public class F7 extends Problem {
 	
 	int[] P;
 	int m;
+	SchwefelShifted schwefel_shifted;
+	SphereShifted sphere_shifted;
 	
 	// F7 CEC 2010
 	// Single-group Shifted m-dimensional Schwefel's Problem 1.2
 	public F7(int d) {
 		dim = d;
+		schwefel_shifted = new SchwefelShifted(dim);
+		sphere_shifted = new SphereShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 200);
@@ -36,10 +48,7 @@ public class F7 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		SchwefelShifted schwefel_shifted = new SchwefelShifted(dim);
-		SphereShifted sphere_shifted= new SphereShifted(dim);
 		F = schwefel_shifted.eval(x,P,0,m)*1000000 + sphere_shifted.eval(x,P,m+1,dim);
-		
 		return F;
 	}
 

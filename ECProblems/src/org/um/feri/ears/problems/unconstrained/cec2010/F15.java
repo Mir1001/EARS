@@ -4,8 +4,18 @@ package org.um.feri.ears.problems.unconstrained.cec2010;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.ejml.data.DenseMatrix64F;
+import org.ejml.ops.RandomMatrices;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.RastriginRotated;
+
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
 
 public class F15 extends Problem {
 	
@@ -13,6 +23,7 @@ public class F15 extends Problem {
 	int m;
 	public double[][] rot_matrix;
 	RastriginRotated rastrigin_rotated;
+	
 	// F15 CEC 2010
 	// D/m-group Shifted and m-rotated Rastrigin's Function
 	public F15(int d) {
@@ -34,15 +45,14 @@ public class F15 extends Problem {
 		
 		m = 2;
 		
-		rot_matrix = new double[dim][dim];
+		rot_matrix = new double[m][m];
 		
-		//Random rand = new Random();
-		//DenseMatrix64F A = RandomMatrices.createOrthogonal(dim, dim, rand);
+		Random rand1 = new Random();
+		DenseMatrix64F A = RandomMatrices.createOrthogonal(m, m, rand1);
 		
-		for (int i=0; i<dim; i++){
-			for (int j=0; j<dim; j++){
-				if (i==j)rot_matrix[i][j] = 1;
-				else rot_matrix[i][j] = 0;
+		for (int i=0; i<m; i++){
+			for (int j=0; j<m; j++){
+				rot_matrix[i][j] = A.get(i, j);
 			}
 		}
 	}

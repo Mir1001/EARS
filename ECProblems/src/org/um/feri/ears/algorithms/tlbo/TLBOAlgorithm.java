@@ -131,7 +131,11 @@ public class TLBOAlgorithm extends Algorithm {
             if (task.isFirstBetter(a, b)) {
                 return -1;
             }
-            return 1;
+            if (task.isFirstBetter(b, a)) {
+                return 1;
+            }
+            	
+            return 0;
         }
     }
 

@@ -6,14 +6,24 @@ import java.util.Random;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.RastriginShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/	
+
 public class F2 extends Problem {
 	
 	int[] P;
+	RastriginShifted rastrigin_shifted;
 	
 	// F2 CEC 2010
 	// Shifted Rastrigin's Function
 	public F2(int d) {
 		dim = d;
+		rastrigin_shifted = new RastriginShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 10);
@@ -31,7 +41,6 @@ public class F2 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		RastriginShifted rastrigin_shifted = new RastriginShifted(dim);
 		F = rastrigin_shifted.eval(x,P,0,dim);
 		return F;
 	}

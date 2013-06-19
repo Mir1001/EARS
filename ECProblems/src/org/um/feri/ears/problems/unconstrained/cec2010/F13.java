@@ -8,15 +8,27 @@ import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.RosenbrockShifted;
 import org.um.feri.ears.problems.unconstrained.cec2010.base.SphereShifted;
 
+/**
+ * Problem function!
+ * 
+ * @author Niki Vecek
+ * @version 1
+ * 
+ **/
+
 public class F13 extends Problem {
 	
 	int[] P;
 	int m;
+	RosenbrockShifted rosenbrock_shifted;
+	SphereShifted sphere_shifted;
 	
 	// F13 CEC 2010
 	// D/2m-group Shifted m-dimensional Rosenbrock's Function
 	public F13(int d) {
 		dim = d;
+		rosenbrock_shifted = new RosenbrockShifted(dim);
+		sphere_shifted= new SphereShifted(dim);
 		interval = new double[d];
 		intervalL = new double[d];
 		Arrays.fill(interval, 200);
@@ -36,13 +48,10 @@ public class F13 extends Problem {
 	
 	public double eval(double x[]) {
 		double F = 0;
-		RosenbrockShifted rosenbrock_shifted = new RosenbrockShifted(dim);
-		SphereShifted sphere_shifted= new SphereShifted(dim);
 		for (int k=0; k<dim/(2*m); k++){
 			F = F + rosenbrock_shifted.eval(x,P,k*m+1,(k+1)*m);
 		}
 		F = F + sphere_shifted.eval(x,P,dim/2,dim);
-		
 		return F;
 	}
 
