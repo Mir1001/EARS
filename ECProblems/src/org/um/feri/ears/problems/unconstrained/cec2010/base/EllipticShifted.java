@@ -10,7 +10,7 @@ public class EllipticShifted{
 		dim = d;
 		shifted_optimum = new double[dim];
 		for (int i=0; i<dim; i++){
-			shifted_optimum[i] = 5;
+			shifted_optimum[i] = 2.7;
 		}
 	}
 	
@@ -18,10 +18,12 @@ public class EllipticShifted{
 		double F = 0;
 		
 		double[] z = new double[dim];
+		double k=1.0;
 		for (int i=start; i<end; i++){
 			int j = P[i];
 			z[i] = x[j] - shifted_optimum[j];	
-			F += Math.pow(1000000, (i-1)/(dim-1))*z[i]*z[i];
+			F += Math.pow(1000000, (k-1.0)/((end-start)-1.0))*z[i]*z[i];
+			k = k + 1.0;
 		}
 		
 		return F;

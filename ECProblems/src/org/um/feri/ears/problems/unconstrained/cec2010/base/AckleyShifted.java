@@ -10,23 +10,22 @@ public class AckleyShifted{
 		dim = d;
 		shifted_optimum = new double[dim];
 		for (int i=0; i<dim; i++){
-			shifted_optimum[i] = 2.5;
+			shifted_optimum[i] = 0.43;
 		}
 	}
 	
 	public double eval(double x[], int[] P, int start, int end) {
 		double F=0;
-		double sphere=0;
-		double cos=0;
-		int dim = x.length;
+		double sphere_sum=0;
+		double cos_sum=0;
 		double[] z = new double[dim];
 		for (int i=start; i<end; i++){
 			int j = P[i];
 			z[i] = x[j] - shifted_optimum[j];	
-			sphere+=z[i]*z[i];
-			cos+=Math.cos(2*Math.PI*z[i]);
+			sphere_sum += z[i]*z[i];
+			cos_sum    += Math.cos(2*Math.PI*z[i]);
 		}
-		F = -20*Math.exp(-0.2*Math.sqrt(1/dim * sphere)) - Math.exp(cos) + 20 + Math.E;
+		F = -20*Math.exp(-0.2*Math.sqrt(1.0/(end-start) * sphere_sum)) - Math.exp(1.0/(end-start) * cos_sum) + 20.0 + Math.E;
 		return F;
 	}
 }

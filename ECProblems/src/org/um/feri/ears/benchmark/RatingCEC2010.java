@@ -48,13 +48,15 @@ import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.TaskWithReset;
+import org.um.feri.ears.problems.unconstrained.ProblemAckley;
+import org.um.feri.ears.problems.unconstrained.ProblemRosenbrock;
 import org.um.feri.ears.problems.unconstrained.cec2010.*;
 
 //TODO calculate CD for rating
 public class RatingCEC2010 extends RatingBenchmark{
     public static final String name="Benchmark CEC 2010";
-    protected int evaluationsOnDimension=3000;
-    protected int dimension=3;
+    protected int evaluationsOnDimension=4500;
+    protected int dimension=4;
     private double draw_limit=0.0000001;
     
     public boolean resultEqual(Individual a, Individual b) {
@@ -70,10 +72,10 @@ public class RatingCEC2010 extends RatingBenchmark{
     public RatingCEC2010(double draw_limit) {
         super();
         this.draw_limit = draw_limit;
-        evaluationsOnDimension=3000;
-        dimension=3;
+        evaluationsOnDimension=4500;
+        dimension=4;
         initFullProblemList();
-        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"3");
+        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"4");
         addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluationsOnDimension));
         addParameter(EnumBenchmarkInfoParameters.DRAW_PARAM,"abs(evaluation_diff) < "+draw_limit);
     }

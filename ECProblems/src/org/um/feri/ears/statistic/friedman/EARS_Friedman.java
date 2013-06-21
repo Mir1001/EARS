@@ -104,9 +104,10 @@ public class EARS_Friedman {
         BankOfResults br = m.getBankOfResults();
         FriedmanTransport fr = br.calc4Friedman();
         fr.print();
-
+        System.out.println("");
+        
         //System.out.println(br);
-        System.out.println(m);
+        //System.out.println(m);
         
         ArrayList<PlayerAlgorithmExport> vsi = m.getListAll();  
         

@@ -38,9 +38,15 @@ public class F15 extends Problem {
 		P = new int[dim];
 		Random rand = new Random();
 		int rand_place = 0;
-		for (int i=dim-1; i>0; i--){
+		
+		for (int i=0; i<dim; i++) P[i] = i;
+		
+		int temp;
+		for (int i=dim-1; i>=0; i--){
 			rand_place = rand.nextInt(dim);
-			P[i] = rand_place;			
+			temp = P[i];
+			P[i] = P[rand_place];	
+			P[rand_place] = temp;
 		}
 		
 		m = 2;
@@ -60,7 +66,7 @@ public class F15 extends Problem {
 	public double eval(double x[]) {
 		double F = 0;
 		for (int k=0; k<dim/m; k++){
-			F = F + rastrigin_rotated.eval(x,P,k*m+1,(k+1)*m, rot_matrix);
+			F = F + rastrigin_rotated.eval(x,P,k*m,k*m+m,rot_matrix);
 		}
 		return F;
 	}

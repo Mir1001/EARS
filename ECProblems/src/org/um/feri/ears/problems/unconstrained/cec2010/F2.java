@@ -33,9 +33,15 @@ public class F2 extends Problem {
 		P = new int[dim];
 		Random rand = new Random();
 		int rand_place = 0;
-		for (int i=dim-1; i>0; i--){
+		
+		for (int i=0; i<dim; i++) P[i] = i;
+		
+		int temp;
+		for (int i=dim-1; i>=0; i--){
 			rand_place = rand.nextInt(dim);
-			P[i] = rand_place;			
+			temp = P[i];
+			P[i] = P[rand_place];	
+			P[rand_place] = temp;
 		}
 	}
 	
