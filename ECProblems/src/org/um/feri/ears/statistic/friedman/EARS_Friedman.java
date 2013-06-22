@@ -91,13 +91,14 @@ import com.um.feri.brest.de.DEAlgorithm;
  */
 public class EARS_Friedman {
     public static void main(String[] args) {
-    	RatingCEC2010 b2 = new RatingCEC2010(0.001);
+    	RatingCEC2010 b2 = new RatingCEC2010(0.0000001);
         RunMain m = new RunMain(false, false, b2) ;
         m.addAlgorithm(new RandomWalkAlgorithm(),new Rating(1500, 350, 0.06)); // RWSi
         m.addAlgorithm(new BeeColonyAlgorithm(),new Rating(1500, 350, 0.06));  // ABC
         m.addAlgorithm(new TLBOAlgorithm(),new Rating(1500, 350, 0.06));       // TLBO
         m.addAlgorithm(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin, 20),new Rating(1500, 350, 0.06));  //jDE
         m.addAlgorithm(new ES1p1sAlgorithm(),new Rating(1500, 350, 0.06)); // ES
+        //m.addAlgorithm(new CMA_ES_Algorithm(true),new Rating(1500, 350, 0.06)); //CMA-ES
         for (int k=1;k<11;k++)
             m.addAlgorithm(new DEAlgorithm(k,20),new Rating(1500, 350, 0.06));
         m.run(25);

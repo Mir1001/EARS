@@ -52,7 +52,7 @@ public class F18 extends Problem {
 	public double eval(double x[]) {
 		double F = 0;
 		for (int k=0; k<dim/m; k++){
-			F = F + rosenbrock_shifted.eval(x,P,k*m+1,(k+1)*m);
+			F = F + rosenbrock_shifted.eval(x,P,k*m,(k+1)*m);
 		}
 		
 		return F;

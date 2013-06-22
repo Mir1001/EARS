@@ -123,6 +123,9 @@ public class RatingCalculations {
 
                 postRating = rating + (postRD * postRD) * performanceRatingFromGameOutcomes;
             }
+            // Let RD not drop under 30
+            if (postRD<0.1727) postRD = 0.1727;
+            
             Rating tmp = new Rating(Rating.setGlicko2Rating(postRating), Rating.setGlicko2RatingDeviation(postRD), postRatingVolatility);
             newPlayerRatings.put(id, tmp);
         }

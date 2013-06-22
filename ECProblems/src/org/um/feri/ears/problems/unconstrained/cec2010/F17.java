@@ -51,7 +51,7 @@ public class F17 extends Problem {
 	public double eval(double x[]) {
 		double F = 0;
 		for (int k=0; k<dim/m; k++){
-			F = F + schwefel_shifted.eval(x,P,k*m+1,(k+1)*m);
+			F = F + schwefel_shifted.eval(x,P,k*m,(k+1)*m);
 		}
 		return F;
 	}
