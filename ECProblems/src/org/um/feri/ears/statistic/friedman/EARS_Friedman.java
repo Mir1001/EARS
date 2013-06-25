@@ -56,6 +56,7 @@ import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.PlayerAlgorithmExport;
+import org.um.feri.ears.algorithms.cma.CMA_ESAlgorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
@@ -98,7 +99,7 @@ public class EARS_Friedman {
         m.addAlgorithm(new TLBOAlgorithm(),new Rating(1500, 350, 0.06));       // TLBO
         m.addAlgorithm(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin, 20),new Rating(1500, 350, 0.06));  //jDE
         m.addAlgorithm(new ES1p1sAlgorithm(),new Rating(1500, 350, 0.06)); // ES
-        //m.addAlgorithm(new CMA_ES_Algorithm(true),new Rating(1500, 350, 0.06)); //CMA-ES
+        m.addAlgorithm(new CMA_ESAlgorithm(true),new Rating(1500, 350, 0.06)); //CMA-ES
         for (int k=1;k<11;k++)
             m.addAlgorithm(new DEAlgorithm(k,20),new Rating(1500, 350, 0.06));
         m.run(25);

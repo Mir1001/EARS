@@ -50,12 +50,32 @@ import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.TaskWithReset;
 import org.um.feri.ears.problems.unconstrained.*;
+import org.um.feri.ears.problems.unconstrained.cec2010.F1;
+import org.um.feri.ears.problems.unconstrained.cec2010.F10;
+import org.um.feri.ears.problems.unconstrained.cec2010.F11;
+import org.um.feri.ears.problems.unconstrained.cec2010.F12;
+import org.um.feri.ears.problems.unconstrained.cec2010.F13;
+import org.um.feri.ears.problems.unconstrained.cec2010.F14;
+import org.um.feri.ears.problems.unconstrained.cec2010.F15;
+import org.um.feri.ears.problems.unconstrained.cec2010.F16;
+import org.um.feri.ears.problems.unconstrained.cec2010.F17;
+import org.um.feri.ears.problems.unconstrained.cec2010.F18;
+import org.um.feri.ears.problems.unconstrained.cec2010.F19;
+import org.um.feri.ears.problems.unconstrained.cec2010.F2;
+import org.um.feri.ears.problems.unconstrained.cec2010.F20;
+import org.um.feri.ears.problems.unconstrained.cec2010.F3;
+import org.um.feri.ears.problems.unconstrained.cec2010.F4;
+import org.um.feri.ears.problems.unconstrained.cec2010.F5;
+import org.um.feri.ears.problems.unconstrained.cec2010.F6;
+import org.um.feri.ears.problems.unconstrained.cec2010.F7;
+import org.um.feri.ears.problems.unconstrained.cec2010.F8;
+import org.um.feri.ears.problems.unconstrained.cec2010.F9;
 import org.um.feri.ears.rating.ResultArena;
 
 //TODO calculate CD for rating
 public class RatingRPUOed30 extends RatingBenchmark {
     public static final String name="Real Parameter Unconstrained Optimization Problems with maximum evaluation condition";
-    protected int evaluations=1000;
+    protected int evaluations=5000;
     public static double DRAW_LIMIT = 0.000001;
     int dim;
     public boolean resultEqual(Individual a, Individual b) {
@@ -70,7 +90,7 @@ public class RatingRPUOed30 extends RatingBenchmark {
     }
     public RatingRPUOed30(int D, int EV) {
         super();
-        evaluations=150000;
+        evaluations=5000;
         dim = D;
         initFullProblemList();
         addParameter(EnumBenchmarkInfoParameters.DIMENSION,String.valueOf(D));
@@ -90,13 +110,28 @@ public class RatingRPUOed30 extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        registerTask(new ProblemAckley(dim),stopCriteria, evaluations, 0.001);
-        registerTask(new ProblemGriewank(dim),stopCriteria, evaluations, 0.001);
-        registerTask(new ProblemRastrigin(dim),stopCriteria, evaluations, 0.001);
-        registerTask(new ProblemRosenbrock(dim),stopCriteria, evaluations, 0.001);
-        registerTask(new ProblemSchwefel(dim),stopCriteria, evaluations, 0.001);
-        registerTask(new ProblemSchwefelRidge(dim),stopCriteria, evaluations, 0.001);
-        registerTask(new ProblemSphere(dim),stopCriteria, evaluations, 0.001);
+    	int dimension = 5;
+    	int evaluationsOnDimension = 3000;
+    	registerTask(new F1(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F2(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F3(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F4(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F5(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F6(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F7(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F8(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F9(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F10(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F11(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F12(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F13(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F14(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F15(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F16(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F17(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F18(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F19(dimension),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new F20(dimension),stopCriteria, evaluationsOnDimension, 0.001);
     }
         
     /* (non-Javadoc)
