@@ -19,6 +19,13 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.SphereShifted;
 public class F7 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	int m;
 	SchwefelShifted schwefel_shifted;
 	SphereShifted sphere_shifted;
@@ -26,6 +33,13 @@ public class F7 extends Problem {
 	// F7 CEC 2010
 	// Single-group Shifted m-dimensional Schwefel's Problem 1.2
 	public F7(int d) {
+		
+		properties_multimodal=Problem.UNIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.NOT_ROTATED;
+		
 		dim = d;
 		schwefel_shifted = new SchwefelShifted(dim);
 		sphere_shifted = new SphereShifted(dim);

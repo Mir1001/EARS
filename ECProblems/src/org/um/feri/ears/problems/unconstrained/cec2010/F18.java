@@ -18,12 +18,26 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.RosenbrockShifted;
 public class F18 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	int m;
 	RosenbrockShifted rosenbrock_shifted;
 	
 	// F18 CEC 2010
 	// D/m-group Shifted and m-rotated Rosenbrock's Problem 1.2
 	public F18(int d) {
+		
+		properties_multimodal=Problem.MULTIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.NOT_ROTATED;
+		
 		dim = d;
 		rosenbrock_shifted = new RosenbrockShifted(dim);
 		interval = new double[d];

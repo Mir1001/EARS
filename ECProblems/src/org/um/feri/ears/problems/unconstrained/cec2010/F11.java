@@ -21,6 +21,13 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.AckleyShifted;
 public class F11 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	int m;
 	public double[][] rot_matrix;
 	AckleyShifted ackley_shifted;
@@ -29,6 +36,13 @@ public class F11 extends Problem {
 	// F11 CEC 2010
 	// D/2m-group Shifted and m-rotated Ackley's Function
 	public F11(int d) {
+		
+		properties_multimodal=Problem.MULTIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.ROTATED;
+		
 		dim = d;
 		ackley_shifted = new AckleyShifted(dim);
 		ackley_rotated= new AckleyRotated(dim);

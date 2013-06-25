@@ -19,6 +19,13 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.SphereShifted;
 public class F13 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	int m;
 	RosenbrockShifted rosenbrock_shifted;
 	SphereShifted sphere_shifted;
@@ -26,6 +33,13 @@ public class F13 extends Problem {
 	// F13 CEC 2010
 	// D/2m-group Shifted m-dimensional Rosenbrock's Function
 	public F13(int d) {
+		
+		properties_multimodal=Problem.MULTIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.NOT_ROTATED;
+		
 		dim = d;
 		rosenbrock_shifted = new RosenbrockShifted(dim);
 		sphere_shifted= new SphereShifted(dim);

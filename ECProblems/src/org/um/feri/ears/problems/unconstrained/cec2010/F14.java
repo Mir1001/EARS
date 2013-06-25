@@ -20,6 +20,13 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.EllipticRotated;
 public class F14 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	int m;
 	public double[][] rot_matrix;
 	EllipticRotated elliptic_rotated;
@@ -27,6 +34,13 @@ public class F14 extends Problem {
 	// F14 CEC 2010
 	// D/m-group Shifted and m-rotated Elliptic Function
 	public F14(int d) {
+		
+		properties_multimodal=Problem.UNIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.ROTATED;
+		
 		dim = d;
 		elliptic_rotated = new EllipticRotated(dim);
 		interval = new double[d];

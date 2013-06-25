@@ -20,6 +20,13 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.RastriginRotated;
 public class F15 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	int m;
 	public double[][] rot_matrix;
 	RastriginRotated rastrigin_rotated;
@@ -27,6 +34,13 @@ public class F15 extends Problem {
 	// F15 CEC 2010
 	// D/m-group Shifted and m-rotated Rastrigin's Function
 	public F15(int d) {
+		
+		properties_multimodal=Problem.MULTIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.ROTATED;
+		
 		dim = d;
 		rastrigin_rotated= new RastriginRotated(dim);
 		interval = new double[d];

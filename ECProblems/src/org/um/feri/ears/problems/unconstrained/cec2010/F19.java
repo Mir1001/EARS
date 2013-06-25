@@ -18,11 +18,25 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.SchwefelShifted;
 public class F19 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	SchwefelShifted schwefel_shifted;
 
 	// F19 CEC 2010
 	// Shifted Schwefel's Problem 1.2
 	public F19(int d) {
+		
+		properties_multimodal=Problem.UNIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.NOT_SEPARABLE;
+		properties_scalable=Problem.NOT_SCALABLE;
+		properties_rotated=Problem.NOT_ROTATED;
+		
 		dim = d;
 		schwefel_shifted = new SchwefelShifted(dim);
 		interval = new double[d];

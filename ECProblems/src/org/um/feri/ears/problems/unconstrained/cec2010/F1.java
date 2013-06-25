@@ -17,12 +17,24 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.EllipticShifted;
 public class F1 extends Problem {
      
 	int[] P;
-	int type;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	EllipticShifted elliptic_shifted;
 	// F1 CEC 2010
 	// Shifted Elliptic Function
 	public F1(int d) {
-		type=Problem.SHIFTED;
+		
+		properties_multimodal=Problem.UNIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.SEPARABLE;
+		properties_scalable=Problem.SCALABLE;
+		properties_rotated=Problem.NOT_ROTATED;
+		
 		dim = d;
 		elliptic_shifted = new EllipticShifted(dim);
 		interval = new double[d];

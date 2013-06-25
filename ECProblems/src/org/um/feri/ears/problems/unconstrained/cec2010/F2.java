@@ -17,11 +17,25 @@ import org.um.feri.ears.problems.unconstrained.cec2010.base.RastriginShifted;
 public class F2 extends Problem {
 	
 	int[] P;
+	
+	int properties_multimodal;
+	int properties_shifted;
+	int properties_separable;
+	int properties_scalable;
+	int properties_rotated;
+	
 	RastriginShifted rastrigin_shifted;
 	
 	// F2 CEC 2010
 	// Shifted Rastrigin's Function
 	public F2(int d) {
+		
+		properties_multimodal=Problem.MULTIMODAL;
+		properties_shifted=Problem.SHIFTED;
+		properties_separable=Problem.SEPARABLE;
+		properties_scalable=Problem.SCALABLE;	
+		properties_rotated=Problem.NOT_ROTATED;
+		
 		dim = d;
 		rastrigin_shifted = new RastriginShifted(dim);
 		interval = new double[d];
