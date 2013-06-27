@@ -53,8 +53,8 @@ import org.um.feri.ears.problems.unconstrained.cec2010.*;
 //TODO calculate CD for rating
 public class RatingCEC2010 extends RatingBenchmark{
     public static final String name="Benchmark CEC 2010";
-    protected int evaluationsOnDimension=5000;
-    protected int dimension=10;
+    protected int evaluationsOnDimension=1000;
+    protected int dimension=5;
     private double draw_limit=0.0000001;
     
     public boolean resultEqual(Individual a, Individual b) {
@@ -70,10 +70,10 @@ public class RatingCEC2010 extends RatingBenchmark{
     public RatingCEC2010(double draw_limit) {
         super();
         this.draw_limit = draw_limit;
-        evaluationsOnDimension=5000;
-        dimension=10;
+        evaluationsOnDimension=1000;
+        dimension=5;
         initFullProblemList();
-        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"10");
+        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"5");
         addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluationsOnDimension));
         addParameter(EnumBenchmarkInfoParameters.DRAW_PARAM,"abs(evaluation_diff) < "+draw_limit);
     }

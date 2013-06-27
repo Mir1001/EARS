@@ -9,6 +9,10 @@ public class Friedman_2 {
 	
    public static Results[] statistics_results;
    public static PairStatistics[] statistics_pairs_p_values;
+   public static double FriedmanStat;
+   public static double FriedmanStatPValue;
+   public static double ImanDenverStat;
+   public static double ImanDenverPValue;
 	
    public static Results[] getResults(){
 	   return statistics_results;
@@ -155,24 +159,26 @@ public class Friedman_2 {
         	statistics_results[i].setName(algoritmos.elementAt(i).toString());
         	statistics_results[i].setAverageRank(Rj[i]);
         }
+
+        double pFriedman, pIman;
         
 	    /* Compute the Friedman statistic */
-        
 	    termino1 = (12*(double)datasets.size())/((double)algoritmos.size()*((double)algoritmos.size()+1));
 	    termino2 = (double)algoritmos.size()*((double)algoritmos.size()+1)*((double)algoritmos.size()+1)/(4.0);
 	    for (i=0; i<algoritmos.size();i++) {
 	    	sumatoria += Rj[i]*Rj[i];
 	    }
 	    friedman = (sumatoria - termino2) * termino1;
-	   
-		double pFriedman, pIman;
+	    FriedmanStat = friedman;
         pFriedman = ChiSq(friedman, (algoritmos.size()-1));
-
-        
+        FriedmanStatPValue = pFriedman;
+ 
 	    /*Compute the Iman-Davenport statistic*/
 	    iman = ((datasets.size()-1)*friedman)/(datasets.size()*(algoritmos.size()-1) - friedman);
+	    ImanDenverStat = iman;
 		pIman = FishF(iman, (algoritmos.size()-1),(algoritmos.size()-1) * (datasets.size() - 1));
-
+		ImanDenverPValue = pIman;
+		
 	    termino3 = Math.sqrt((double)algoritmos.size()*((double)algoritmos.size()+1)/(6.0*(double)datasets.size()));
 	    
 	    
@@ -235,6 +241,26 @@ public class Friedman_2 {
 	    		pos = (int)combinatoria(2,algoritmos.size()) - Tarray[tmp];
 	    	}
 	    }
+	    
+	    /*Compute the rejected hipotheses for each test*/
+	    
+        /*System.out.println("Nemenyi's procedure rejects those hypotheses that have a p-value $\\le"+0.05/(double)(order.length)+"$.\n\n");
+	    
+	    parar = false;
+	    for (i=0; i<order.length && !parar; i++) {
+	    	if (Pi[i] > ALPHAiHolm[i]) {	    		
+	    		System.out.println("Holm's procedure rejects those hypotheses that have a p-value $\\le"+ALPHAiHolm[i]+"$.\n\n");
+	    		parar = true;
+	    	}
+	    }
+
+	    parar = false;
+	    for (i=0; i<order.length && !parar; i++) {
+	    	if (Pi[i] <= ALPHAiShaffer[i]) {	    		
+	    		System.out.println("Shaffer's procedure rejects those hypotheses that have a p-value $\\le"+ALPHAiShaffer[i]+"$.\n\n");
+	    		parar = true;
+	    	}
+	    } */
         
 	  
 		/*For Bergmann-Hommel's procedure, 9 algorithms could suppose intense computation*/
