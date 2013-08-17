@@ -56,6 +56,7 @@ public class RandomWalkAlgorithm extends Algorithm { //needs to me extended
 }
 
 - Next step is to run your algorithm.
+- 
 Example:
 public class Main4Run {
 	public static void main(String[] args) {
@@ -70,6 +71,7 @@ public class Main4Run {
 }
 
 -For rating you need more than one algorithm (player) and more than one task (banchmark)).
+
 Example:
 public class MainBenchMarkTest {
     public static void main(String[] args) {
