@@ -1,4 +1,5 @@
 EARS - Evolutionary Algorithms Rating System
+============================================
 
 EARS in action http://earatingsystem.appspot.com
 
@@ -18,6 +19,7 @@ How to use it!
 - Modify algorithm to work with EARS
 
 Example:
+```java
 public class RandomWalkAlgorithm extends Algorithm { //needs to me extended 
 	private Individual i; //EARS Individual includes solution vector and its fitness value
   private boolean debug = true;
@@ -54,10 +56,13 @@ public class RandomWalkAlgorithm extends Algorithm { //needs to me extended
   }
 
 }
+```
+Run it on single task:
 
-- Next step is to run your algorithm.
-- 
+- Run your algorithm.
+
 Example:
+```java
 public class Main4Run {
 	public static void main(String[] args) {
 		Task t = new Task(EnumStopCriteria.EVALUATIONS, 3000, 0.0001, new ProblemSphere(5)); //run problem Sphere Dimension 5, 3000 evaluations
@@ -69,10 +74,13 @@ public class Main4Run {
 		}
 	}
 }
+```
+Compare:
 
 -For rating you need more than one algorithm (player) and more than one task (banchmark)).
 
 Example:
+```java
 public class MainBenchMarkTest {
     public static void main(String[] args) {
         Util.rnd.setSeed(System.currentTimeMillis());
@@ -93,6 +101,7 @@ public class MainBenchMarkTest {
         for (Player p: list) System.out.println(p); //print rangs
     }
 }
+```
 -Thats it.
 
 Tips:
