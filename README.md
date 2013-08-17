@@ -1,22 +1,22 @@
-EARS - Evolutionary Algorithms Rating System
-============================================
+Evolutionary Algorithms Rating System
+=====================================
 
 EARS in action http://earatingsystem.appspot.com
 
-What it is included:
-- some banchmarks with problem functions (Sphere, ...).
-- some already implemented test Alorithms
-- some simple test experiments
+What is included:
+* some banchmarks with problem functions (Sphere, ...).
+* some already implemented test Alorithms
+* some simple test experiments
 
 
 How to use it!
 
-- All projects are Eclipse java projects.
-- Download it use git in eclipse.
-- In same workspace create new java project.
-- Add Properties -> Java Build Path -> Projects -> EARS
-- Include your algorithm in the project.
-- Modify algorithm to work with EARS
+* All projects are Eclipse java projects.
+* Download it use git in eclipse.
+* In same workspace create new java project.
+* Add Properties -> Java Build Path -> Projects -> EARS
+* Include your algorithm in the project.
+* Modify algorithm to work with EARS
 
 Example:
 ```java
@@ -77,7 +77,7 @@ public class Main4Run {
 ```
 Compare:
 
--For rating you need more than one algorithm (player) and more than one task (banchmark)).
+* For rating you need more than one algorithm (player) and more than one task (banchmark)).
 
 Example:
 ```java
@@ -102,9 +102,13 @@ public class MainBenchMarkTest {
     }
 }
 ```
--Thats it.
 
-Tips:
-If you have special representation create your own individual by extending EARS Individual.
-class MyIndividual extends Individual
+Tips
+____
+
+* If you have special representation create your own individual by extending EARS Individual.
+"class MyIndividual extends Individual"
+* Search for main methods in EARS source code for mere examples.
+* All problem data (Dimension, Bounds, etc...) can be obtaint by Task in method public Individual run(Task taskProblem).
+* Check taskProblem.isStopCriteria() after every evaluation.
 
