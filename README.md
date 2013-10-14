@@ -95,7 +95,8 @@ public class MainBenchMarkTest {
           ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0); //init rating 1500
           suopm.registerAlgorithm(al);
         }
-        suopm.run(ra, 50); //repeat competition 50X
+        BankOfResults ba = new BankOfResults();
+	suopm.run(ra, ba, 50); //repeat competition 50X
         ArrayList<Player> list = new ArrayList<Player>();
         list.addAll(ra.recalcRangs()); //new rangs
         for (Player p: list) System.out.println(p); //print rangs
