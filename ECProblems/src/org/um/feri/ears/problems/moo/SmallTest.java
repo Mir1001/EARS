@@ -23,8 +23,8 @@ public class SmallTest {
        }
        System.out.println(problem.toExcel(pop));
        System.out.println();
-       ArrayList<MOIndividual> nondom = problem.getNonDominated(pop); 
-       System.out.println(problem.toExcel(nondom));
+       //ArrayList<MOIndividual> nondom = problem.getNonDominated(pop); 
+       //System.out.println(problem.toExcel(nondom));
     }
 
 }

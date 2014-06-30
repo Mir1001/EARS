@@ -63,7 +63,7 @@ public class MOProblem {
         return 0;
     }
     //http://en.wikipedia.org/wiki/Pareto_efficient 
-    public boolean isDominated(MOIndividual prvi, MOIndividual drugi) {
+    /*public boolean isDominated(MOIndividual prvi, MOIndividual drugi) {
         int temp = 0;
         int tempE = 0;
         for (int i = 0; i < prvi.getObjectives(); i++) {
@@ -74,18 +74,18 @@ public class MOProblem {
             if (prvi.getEval()[i] == drugi.getEval()[i]) {
                 temp++;
             }       
-            /*     if (prvi.getEval()[i] >= drugi.getEval()[i])
+                 if (prvi.getEval()[i] >= drugi.getEval()[i])
                 temp++;
             if (prvi.getEval()[i] > drugi.getEval()[i])
                 tempE++;
-                */
+                
         }
         if (temp == prvi.getObjectives() && tempE > 0)
             return true;
         return false;
-    }
+    }*/
 
-    public ArrayList<MOIndividual> getNonDominated(ArrayList<MOIndividual> populacija) {
+    /*public ArrayList<MOIndividual> getNonDominated(ArrayList<MOIndividual> populacija) {
         ArrayList<MOIndividual> tmp = new ArrayList<MOIndividual>();
         ArrayList<MOIndividual> tmp2 = new ArrayList<MOIndividual>();
         tmp.addAll(populacija);
@@ -108,7 +108,7 @@ public class MOProblem {
             }
         }
         return tmp;
-    }
+    }*/
     public String toExcel(ArrayList<MOIndividual> populacija) {
         StringBuffer sb = new StringBuffer();
         for (int i=0; i<populacija.size();i++) {

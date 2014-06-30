@@ -51,7 +51,7 @@ import org.um.feri.ears.util.Util;
 * 
 */
 public class Individual {
-	private double[] x;
+	protected double[] x;
     private double eval;
 	private double[] constrains; //TODO refactor 2 types of individual for constrained optimization
 	private boolean feasible; //Feasible checks constrains
@@ -66,6 +66,8 @@ public class Individual {
 		  System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
 		}
 	}
+	
+	public Individual(){}
 	
 	/**
 	 * !!!This constructor is for unconstrained optimization!

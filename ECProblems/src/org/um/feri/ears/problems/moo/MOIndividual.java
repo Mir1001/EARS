@@ -2,6 +2,7 @@ package org.um.feri.ears.problems.moo;
 
 import java.util.Comparator;
 
+import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.util.Util;
 
@@ -50,16 +51,20 @@ import org.um.feri.ears.util.Util;
 *          POSSIBILITY OF SUCH DAMAGE.
 * 
 */
-public class MOIndividual {
-	private double[] x;
+public class MOIndividual extends Individual {
+
     private double eval[]; //more than one objective
 	private double[] constrains; //TODO refactor 2 types of individual for constrained optimization
 	private boolean feasible; //Feasible checks constrains
-	public int getObjectives(){
-	    return eval.length;
-	}
+	private double fitness;
+	private double rank; 
+	private int location;
+	private double crowdingDistance;
+	
 	public MOIndividual(MOIndividual i) {
-		x = new double[i.x.length];
+		super(i);
+		
+		crowdingDistance = i.getCrowdingDistance();
 		eval = new double[i.eval.length];
 		System.arraycopy(i.x, 0, x, 0, x.length);
 	      System.arraycopy(i.eval, 0, eval, 0, eval.length);
@@ -71,6 +76,19 @@ public class MOIndividual {
 	}
 	
 	/**
+	   * Constructor
+	   * @param numberOfObjectives Number of objectives of the solution
+	   * 
+	   * This constructor is used mainly to read objective values from a file to
+	   * variables of a SolutionSet to apply quality indicators
+	   */
+	  public MOIndividual(int numberOfObjectives) {
+
+		eval  = new double[numberOfObjectives];
+	  }
+	  
+	
+	/**
 	 * !!!This constructor is for unconstrained optimization!
 	 * 
 	 * @param x
@@ -78,11 +96,12 @@ public class MOIndividual {
 	 * @deprecated
 	 */
 	public MOIndividual(double[] x, double[] eval) {
-		this.x = new double[x.length];
+		super(x,eval[0]);
 		System.arraycopy(x, 0, this.x, 0, x.length);
 		this.eval = eval;
 		feasible = true;
 	}
+	
 	/**
 	 * Use this constructor only in case of constrained optimization 
 	 * 
@@ -91,13 +110,21 @@ public class MOIndividual {
 	 * @param constrains
 	 */
 	public MOIndividual(double[] x, double eval[], double[] constrains) {
-	        this.x = new double[x.length];
-	        System.arraycopy(x, 0, this.x, 0, x.length);
-	        setFeasible(constrains);
-	        this.eval = new double[eval.length];
-	          System.arraycopy(eval, 0, this.eval, 0, eval.length);
+		super(x,eval[0],constrains);
+        System.arraycopy(x, 0, this.x, 0, x.length);
+        setFeasible(constrains);
+        this.eval = new double[eval.length];
+        System.arraycopy(eval, 0, this.eval, 0, eval.length);
 	}
 	
+	public MOIndividual(MOProblem2 problem) {
+
+		fitness = 0.0;
+		crowdingDistance = 0.0;
+	    eval = new double[problem.getNumberOfObjectives()];
+		x = problem.getVariables();
+	}
+
 	public double[] getConstrains() {
         return constrains;
     }
@@ -115,8 +142,58 @@ public class MOIndividual {
 	    }
 	}
     
-	public double[] getEval() {
-		return eval;
+    public double[] getDecisionVariables() {
+		return getX();
+	}
+    
+    public int numberOfObjectives() {
+	    if (eval == null)
+	      return 0;
+	    else
+	      return eval.length;
+	}
+    
+    public int numberOfVariables() {
+	    return x.length;
+	}
+    
+    public String toString() {
+		String aux = "";
+		for (int i = 0; i < numberOfObjectives(); i++)
+			aux = aux + this.getObjective(i) + " ";
+		return aux;
+	}
+	
+	public String toStringCSV() {
+		String aux = "";
+		for (int i = 0; i < numberOfObjectives(); i++)
+			aux = aux + this.getObjective(i) + ";";
+		aux = aux.replace(".", ",");
+		return aux;
+	}
+    
+    public void setObjective(int i, double value) {
+		eval[i] = value;
+	}
+
+	public double getObjective(int i) {
+		return eval[i];
+	}
+	
+	public void setValue(int i, double c) {
+		x[i] = c;
+	}
+	
+	public double getValue(int i) {
+		return x[i];
+	}
+	
+	public double getCrowdingDistance() {
+		return crowdingDistance;
+	}
+
+	public void setCrowdingDistance(double crowdingDistance) {
+		this.crowdingDistance = crowdingDistance;
 	}
 	
 	public double[] getNewX() {
@@ -129,19 +206,12 @@ public class MOIndividual {
 		return x;
 	}
 	
-	public String toString() {
-	    StringBuffer sb = new StringBuffer();
-	    for (int i=0; i<eval.length; i++)
-	     sb.append(Util.dfcshort.format(eval[i])).append(" ");
-	    sb.append(" ["+Util.arrayToString(x)+"]");
-		return sb.toString();
-	}
-	   public String toStringFitness() {
-	        StringBuffer sb = new StringBuffer();
-	        for (int i=0; i<eval.length; i++)
-	         sb.append(Util.df0.format(eval[i])).append("\t");
-	        return sb.toString();
-	    }
+   public String toStringFitness() {
+        StringBuffer sb = new StringBuffer();
+        for (int i=0; i<eval.length; i++)
+         sb.append(Util.df0.format(eval[i])).append("\t");
+        return sb.toString();
+    }
  
 	
 }
