@@ -65,4 +65,34 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public double[] evaluate(double[] ds) {
+
+		double[] x = new double[dim];
+		for (int i = 0; i < dim; i++)
+			x[i] = ds[i];
+
+		int count1, count2;
+		double sum1, sum2, yj;
+		sum1 = sum2 = 0.0;
+		count1 = count2 = 0;
+
+		for (int j = 2; j <= dim; j++) {
+			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / dim);
+			yj = yj * yj;
+			if (j % 2 == 0) {
+				sum2 += yj;
+				count2++;
+			} else {
+				sum1 += yj;
+				count1++;
+			}
+		}
+		double[] res = new double[2];
+		res[0] = x[0] + 2.0 * sum1 / (double) count1;
+		res[1] = 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double) count2;
+
+		return res;
+	}
 }

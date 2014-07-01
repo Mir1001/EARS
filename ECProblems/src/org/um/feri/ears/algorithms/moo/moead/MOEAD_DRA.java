@@ -9,8 +9,15 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.algorithms.AlgorithmInfo;
+import org.um.feri.ears.algorithms.Author;
+import org.um.feri.ears.algorithms.EnumAlgorithmParameters;
 import org.um.feri.ears.operators.DifferentialEvolutionCrossover;
 import org.um.feri.ears.operators.PolynomialMutation;
+import org.um.feri.ears.problems.Individual;
+import org.um.feri.ears.problems.StopCriteriaException;
+import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOParetoIndividual;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem1;
@@ -25,9 +32,11 @@ import org.um.feri.ears.util.Util;
  * MOEA/D on CEC09 Unconstrained MOP Test Instances, Working Report CES-491, 
  * School of CS & EE, University of Essex, 02/2009 
   */
-public class MOEAD_DRA {
+public class MOEAD_DRA extends Algorithm {
 
-	static int populationSize = 300;
+	Task task;
+	
+	int populationSize;
 	/**
 	 * Stores the population
 	 */
@@ -69,20 +78,49 @@ public class MOEAD_DRA {
 	static MOIndividual[] indArray;
 	String functionType;
 	static int evaluations;
+	static int gen;
+	static int num_var;
+	static int num_obj;
 
 	static String dataDirectory = "Weight";
 	
 	static int maxEvaluations = 150000;
 
     
-    
     static UnconstrainedProblem1 problem = new UnconstrainedProblem1();
+    
+    
+    
+	public MOEAD_DRA() {
+		this(300);
+	}
 	
-	public static void main(String[] args) {
+	public MOEAD_DRA(int pop_size) {
+		this.populationSize = pop_size;
+		//TODO popravi
+		au = new Author("matej", "matej.crepinsek at uni-mb.si");
+        ai = new AlgorithmInfo(
+                "TLBO",
+                "\\bibitem{Rao2011}\nR.V.~Rao, V.J.~Savsani, D.P.~Vakharia.\n\\newblock Teaching-learning-based optimization: A novel method for constrained mechanical design optimization problems.\n\\newblock \\emph{Computer-Aided Design}, 43(3):303--315, 2011.\n",
+                "TLBO", "Teaching Learning Based Optimization");
+        ai.addParameter(EnumAlgorithmParameters.POP_SIZE, pop_size + "");
+	}
+
+
+	@Override
+	public Individual run(Task taskProblem) throws StopCriteriaException {
+		task = taskProblem;
+		num_var = task.getDimensions();
+		num_obj = task.getNumberOfObjectives();
 		
+		init();
 		
-		PolynomialMutation plm = new PolynomialMutation(1.0 / problem.getNumberOfVariables(), 20.0);
-		DifferentialEvolutionCrossover dec = new DifferentialEvolutionCrossover();
+		start();
+		
+		return finalSelection(populationSize);
+	}
+
+	private void init() throws StopCriteriaException {
 		
 		evaluations = 0;
 	    population  = new MOParetoIndividual(populationSize);
@@ -90,13 +128,13 @@ public class MOEAD_DRA {
 	    utility     = new double[populationSize];
 	    frequency   = new int[populationSize];
 	    
-	    indArray = new MOIndividual[problem.getNumberOfObjectives()];
+	    indArray = new MOIndividual[num_obj];
 	    
 	    neighborhood = new int[populationSize][T];
 
-	    z = new double[problem.getNumberOfObjectives()];
+	    z = new double[num_obj];
 	    //lambda_ = new Vector(problem_.getNumberOfObjectives()) ;
-	    lambda = new double[populationSize][problem.getNumberOfObjectives()];
+	    lambda = new double[populationSize][num_obj];
 	    
 	    // STEP 1. Initialization
 	    // STEP 1.1. Compute euclidean distances between weight vectors and find T
@@ -110,12 +148,24 @@ public class MOEAD_DRA {
 	    initIdealPoint();
 	    
 	    //STEP 1.4 
-	    int gen = 0;
+	    gen = 0;
 	    for (int i = 0; i < utility.length; i++) {
 	        utility[i] = 1.0;
 	        frequency[i] = 0;
 	    }
-	    
+	}
+
+	@Override
+	public void resetDefaultsBeforNewRun() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	private void start() throws StopCriteriaException {
+		
+		PolynomialMutation plm = new PolynomialMutation(1.0 / num_var, 20.0);
+		DifferentialEvolutionCrossover dec = new DifferentialEvolutionCrossover();
+		
 	    // STEP 2. Update
 	    do {
 	      int[] permutation = new int[populationSize];
@@ -156,7 +206,7 @@ public class MOEAD_DRA {
 	        plm.execute(child,problem);
 
 	        // Evaluation
-	        problem.evaluate(child);
+	        task.eval(child);
 
 	        evaluations++;
 
@@ -190,13 +240,14 @@ public class MOEAD_DRA {
 	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/UF1.dat");
 	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
 	    
-	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, problem.getNumberOfObjectives());
+	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, num_obj);
 	    System.out.println(IGD_value);
+		
 	}
 	
 
-	public static void initUniformWeight() {
-		if ((problem.getNumberOfObjectives() == 2) && (populationSize <= 100)) {
+	public void initUniformWeight() {
+		if ((num_obj == 2) && (populationSize <= 100)) {
 			for (int n = 0; n < populationSize; n++) {
 				double a = 1.0 * n / (populationSize - 1);
 				lambda[n][0] = a;
@@ -206,7 +257,7 @@ public class MOEAD_DRA {
 		else
 		{
 			String dataFileName;
-			dataFileName = "W" + problem.getNumberOfObjectives() + "D_"+ populationSize + ".dat";
+			dataFileName = "W" + num_obj + "D_"+ populationSize + ".dat";
 
 			try {
 				// Open the file
@@ -245,7 +296,7 @@ public class MOEAD_DRA {
 
 
 
-	public static void comp_utility() {
+	public void comp_utility() {
 		double f1, f2, uti, delta;
 		for (int n = 0; n < populationSize; n++) {
 			f1 = fitnessFunction(population.get(n), lambda[n]);
@@ -261,7 +312,7 @@ public class MOEAD_DRA {
 		}
 	}
 
-	public static void initNeighborhood() {
+	public void initNeighborhood() {
 		double[] x = new double[populationSize];
 		int[] idx = new int[populationSize];
 
@@ -284,22 +335,22 @@ public class MOEAD_DRA {
 	}
 
 
-	public static void initPopulation() {
+	public void initPopulation() throws StopCriteriaException {
 		for (int i = 0; i < populationSize; i++) {
-			MOIndividual newSolution = new MOIndividual(problem);
+			MOIndividual newSolution = new MOIndividual(task.getRandomMOIndividual());
 
-			problem.evaluate(newSolution);
+			task.eval(newSolution);
 			evaluations++;
 			population.add(newSolution);
 			savedValues[i] = new MOIndividual(newSolution);
 		}
 	}
 
-	static void initIdealPoint() {
-		for (int i = 0; i < problem.getNumberOfObjectives(); i++) {
+	void initIdealPoint() throws StopCriteriaException {
+		for (int i = 0; i < num_obj; i++) {
 			z[i] = 1.0e+30;
-			indArray[i] = new MOIndividual(problem);
-			problem.evaluate(indArray[i]);
+			indArray[i] = new MOIndividual(task.getRandomMOIndividual());
+			task.eval(indArray[i]);
 			evaluations++;
 		}
 
@@ -308,7 +359,7 @@ public class MOEAD_DRA {
 		}
 	}
 
-	public static void matingSelection(Vector<Integer> list, int cid, int size, int type) {
+	public void matingSelection(Vector<Integer> list, int cid, int size, int type) {
 		// list : the set of the indexes of selected mating parents
 		// cid : the id of current subproblem
 		// size : the number of selected mating parents
@@ -344,17 +395,17 @@ public class MOEAD_DRA {
 	}
 
 
-	public static List<Integer> tour_selection(int depth) {
+	public List<Integer> tour_selection(int depth) {
 		// selection based on utility
 		List<Integer> selected = new ArrayList<Integer>();
 		List<Integer> candidate = new ArrayList<Integer>();
 
 		//vzamemo najboljše gled na uteži?
-		for (int k = 0; k < problem.getNumberOfObjectives(); k++)
+		for (int k = 0; k < num_obj; k++)
 			selected.add(k); // WARNING! HERE YOU HAVE TO USE THE WEIGHT PROVIDED BY QINGFU (NOT SORTED!!!!)
 
 		//ostali, ki niso bili izbrani?
-		for (int n = problem.getNumberOfObjectives(); n < populationSize; n++)
+		for (int n = num_obj; n < populationSize; n++)
 			candidate.add(n); // set of unselected weights
 
 		while (selected.size() < (int) (populationSize / 5.0)) {
@@ -383,8 +434,8 @@ public class MOEAD_DRA {
 	}
 
 
-	static void updateReference(MOIndividual individual) {
-		for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
+	void updateReference(MOIndividual individual) {
+		for (int n = 0; n < num_obj; n++) {
 			if (individual.getObjective(n) < z[n]) {
 				z[n] = individual.getObjective(n);
 
@@ -393,7 +444,7 @@ public class MOEAD_DRA {
 		}
 	}
 
-	static void updateProblem(MOIndividual indiv, int id, int type) {
+	void updateProblem(MOIndividual indiv, int id, int type) {
 		// indiv: child solution
 		// id: the id of current subproblem
 		// type: update solutions in - neighborhood (1) or whole population (otherwise)
@@ -436,13 +487,13 @@ public class MOEAD_DRA {
 		}
 	}
 
-	static double fitnessFunction(MOIndividual individual, double[] lambda) {
+	double fitnessFunction(MOIndividual individual, double[] lambda) {
 		
 		double fitness;
 		fitness = 0.0;
 		double maxFun = -1.0e+30;
 
-		for (int n = 0; n < problem.getNumberOfObjectives(); n++) {
+		for (int n = 0; n < num_obj; n++) {
 			double diff = Math.abs(individual.getObjective(n) - z[n]);
 
 			double feval;
@@ -482,9 +533,9 @@ public class MOEAD_DRA {
     * @return A solution set containing those elements
     * 
     */
-	static MOParetoIndividual finalSelection(int n) {
+	MOParetoIndividual finalSelection(int n) {
 		MOParetoIndividual res = new MOParetoIndividual(n);
-		if (problem.getNumberOfObjectives() == 2) { // subcase 1
+		if (num_obj == 2) { // subcase 1
 			double[][] intern_lambda = new double[n][2];
 			for (int i = 0; i < n; i++) {
 				double a = 1.0 * i / (n - 1);

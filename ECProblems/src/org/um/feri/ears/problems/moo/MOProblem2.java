@@ -46,5 +46,7 @@ public abstract class MOProblem2 extends Problem {
 	public double[] getVariables() {
 		return getRandomVectorX();
 	}
+	
+	public abstract double[] evaluate(double x[]);
 
 }

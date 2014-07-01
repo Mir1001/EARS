@@ -1,5 +1,8 @@
 package org.um.feri.ears.problems;
 
+import org.um.feri.ears.problems.moo.MOIndividual;
+import org.um.feri.ears.problems.moo.MOProblem2;
+
 /**
 * Task is main class, for communication between algorithm and problem  
 * <p>
@@ -109,6 +112,11 @@ public class Task {
 	public int getDimensions() {
 		return p.getDim();
 	}
+	
+	public int getNumberOfObjectives() {
+		return ((MOProblem2)p).getNumberOfObjectives();
+	}
+	
 	public int getNumberOfConstrains() {
 	    return p.constrains;
 	}
@@ -116,6 +124,10 @@ public class Task {
 		return eval(p.getRandomVectorX()); 
 	}
 	
+	public MOIndividual getRandomMOIndividual() throws StopCriteriaException {
+		return evalMO(p.getRandomVectorX());
+	}
+
 	public boolean isFirstBetter(Individual x, Individual y) {
 		return p.isFirstBetter(x.getX(), x.getEval(), y.getX(), y.getEval());
 	}
@@ -226,6 +238,23 @@ public class Task {
 		}
 		assert false; // Execution should never reach this point!
 		return null; //error
+	}
+	
+	private MOIndividual evalMO(double[] ds) throws StopCriteriaException {
+		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
+			incEvaluate();
+			return new MOIndividual(ds, ((MOProblem2)p).evaluate(ds));
+		}
+		assert false; // Execution should never reach this point!
+		return null; //error
+	}
+	
+	public void eval(MOIndividual child) throws StopCriteriaException {
+		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
+			incEvaluate();
+			((MOProblem2)p).evaluate(child);
+		}
+		assert false; // Execution should never reach this point!
 	}
 
     /**

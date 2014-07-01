@@ -62,13 +62,17 @@ public class MOIndividual extends Individual {
 	private double crowdingDistance;
 	
 	public MOIndividual(MOIndividual i) {
-		super(i);
 		
+		x = new double[i.x.length];
+		System.arraycopy(i.x, 0, x, 0, x.length);
 		crowdingDistance = i.getCrowdingDistance();
 		eval = new double[i.eval.length];
 		System.arraycopy(i.x, 0, x, 0, x.length);
 	      System.arraycopy(i.eval, 0, eval, 0, eval.length);
 		this.feasible = i.feasible;
+		this.fitness = i.fitness;
+		this.rank = i.rank;
+		this.location = i.location;
 		if (i.constrains!=null) {
 		  constrains = new double[i.constrains.length];
 		  System.arraycopy(i.constrains, 0, constrains, 0, constrains.length);
@@ -93,12 +97,13 @@ public class MOIndividual extends Individual {
 	 * 
 	 * @param x
 	 * @param eval
-	 * @deprecated
 	 */
 	public MOIndividual(double[] x, double[] eval) {
-		super(x,eval[0]);
+		
+		this.x = new double[x.length];
 		System.arraycopy(x, 0, this.x, 0, x.length);
-		this.eval = eval;
+		this.eval = new double[eval.length];
+		System.arraycopy(eval, 0, this.eval, 0, eval.length);
 		feasible = true;
 	}
 	
@@ -110,19 +115,10 @@ public class MOIndividual extends Individual {
 	 * @param constrains
 	 */
 	public MOIndividual(double[] x, double eval[], double[] constrains) {
-		super(x,eval[0],constrains);
         System.arraycopy(x, 0, this.x, 0, x.length);
         setFeasible(constrains);
         this.eval = new double[eval.length];
         System.arraycopy(eval, 0, this.eval, 0, eval.length);
-	}
-	
-	public MOIndividual(MOProblem2 problem) {
-
-		fitness = 0.0;
-		crowdingDistance = 0.0;
-	    eval = new double[problem.getNumberOfObjectives()];
-		x = problem.getVariables();
 	}
 
 	public double[] getConstrains() {

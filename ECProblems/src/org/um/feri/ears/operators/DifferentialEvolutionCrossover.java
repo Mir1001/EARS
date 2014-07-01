@@ -117,7 +117,7 @@ public class DifferentialEvolutionCrossover {
 		MOIndividual current   = (MOIndividual) parameters[0];
 		MOIndividual [] parent = (MOIndividual [])parameters[1];
 
-		MOIndividual child ;
+		MOIndividual child;
 
 		int jrand ;
 
