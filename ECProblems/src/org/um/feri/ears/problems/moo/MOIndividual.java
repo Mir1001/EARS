@@ -201,13 +201,23 @@ public class MOIndividual extends Individual {
 	public double[] getX() {
 		return x;
 	}
+
+	public double[] getObjectives() {
+		return eval;
+	}
 	
-   public String toStringFitness() {
-        StringBuffer sb = new StringBuffer();
-        for (int i=0; i<eval.length; i++)
-         sb.append(Util.df0.format(eval[i])).append("\t");
-        return sb.toString();
-    }
- 
-	
+
+	public void setEval(double[] eval) {
+		this.eval = eval;
+
+	}
+
+	public String toStringFitness() {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < eval.length; i++)
+			sb.append(Util.df0.format(eval[i])).append("\t");
+		return sb.toString();
+	}
+
+
 }

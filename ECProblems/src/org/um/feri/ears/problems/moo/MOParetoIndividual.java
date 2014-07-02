@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.um.feri.ears.problems.Individual;
+import org.um.feri.ears.util.Util;
 
 public class MOParetoIndividual extends Individual {
 
@@ -46,8 +47,6 @@ public List<MOIndividual> solutions;
 		}
 		return solutions.get(i);
 	}
-	
-	
 
 	@Override
 	public double getEval() {
@@ -180,5 +179,15 @@ public List<MOIndividual> solutions;
 	    solutions.remove(position);
 	    solutions.add(position,solution);
 	  }
+
+	@Override
+	public String toString() {
+		String s="";
+		for (MOIndividual i : solutions) {
+			
+			s+= "["+Util.arrayToString(i.getObjectives())+"] \n";
+		}
+		return s;
+	}
 
 }

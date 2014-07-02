@@ -100,7 +100,7 @@ public class Task {
 	public double[] getIntervalLeft(){
 		return p.intervalL;
 	}
-	
+	//TODO ?
 	public double[] getIntervalRight(){
 		double intervalR[] = new double[p.interval.length];
 		for (int i=0; i<intervalR.length;i++) {

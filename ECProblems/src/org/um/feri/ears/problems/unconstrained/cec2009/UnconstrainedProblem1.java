@@ -1,7 +1,11 @@
 package org.um.feri.ears.problems.unconstrained.cec2009;
 
+import java.util.ArrayList;
+
 import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOProblem2;
+import org.um.feri.ears.problems.moo.functions.UP1_F2_1;
+import org.um.feri.ears.problems.moo.functions.UP1_F2_2;
 
 
 public class UnconstrainedProblem1 extends MOProblem2 {
@@ -25,6 +29,9 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 	    	 intervalL[var] = -1.0;
 	    	 interval[var] = 1.0;
 	     }
+
+	     this.addProblem(new UP1_F2_1(dim));
+	     this.addProblem(new UP1_F2_2(dim));
 	  }
 	    
 	  /** 
@@ -39,7 +46,12 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 	    for (int i = 0; i < dim; i++)
 	      x[i] = decisionVariables[i];
 
-	  	int count1, count2;
+	    double obj[] =new double [functions.size()];
+        for (int i=0; i<obj.length; i++) {
+        	obj[i] = functions.get(i).eval(x);
+        }
+        solution.setEval(obj);
+	  	/*int count1, count2;
 			double sum1, sum2, yj;
 			sum1   = sum2   = 0.0;
 			count1 = count2 = 0;
@@ -57,7 +69,7 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 	    }
 	    
 	    solution.setObjective(0, x[0] + 2.0 * sum1 / (double)count1);
-	    solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double)count2);
+	    solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double)count2);*/
 	  }
 
 	@Override
@@ -73,7 +85,13 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 		for (int i = 0; i < dim; i++)
 			x[i] = ds[i];
 
-		int count1, count2;
+		double obj[] =new double [functions.size()];
+        for (int i=0; i<obj.length; i++) {
+        	obj[i] = functions.get(i).eval(x);
+        }
+        
+        return obj;
+		/*int count1, count2;
 		double sum1, sum2, yj;
 		sum1 = sum2 = 0.0;
 		count1 = count2 = 0;
@@ -93,6 +111,6 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 		res[0] = x[0] + 2.0 * sum1 / (double) count1;
 		res[1] = 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double) count2;
 
-		return res;
+		return res;*/
 	}
 }

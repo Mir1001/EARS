@@ -15,8 +15,7 @@ public class Main4Run {
         Task t = new Task(EnumStopCriteria.EVALUATIONS, 200000, 0.0001, new UnconstrainedProblem1()); //run problem Sphere Dimension 5, 3000 evaluations
         MOEAD_DRA test = new MOEAD_DRA();
         try {
-            //System.out.println(test.run(t)); //prints best result afrer 3000 runs
-        	test.run(t);
+            System.out.println(test.run(t)); //prints best result afrer 3000 runs
         } catch (StopCriteriaException e) {
             e.printStackTrace();
         }

@@ -1,5 +1,8 @@
 package org.um.feri.ears.problems.moo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.um.feri.ears.problems.Problem;
 
 public abstract class MOProblem2 extends Problem {
@@ -7,6 +10,12 @@ public abstract class MOProblem2 extends Problem {
 	protected int numberOfObjectives;
 
 	protected int numberOfConstraints;
+	
+	protected List<Problem> functions = new ArrayList<Problem>();
+	
+	public void addProblem(Problem p) {
+		functions.add(p);
+    }
 	
 	public abstract void evaluate(MOIndividual solution);
 	

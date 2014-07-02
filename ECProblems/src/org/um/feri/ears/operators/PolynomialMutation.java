@@ -2,6 +2,7 @@ package org.um.feri.ears.operators;
 
 import java.util.HashMap;
 
+import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOProblem2;
 import org.um.feri.ears.util.Util;
@@ -22,15 +23,15 @@ public class PolynomialMutation {
   		this.distributionIndex = distributionIndex;  		
 	}
 	
-	public void doMutation(double probability, MOIndividual solution, MOProblem2 problem) {        
+	public void doMutation(double probability, MOIndividual solution, Task task) {        
 		double rnd, delta1, delta2, mut_pow, deltaq;
 		double y, yl, yu, val, xy;	
-		for (int var=0; var < problem.getNumberOfVariables(); var++) {
+		for (int var=0; var < task.getDimensions(); var++) {
 			if (Util.rnd.nextDouble()  <= probability)
 			{
 				y      = solution.getValue(var);
-				yl     = problem.getLowerLimit(var);               
-				yu     = problem.getUpperLimit(var);
+				yl     = task.getIntervalLeft()[var];               
+				yu     = task.getIntervalLength()[var];
 				delta1 = (y-yl)/(yu-yl);
 				delta2 = (yu-y)/(yu-yl);
 				rnd = Util.rnd.nextDouble();
@@ -57,10 +58,10 @@ public class PolynomialMutation {
 		}
 	}
 
-	public Object execute(Object object, MOProblem2 problem) {
+	public Object execute(Object object, Task task) {
 		
 		MOIndividual solution = (MOIndividual)object;
-		doMutation(mutationProbability, solution, problem);
+		doMutation(mutationProbability, solution, task);
 		return solution;      
 	}
 }

@@ -77,20 +77,12 @@ public class MOEAD_DRA extends Algorithm {
 	static int nr = 2;
 	static MOIndividual[] indArray;
 	String functionType;
-	static int evaluations;
 	static int gen;
 	static int num_var;
 	static int num_obj;
 
 	static String dataDirectory = "Weight";
-	
-	static int maxEvaluations = 150000;
 
-    
-    static UnconstrainedProblem1 problem = new UnconstrainedProblem1();
-    
-    
-    
 	public MOEAD_DRA() {
 		this(300);
 	}
@@ -114,15 +106,29 @@ public class MOEAD_DRA extends Algorithm {
 		num_obj = task.getNumberOfObjectives();
 		
 		init();
-		
 		start();
+		
+		MOParetoIndividual results = finalSelection(populationSize);
+	    
+	    results.printFeasibleFUN("FUN_MOEAD_DRA");
+	    results.printVariablesToFile("VAR");    
+	    results.printObjectivesToFile("FUN");
+	    
+	    InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
+	    
+	    double[][] front = results.writeObjectivesToMatrix();
+	    MetricsUtil metrics_util = new MetricsUtil();
+	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/UF1.dat");
+	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
+	    
+	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, num_obj);
+	    System.out.println(IGD_value);
 		
 		return finalSelection(populationSize);
 	}
 
 	private void init() throws StopCriteriaException {
 		
-		evaluations = 0;
 	    population  = new MOParetoIndividual(populationSize);
 	    savedValues = new MOIndividual[populationSize];
 	    utility     = new double[populationSize];
@@ -200,15 +206,15 @@ public class MOEAD_DRA extends Algorithm {
 	        parents[2] = population.get(n);
 
 	        // Apply DE crossover
-	        child = (MOIndividual) dec.execute(new Object[]{population.get(n), parents},problem);
+	        child = (MOIndividual) dec.execute(new Object[]{population.get(n), parents},task);
 
 	        // Apply mutation
-	        plm.execute(child,problem);
+	        plm.execute(child,task);
 
+			if (task.isStopCriteria())
+				return;
 	        // Evaluation
 	        task.eval(child);
-
-	        evaluations++;
 
 	        // STEP 2.3. Repair. Not necessary
 
@@ -225,7 +231,7 @@ public class MOEAD_DRA extends Algorithm {
 			  comp_utility();
 	      }
 
-	    } while (evaluations < maxEvaluations);
+	    }while(!task.isStopCriteria());
 	    
 	    MOParetoIndividual results = finalSelection(populationSize);
 	    
@@ -337,10 +343,11 @@ public class MOEAD_DRA extends Algorithm {
 
 	public void initPopulation() throws StopCriteriaException {
 		for (int i = 0; i < populationSize; i++) {
+			
+			if (task.isStopCriteria())
+				return;
 			MOIndividual newSolution = new MOIndividual(task.getRandomMOIndividual());
 
-			task.eval(newSolution);
-			evaluations++;
 			population.add(newSolution);
 			savedValues[i] = new MOIndividual(newSolution);
 		}
@@ -349,9 +356,9 @@ public class MOEAD_DRA extends Algorithm {
 	void initIdealPoint() throws StopCriteriaException {
 		for (int i = 0; i < num_obj; i++) {
 			z[i] = 1.0e+30;
+			if (task.isStopCriteria())
+				return;
 			indArray[i] = new MOIndividual(task.getRandomMOIndividual());
-			task.eval(indArray[i]);
-			evaluations++;
 		}
 
 		for (int i = 0; i < populationSize; i++) {

@@ -21,12 +21,8 @@
 
 package org.um.feri.ears.operators;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
+import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
-import org.um.feri.ears.problems.moo.MOProblem2;
 import org.um.feri.ears.util.Util;
 
 
@@ -112,7 +108,7 @@ public class DifferentialEvolutionCrossover {
 	 * @param object An object containing an array of three parents
 	 * @return An object containing the offSprings
 	 */
-	public Object execute(Object object, MOProblem2 problem) {
+	public Object execute(Object object, Task task) {
 		Object[] parameters = (Object[])object ;
 		MOIndividual current   = (MOIndividual) parameters[0];
 		MOIndividual [] parent = (MOIndividual [])parameters[1];
@@ -142,10 +138,10 @@ public class DifferentialEvolutionCrossover {
 					value = xParent2.getValue(j)  + F * (xParent0.getValue(j) -
 							                                  xParent1.getValue(j)) ;
 					
-					if (value < problem.getLowerLimit(j))
-						value =  problem.getLowerLimit(j);
-					if (value > problem.getUpperLimit(j))
-						value = problem.getUpperLimit(j);
+					if (value < task.getIntervalLeft()[j])
+						value =  task.getIntervalLeft()[j];
+					if (value > task.getIntervalLength()[j])
+						value = task.getIntervalLength()[j];
           /*
 					if (value < xChild.getLowerBound(j)) {
             double rnd = PseudoRandom.randDouble(0, 1) ;
@@ -173,10 +169,10 @@ public class DifferentialEvolutionCrossover {
 					value = xParent2.getValue(j)  + F * (xParent0.getValue(j) -
 							xParent1.getValue(j)) ;
 
-					if (value < problem.getLowerLimit(j))
-						value =  problem.getLowerLimit(j);
-					if (value > problem.getUpperLimit(j))
-						value = problem.getUpperLimit(j);
+					if (value < task.getIntervalLeft()[j])
+						value =  task.getIntervalLeft()[j];
+					if (value > task.getIntervalLength()[j])
+						value = task.getIntervalLength()[j];
 
 					xChild.setValue(j, value) ;
 				}
@@ -196,10 +192,10 @@ public class DifferentialEvolutionCrossover {
 					    xCurrent.getValue(j)) +					
 						  F * (xParent0.getValue(j) - xParent1.getValue(j)) ;
 
-				if (value < problem.getLowerLimit(j))
-					value =  problem.getLowerLimit(j);
-				if (value > problem.getUpperLimit(j))
-					value = problem.getUpperLimit(j);
+				if (value < task.getIntervalLeft()[j])
+					value =  task.getIntervalLeft()[j];
+				if (value > task.getIntervalLength()[j])
+					value = task.getIntervalLength()[j];
 
 				xChild.setValue(j, value) ;
 			} // for		
@@ -213,10 +209,10 @@ public class DifferentialEvolutionCrossover {
 							xCurrent.getValue(j)) +					
 							F * (xParent0.getValue(j) - xParent1.getValue(j)) ;
 
-					if (value < problem.getLowerLimit(j))
-						value =  problem.getLowerLimit(j);
-					if (value > problem.getUpperLimit(j))
-						value = problem.getUpperLimit(j);
+					if (value < task.getIntervalLeft()[j])
+						value =  task.getIntervalLeft()[j];
+					if (value > task.getIntervalLength()[j])
+						value = task.getIntervalLength()[j];
 
 					xChild.setValue(j, value) ;
 				}
@@ -236,10 +232,10 @@ public class DifferentialEvolutionCrossover {
 							xCurrent.getValue(j)) +					
 							F * (xParent0.getValue(j) - xParent1.getValue(j)) ;
 
-					if (value < problem.getLowerLimit(j))
-						value =  problem.getLowerLimit(j);
-					if (value > problem.getUpperLimit(j))
-						value = problem.getUpperLimit(j);
+					if (value < task.getIntervalLeft()[j])
+						value =  task.getIntervalLeft()[j];
+					if (value > task.getIntervalLength()[j])
+						value = task.getIntervalLength()[j];
 
 					xChild.setValue(j, value) ;
 				}
