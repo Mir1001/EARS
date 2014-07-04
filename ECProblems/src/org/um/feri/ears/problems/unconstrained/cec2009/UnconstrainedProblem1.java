@@ -3,12 +3,12 @@ package org.um.feri.ears.problems.unconstrained.cec2009;
 import java.util.ArrayList;
 
 import org.um.feri.ears.problems.moo.MOIndividual;
-import org.um.feri.ears.problems.moo.MOProblem2;
+import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.problems.moo.functions.UP1_F2_1;
 import org.um.feri.ears.problems.moo.functions.UP1_F2_2;
 
 
-public class UnconstrainedProblem1 extends MOProblem2 {
+public class UnconstrainedProblem1 extends MOProblem {
     
 
 	public UnconstrainedProblem1() {
@@ -20,6 +20,9 @@ public class UnconstrainedProblem1 extends MOProblem2 {
 		numberOfObjectives =  2;
 		numberOfConstraints =  0;
 
+		file_name = "UF1";
+		name = "CEC2009 Unconstrained Problem 01";
+		
 		interval = new double[numberOfVariables];
 		intervalL = new double[numberOfVariables];
 
@@ -51,25 +54,6 @@ public class UnconstrainedProblem1 extends MOProblem2 {
         	obj[i] = functions.get(i).eval(x);
         }
         solution.setEval(obj);
-	  	/*int count1, count2;
-			double sum1, sum2, yj;
-			sum1   = sum2   = 0.0;
-			count1 = count2 = 0;
-	    
-	    for (int j = 2 ; j <= dim; j++) {
-				yj = x[j-1] - Math.sin(6.0*Math.PI*x[0] + j*Math.PI/dim);
-				yj = yj * yj;
-				if(j % 2 == 0) {
-					sum2 += yj;
-					count2++;
-				} else {
-					sum1 += yj;
-					count1++;
-				}      
-	    }
-	    
-	    solution.setObjective(0, x[0] + 2.0 * sum1 / (double)count1);
-	    solution.setObjective(1, 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double)count2);*/
 	  }
 
 	@Override
@@ -91,26 +75,5 @@ public class UnconstrainedProblem1 extends MOProblem2 {
         }
         
         return obj;
-		/*int count1, count2;
-		double sum1, sum2, yj;
-		sum1 = sum2 = 0.0;
-		count1 = count2 = 0;
-
-		for (int j = 2; j <= dim; j++) {
-			yj = x[j - 1] - Math.sin(6.0 * Math.PI * x[0] + j * Math.PI / dim);
-			yj = yj * yj;
-			if (j % 2 == 0) {
-				sum2 += yj;
-				count2++;
-			} else {
-				sum1 += yj;
-				count1++;
-			}
-		}
-		double[] res = new double[2];
-		res[0] = x[0] + 2.0 * sum1 / (double) count1;
-		res[1] = 1.0 - Math.sqrt(x[0]) + 2.0 * sum2 / (double) count2;
-
-		return res;*/
 	}
 }

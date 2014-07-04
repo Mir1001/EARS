@@ -9,13 +9,24 @@ import org.um.feri.ears.problems.unconstrained.ProblemBranin;
 import org.um.feri.ears.problems.unconstrained.ProblemRastrigin;
 import org.um.feri.ears.problems.unconstrained.ProblemSphere;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem1;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem10;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem2;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem3;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem4;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem5;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem6;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem7;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem8;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem9;
+import org.um.feri.ears.util.Util;
 
 public class Main4Run {
     public static void main(String[] args) {
-        Task t = new Task(EnumStopCriteria.EVALUATIONS, 200000, 0.0001, new UnconstrainedProblem1()); //run problem Sphere Dimension 5, 3000 evaluations
+    	//Util.rnd.setSeed(23526787);
+        Task t = new Task(EnumStopCriteria.EVALUATIONS, 150000, 0.0001, new UnconstrainedProblem4());
         MOEAD_DRA test = new MOEAD_DRA();
         try {
-            System.out.println(test.run(t)); //prints best result afrer 3000 runs
+            System.out.println(test.run(t));
         } catch (StopCriteriaException e) {
             e.printStackTrace();
         }

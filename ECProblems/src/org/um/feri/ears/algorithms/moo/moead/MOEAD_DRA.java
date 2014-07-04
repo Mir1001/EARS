@@ -90,11 +90,11 @@ public class MOEAD_DRA extends Algorithm {
 	public MOEAD_DRA(int pop_size) {
 		this.populationSize = pop_size;
 		//TODO popravi
-		au = new Author("matej", "matej.crepinsek at uni-mb.si");
+		au = new Author("miha", "miha.ravber at gamil.com");
         ai = new AlgorithmInfo(
-                "TLBO",
-                "\\bibitem{Rao2011}\nR.V.~Rao, V.J.~Savsani, D.P.~Vakharia.\n\\newblock Teaching-learning-based optimization: A novel method for constrained mechanical design optimization problems.\n\\newblock \\emph{Computer-Aided Design}, 43(3):303--315, 2011.\n",
-                "TLBO", "Teaching Learning Based Optimization");
+                "MOEAD_DRA",
+                "\\bibitem{Zhang2009}\nQ.~Zhang, W.~Liu, H.~Li.\n\\newblock The Performance of a New Version of MOEA/D on CEC09 Unconstrained MOP Test Instances.\n\\newblock \\emph{IEEE Congress on Evolutionary Computation}, 203--208, 2009.\n",
+                "MOEAD_DRA", "Teaching Learning Based Optimization");
         ai.addParameter(EnumAlgorithmParameters.POP_SIZE, pop_size + "");
 	}
 
@@ -107,24 +107,14 @@ public class MOEAD_DRA extends Algorithm {
 		
 		init();
 		start();
+	    
+	    MOParetoIndividual best = finalSelection(populationSize);
+	    best.setFileName(task.getProblemFileName());
 		
-		MOParetoIndividual results = finalSelection(populationSize);
-	    
-	    results.printFeasibleFUN("FUN_MOEAD_DRA");
-	    results.printVariablesToFile("VAR");    
-	    results.printObjectivesToFile("FUN");
-	    
-	    InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
-	    
-	    double[][] front = results.writeObjectivesToMatrix();
-	    MetricsUtil metrics_util = new MetricsUtil();
-	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/UF1.dat");
-	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
-	    
-	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, num_obj);
+	    double IGD_value = best.getEval();
 	    System.out.println(IGD_value);
-		
-		return finalSelection(populationSize);
+	    
+		return best;
 	}
 
 	private void init() throws StopCriteriaException {
@@ -231,24 +221,7 @@ public class MOEAD_DRA extends Algorithm {
 			  comp_utility();
 	      }
 
-	    }while(!task.isStopCriteria());
-	    
-	    MOParetoIndividual results = finalSelection(populationSize);
-	    
-	    results.printFeasibleFUN("FUN_MOEAD_DRA");
-	    results.printVariablesToFile("VAR");    
-	    results.printObjectivesToFile("FUN");
-	    
-	    InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
-	    
-	    double[][] front = results.writeObjectivesToMatrix();
-	    MetricsUtil metrics_util = new MetricsUtil();
-	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/UF1.dat");
-	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
-	    
-	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, num_obj);
-	    System.out.println(IGD_value);
-		
+	    }while(!task.isStopCriteria());	
 	}
 	
 

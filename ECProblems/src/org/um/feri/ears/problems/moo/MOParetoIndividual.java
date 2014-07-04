@@ -10,6 +10,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.um.feri.ears.problems.Individual;
+import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
+import org.um.feri.ears.quality_indicator.MetricsUtil;
 import org.um.feri.ears.util.Util;
 
 public class MOParetoIndividual extends Individual {
@@ -21,15 +23,18 @@ public class MOParetoIndividual extends Individual {
 public List<MOIndividual> solutions;
 	
 	private int capacity = 0;
+	private String file_name;
 	
 	public MOParetoIndividual() {
 		solutions = new ArrayList<MOIndividual>();
+		constrains = new double[1000];
 	}
 
 	public MOParetoIndividual(int maximumSize) {
 
 		solutions = new ArrayList<MOIndividual>();
 		capacity = maximumSize;
+		constrains = new double[1000];
 	}
 
 	public boolean add(MOIndividual solution) {
@@ -50,8 +55,25 @@ public List<MOIndividual> solutions;
 
 	@Override
 	public double getEval() {
-		// TODO calcualte and return GDI
-		return super.getEval();
+		
+		InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
+	    
+	    double[][] front = this.writeObjectivesToMatrix();
+	    MetricsUtil metrics_util = new MetricsUtil();
+	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
+	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
+	    
+	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		
+		return IGD_value;
+	}
+
+	
+	
+	@Override
+	public double[] getX() {
+		double[] x = new double[1000];
+		return x;
 	}
 
 	public int getMaxSize() {
@@ -188,6 +210,14 @@ public List<MOIndividual> solutions;
 			s+= "["+Util.arrayToString(i.getObjectives())+"] \n";
 		}
 		return s;
+	}
+
+	public String getFileName() {
+		return file_name;
+	}
+
+	public void setFileName(String file_name) {
+		this.file_name = file_name;
 	}
 
 }

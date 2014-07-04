@@ -53,7 +53,7 @@ import org.um.feri.ears.util.Util;
 public class Individual {
 	protected double[] x;
     private double eval;
-	private double[] constrains; //TODO refactor 2 types of individual for constrained optimization
+	protected double[] constrains; //TODO refactor 2 types of individual for constrained optimization
 	private boolean feasible; //Feasible checks constrains
 	
 	public Individual(Individual i) {

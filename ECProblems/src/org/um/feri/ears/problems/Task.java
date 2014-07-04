@@ -1,7 +1,7 @@
 package org.um.feri.ears.problems;
 
 import org.um.feri.ears.problems.moo.MOIndividual;
-import org.um.feri.ears.problems.moo.MOProblem2;
+import org.um.feri.ears.problems.moo.MOProblem;
 
 /**
 * Task is main class, for communication between algorithm and problem  
@@ -114,7 +114,11 @@ public class Task {
 	}
 	
 	public int getNumberOfObjectives() {
-		return ((MOProblem2)p).getNumberOfObjectives();
+		return ((MOProblem)p).getNumberOfObjectives();
+	}
+	
+	public String getProblemFileName() {
+		return ((MOProblem)p).getFileName();
 	}
 	
 	public int getNumberOfConstrains() {
@@ -243,7 +247,7 @@ public class Task {
 	private MOIndividual evalMO(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
-			return new MOIndividual(ds, ((MOProblem2)p).evaluate(ds));
+			return new MOIndividual(ds, ((MOProblem)p).evaluate(ds));
 		}
 		assert false; // Execution should never reach this point!
 		return null; //error
@@ -252,7 +256,7 @@ public class Task {
 	public void eval(MOIndividual child) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
-			((MOProblem2)p).evaluate(child);
+			((MOProblem)p).evaluate(child);
 		}
 		assert false; // Execution should never reach this point!
 	}

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
-import org.um.feri.ears.problems.moo.MOProblem2;
+import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.util.Util;
 
 
