@@ -7,6 +7,8 @@ import javax.swing.text.DefaultEditorKit.BeepAction;
 import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.moo.moead.MOEAD_DRA;
+import org.um.feri.ears.algorithms.moo.nsga2.NSGAII;
+import org.um.feri.ears.algorithms.moo.spea2.SPEA2;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
@@ -24,8 +26,9 @@ public class MainBenchMarkTest {
         Util.rnd.setSeed(System.currentTimeMillis());
         RatingBenchmark.debugPrint = true; //prints one on one results
         ArrayList<Algorithm> players = new ArrayList<Algorithm>();
-        players.add(new MOEAD_DRA()); //EARS exampels
-        players.add(new MOEAD_DRA()); //EARS exampels
+        players.add(new MOEAD_DRA(100)); //EARS exampels
+        //players.add(new NSGAII(100)); //EARS exampels
+        players.add(new SPEA2(100));
         
         ResultArena ra = new ResultArena(100);
  

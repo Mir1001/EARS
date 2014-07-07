@@ -1,6 +1,8 @@
 package org.um.feri.ears.problems.moo;
 
 import org.um.feri.ears.algorithms.moo.moead.MOEAD_DRA;
+import org.um.feri.ears.algorithms.moo.nsga2.NSGAII;
+import org.um.feri.ears.algorithms.moo.spea2.SPEA2;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.StopCriteriaException;
@@ -22,9 +24,9 @@ import org.um.feri.ears.util.Util;
 
 public class Main4Run {
     public static void main(String[] args) {
-    	//Util.rnd.setSeed(23526787);
-        Task t = new Task(EnumStopCriteria.EVALUATIONS, 150000, 0.0001, new UnconstrainedProblem4());
-        MOEAD_DRA test = new MOEAD_DRA();
+    	Util.rnd.setSeed(8706);
+        Task t = new Task(EnumStopCriteria.EVALUATIONS, 150000, 0.0001, new UnconstrainedProblem6());
+        MOEAD_DRA test = new MOEAD_DRA(300);
         try {
             System.out.println(test.run(t));
         } catch (StopCriteriaException e) {

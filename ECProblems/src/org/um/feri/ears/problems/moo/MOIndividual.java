@@ -184,6 +184,14 @@ public class MOIndividual extends Individual {
 		return x[i];
 	}
 	
+	public double getRank() {
+		return rank;
+	}
+
+	public void setRank(double rank) {
+		this.rank = rank;
+	}
+	
 	public double getCrowdingDistance() {
 		return crowdingDistance;
 	}
@@ -217,6 +225,27 @@ public class MOIndividual extends Individual {
 		for (int i = 0; i < eval.length; i++)
 			sb.append(Util.df0.format(eval[i])).append("\t");
 		return sb.toString();
+	}
+	
+	public double getFitness() {
+		return fitness;
+	}
+
+	public void setFitness(double fitness) {
+		this.fitness = fitness;
+	}
+	
+	public void setLocation(int location) {
+		this.location = location;
+	}
+	
+	/**
+	 * Gets the location of this solution in a <code>SolutionSet</code>. <b>
+	 * REQUIRE </b>: This method has to be invoked after calling <code>setLocation</code>.
+	 * @return the location of the solution into a solutionSet
+	 */
+	public int getLocation() {
+		return this.location;
 	}
 
 

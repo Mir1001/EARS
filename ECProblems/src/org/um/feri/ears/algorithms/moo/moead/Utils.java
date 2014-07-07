@@ -63,7 +63,7 @@ public class Utils {
 
     int num = 0;
     while (num < size) {
-      int start = Util.rnd.nextInt(size - 1);
+      int start = Util.rnd.nextInt(size);
       //int start = int(size*nd_uni(&rnd_uni_init));
       while (true) {
         if (flag[start]) {

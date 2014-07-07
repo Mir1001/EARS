@@ -163,7 +163,9 @@ public abstract class RatingBenchmark {
                 if (printSingleRunDuration) System.out.println(duration/1000);
                 task.resetCounter(); //for one eval!
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
-                  Individual best = task.eval(bestByALg.getX());
+                	//TODO KAKO?
+                  //Individual best = task.eval(bestByALg.getX());
+                  Individual best = bestByALg;
                   if (best.getEval()!=bestByALg.getEval()) 
                      System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result real"+best.getEval()+" is different than "+bestByALg.getEval());
                   results.add(new AlgorithmEvalResult(best, al)); 

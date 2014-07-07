@@ -40,46 +40,46 @@ public class MOEAD_DRA extends Algorithm {
 	/**
 	 * Stores the population
 	 */
-	static MOParetoIndividual population;
+	MOParetoIndividual population;
 	/**
 	 * Stores the values of the individuals
 	 */
-	static MOIndividual[] savedValues;
+	MOIndividual[] savedValues;
 
-	static double[] utility;
-	static int[] frequency;
+	double[] utility;
+	int[] frequency;
 
 	/**
 	 * Z vector (ideal point)
 	 */
-	static double[] z;
+	double[] z;
 	/**
 	 * Lambda vectors
 	 */
 	// Vector<Vector<Double>> lambda_ ;
-	static double[][] lambda;
+	double[][] lambda;
 	/**
 	 * T: neighbour size
 	 */
-	static int T = 20;
+	int T = 20;
 	/**
 	 * Neighborhood
 	 */
-	static int[][] neighborhood;
+	int[][] neighborhood;
 	/**
 	 * delta: probability that parent solutions are selected from
 	 * neighbourhood
 	 */
-	static double delta = 0.9;
+	double delta = 0.9;
 	/**
 	 * nr: maximal number of solutions replaced by each child solution
 	 */
-	static int nr = 2;
-	static MOIndividual[] indArray;
+	int nr = 2;
+	MOIndividual[] indArray;
 	String functionType;
-	static int gen;
-	static int num_var;
-	static int num_obj;
+	int gen;
+	int num_var;
+	int num_obj;
 
 	static String dataDirectory = "Weight";
 
@@ -89,7 +89,7 @@ public class MOEAD_DRA extends Algorithm {
 	
 	public MOEAD_DRA(int pop_size) {
 		this.populationSize = pop_size;
-		//TODO popravi
+
 		au = new Author("miha", "miha.ravber at gamil.com");
         ai = new AlgorithmInfo(
                 "MOEAD_DRA",
@@ -112,7 +112,11 @@ public class MOEAD_DRA extends Algorithm {
 	    best.setFileName(task.getProblemFileName());
 		
 	    double IGD_value = best.getEval();
-	    System.out.println(IGD_value);
+	    System.out.println("IGD value : "+IGD_value);
+	    
+	    best.printFeasibleFUN("FUN_SPEA2");
+		best.printVariablesToFile("VAR");    
+		best.printObjectivesToFile("FUN");
 	    
 		return best;
 	}
@@ -351,13 +355,13 @@ public class MOEAD_DRA extends Algorithm {
 		ss = neighborhood[cid].length;
 		while (list.size() < size) {
 			if (type == 1) {
-				r = Util.rnd.nextInt(ss - 1);
+				r = Util.rnd.nextInt(ss);
 				p = neighborhood[cid][r];
 				// p = population[cid].table[r];
 			} 
 			else 
 			{
-				p = Util.rnd.nextInt(populationSize - 1);
+				p = Util.rnd.nextInt(populationSize);
 			}
 			boolean flag = true;
 			for (int i = 0; i < list.size(); i++) {
@@ -542,7 +546,7 @@ public class MOEAD_DRA extends Algorithm {
 		} else { // general case (more than two objectives)
 
 			Distance distance_utility = new Distance();
-			int random_index = Util.rnd.nextInt(population.size() - 1);
+			int random_index = Util.rnd.nextInt(population.size());
 
 			// create a list containing all the solutions but the selected one (only references to them)
 			List<MOIndividual> candidate = new LinkedList<MOIndividual>();
