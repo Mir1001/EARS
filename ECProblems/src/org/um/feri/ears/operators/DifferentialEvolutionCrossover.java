@@ -65,30 +65,29 @@ public class DifferentialEvolutionCrossover {
 
 	private static final String DEFAULT_DE_VARIANT = "rand/1/bin";
 
-	private double CR  ;
-	private double F   ;
-	private double K   ;
-	private String DE_Variant ; // DE variant (rand/1/bin, rand/1/exp, etc.)
+	private double CR;
+	private double F;
+	private double K;
+	private String DE_Variant; // DE variant (rand/1/bin, rand/1/exp, etc.)
 
 	/**
 	 * Constructor
 	 */
 	public DifferentialEvolutionCrossover() {
-		
-		CR = DEFAULT_CR ;
-		F  = DEFAULT_F  ;
-		K  = DEFAULT_K   ;
-		DE_Variant = DEFAULT_DE_VARIANT ;
+
+		CR = DEFAULT_CR;
+		F = DEFAULT_F;
+		K = DEFAULT_K;
+		DE_Variant = DEFAULT_DE_VARIANT;
 
 	}
 	
 	public DifferentialEvolutionCrossover(double CR, double F, double K, String DE_VARIANT) {
 
-  		this.CR = CR;  		
-  		this.F = F;  		
-  		this.K = K;  		
-  		this.DE_Variant = DE_VARIANT;  		
-
+		this.CR = CR;
+		this.F = F;
+		this.K = K;
+		this.DE_Variant = DE_VARIANT;
 	}
 
 
@@ -109,147 +108,127 @@ public class DifferentialEvolutionCrossover {
 	 * @return An object containing the offSprings
 	 */
 	public Object execute(Object object, Task task) {
-		Object[] parameters = (Object[])object ;
-		MOIndividual current   = (MOIndividual) parameters[0];
-		MOIndividual [] parent = (MOIndividual [])parameters[1];
+		Object[] parameters = (Object[]) object;
+		MOIndividual current = (MOIndividual) parameters[0];
+		MOIndividual[] parent = (MOIndividual[]) parameters[1];
 
 		MOIndividual child;
 
-		int jrand ;
+		int jrand;
 
-		child = new MOIndividual(current) ;
-		
-		
+		child = new MOIndividual(current);
+
 		MOIndividual xParent0 = parent[0];
 		MOIndividual xParent1 = parent[1];
 		MOIndividual xParent2 = parent[2];
 		MOIndividual xCurrent = current;
-		MOIndividual xChild   = child;
+		MOIndividual xChild = child;
 
 		int numberOfVariables = xParent0.getDecisionVariables().length;
 		jrand = Util.rnd.nextInt(numberOfVariables - 1);
 
 		// STEP 4. Checking the DE variant
-		if ((DE_Variant.compareTo("rand/1/bin") == 0) || 
-				(DE_Variant.compareTo("best/1/bin") == 0)) { 
-			for (int j=0; j < numberOfVariables; j++) {
+		if ((DE_Variant.compareTo("rand/1/bin") == 0) || (DE_Variant.compareTo("best/1/bin") == 0)) {
+			for (int j = 0; j < numberOfVariables; j++) {
 				if (Util.rnd.nextDouble() < CR || j == jrand) {
-					double value ;
-					value = xParent2.getValue(j)  + F * (xParent0.getValue(j) -
-							                                  xParent1.getValue(j)) ;
-					
-					if (value < task.getIntervalLeft()[j])
-						value =  task.getIntervalLeft()[j];
-					if (value > task.getIntervalLength()[j])
-						value = task.getIntervalLength()[j];
-          /*
-					if (value < xChild.getLowerBound(j)) {
-            double rnd = PseudoRandom.randDouble(0, 1) ;
-            value = xChild.getLowerBound(j) + rnd *(xParent2.getValue(j) - xChild.getLowerBound(j)) ;
-					}
-          if (value > xChild.getUpperBound(j)) {
-            double rnd = PseudoRandom.randDouble(0, 1) ;
-            value = xChild.getUpperBound(j) - rnd*(xChild.getUpperBound(j)-xParent2.getValue(j)) ;
-          }
-          */
-					xChild.setValue(j, value) ;
-				}
-				else {
-					double value ;
-					value = xCurrent.getValue(j);
-					xChild.setValue(j, value) ;
-				} // else
-			} // for
-		} // if
-		else if ((DE_Variant.compareTo("rand/1/exp") == 0) || 
-				     (DE_Variant.compareTo("best/1/exp") == 0)) {
-			for (int j=0; j < numberOfVariables; j++) {
-				if (Util.rnd.nextDouble() < CR || j == jrand) {
-					double value ;
-					value = xParent2.getValue(j)  + F * (xParent0.getValue(j) -
-							xParent1.getValue(j)) ;
+					double value;
+					value = xParent2.getValue(j) + F * (xParent0.getValue(j) - xParent1.getValue(j));
 
 					if (value < task.getIntervalLeft()[j])
-						value =  task.getIntervalLeft()[j];
+						value = task.getIntervalLeft()[j];
+					if (value > task.getIntervalLength()[j])
+						value = task.getIntervalLength()[j];
+					/*
+					 * if (value < xChild.getLowerBound(j)) { double rnd =
+					 * PseudoRandom.randDouble(0, 1) ; value =
+					 * xChild.getLowerBound(j) + rnd *(xParent2.getValue(j) -
+					 * xChild.getLowerBound(j)) ; } if (value >
+					 * xChild.getUpperBound(j)) { double rnd =
+					 * PseudoRandom.randDouble(0, 1) ; value =
+					 * xChild.getUpperBound(j) -
+					 * rnd*(xChild.getUpperBound(j)-xParent2.getValue(j)) ; }
+					 */
+					xChild.setValue(j, value);
+				} else {
+					double value;
+					value = xCurrent.getValue(j);
+					xChild.setValue(j, value);
+				}
+			}
+		}
+ else if ((DE_Variant.compareTo("rand/1/exp") == 0) || (DE_Variant.compareTo("best/1/exp") == 0)) {
+			for (int j = 0; j < numberOfVariables; j++) {
+				if (Util.rnd.nextDouble() < CR || j == jrand) {
+					double value;
+					value = xParent2.getValue(j) + F * (xParent0.getValue(j) - xParent1.getValue(j));
+
+					if (value < task.getIntervalLeft()[j])
+						value = task.getIntervalLeft()[j];
 					if (value > task.getIntervalLength()[j])
 						value = task.getIntervalLength()[j];
 
-					xChild.setValue(j, value) ;
-				}
-				else {
-					CR = 0.0 ;
-					double value ;
+					xChild.setValue(j, value);
+				} else {
+					CR = 0.0;
+					double value;
 					value = xCurrent.getValue(j);
-					xChild.setValue(j, value) ;
-			  } // else
-			} // for		
-		} // if
-		else if ((DE_Variant.compareTo("current-to-rand/1") == 0) || 
-             (DE_Variant.compareTo("current-to-best/1") == 0)) { 
-			for (int j=0; j < numberOfVariables; j++) {
-				double value ;
-				value = xCurrent.getValue(j) + K * (xParent2.getValue(j) - 
-					    xCurrent.getValue(j)) +					
-						  F * (xParent0.getValue(j) - xParent1.getValue(j)) ;
+					xChild.setValue(j, value);
+				}
+			}
+		} else if ((DE_Variant.compareTo("current-to-rand/1") == 0) || (DE_Variant.compareTo("current-to-best/1") == 0)) {
+			for (int j = 0; j < numberOfVariables; j++) {
+				double value;
+				value = xCurrent.getValue(j) + K * (xParent2.getValue(j) - xCurrent.getValue(j)) + F * (xParent0.getValue(j) - xParent1.getValue(j));
 
 				if (value < task.getIntervalLeft()[j])
-					value =  task.getIntervalLeft()[j];
+					value = task.getIntervalLeft()[j];
 				if (value > task.getIntervalLength()[j])
 					value = task.getIntervalLength()[j];
 
-				xChild.setValue(j, value) ;
-			} // for		
-		} // if
-		else if ((DE_Variant.compareTo("current-to-rand/1/bin") == 0) ||
-				     (DE_Variant.compareTo("current-to-best/1/bin") == 0)) { 
-			for (int j=0; j < numberOfVariables; j++) {
+				xChild.setValue(j, value);
+			}
+		}
+ else if ((DE_Variant.compareTo("current-to-rand/1/bin") == 0) || (DE_Variant.compareTo("current-to-best/1/bin") == 0)) {
+			for (int j = 0; j < numberOfVariables; j++) {
 				if (Util.rnd.nextDouble() < CR || j == jrand) {
-					double value ;
-					value = xCurrent.getValue(j) + K * (xParent2.getValue(j) - 
-							xCurrent.getValue(j)) +					
-							F * (xParent0.getValue(j) - xParent1.getValue(j)) ;
+					double value;
+					value = xCurrent.getValue(j) + K * (xParent2.getValue(j) - xCurrent.getValue(j)) + F * (xParent0.getValue(j) - xParent1.getValue(j));
 
 					if (value < task.getIntervalLeft()[j])
-						value =  task.getIntervalLeft()[j];
+						value = task.getIntervalLeft()[j];
 					if (value > task.getIntervalLength()[j])
 						value = task.getIntervalLength()[j];
 
-					xChild.setValue(j, value) ;
-				}
-				else {
-					double value ;
+					xChild.setValue(j, value);
+				} else {
+					double value;
 					value = xCurrent.getValue(j);
-					xChild.setValue(j, value) ;
-				} // else
-			} // for
-		} // if
-		else if ((DE_Variant.compareTo("current-to-rand/1/exp") == 0) || 
-				(DE_Variant.compareTo("current-to-best/1/exp") == 0)) {
-			for (int j=0; j < numberOfVariables; j++) {
+					xChild.setValue(j, value);
+				}
+			}
+		}
+ else if ((DE_Variant.compareTo("current-to-rand/1/exp") == 0) || (DE_Variant.compareTo("current-to-best/1/exp") == 0)) {
+			for (int j = 0; j < numberOfVariables; j++) {
 				if (Util.rnd.nextDouble() < CR || j == jrand) {
-					double value ;
-					value = xCurrent.getValue(j) + K * (xParent2.getValue(j) - 
-							xCurrent.getValue(j)) +					
-							F * (xParent0.getValue(j) - xParent1.getValue(j)) ;
+					double value;
+					value = xCurrent.getValue(j) + K * (xParent2.getValue(j) - xCurrent.getValue(j)) + F * (xParent0.getValue(j) - xParent1.getValue(j));
 
 					if (value < task.getIntervalLeft()[j])
-						value =  task.getIntervalLeft()[j];
+						value = task.getIntervalLeft()[j];
 					if (value > task.getIntervalLength()[j])
 						value = task.getIntervalLength()[j];
 
-					xChild.setValue(j, value) ;
-				}
-				else {
-					CR = 0.0 ;
-					double value ;
+					xChild.setValue(j, value);
+				} else {
+					CR = 0.0;
+					double value;
 					value = xCurrent.getValue(j);
-					xChild.setValue(j, value) ;
-				} // else
-			} // for		
-		} // if		
-		else {
+					xChild.setValue(j, value);
+				}
+			}
+		} else {
 			System.err.println("Exception");
-		} // else
-		return child ;
+		}
+		return child;
 	}
-} // DifferentialEvolutionCrossover
+}

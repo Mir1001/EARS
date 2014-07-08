@@ -3,10 +3,10 @@ package org.um.feri.ears.problems.moo.functions;
 import org.um.feri.ears.problems.Problem;
 
 public class UP10_3 extends Problem {
-	
+
 	int dim;
-	
-	public UP10_3 (int dim) {
+
+	public UP10_3(int dim) {
 		this.dim = dim;
 	}
 

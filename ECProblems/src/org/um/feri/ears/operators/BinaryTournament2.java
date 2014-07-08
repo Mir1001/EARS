@@ -68,34 +68,31 @@ public class BinaryTournament2 {
   * @param object Object representing a SolutionSet
   * @return the selected solution
   */
-  public Object execute(Object object)    
-  {
-	MOParetoIndividual population = (MOParetoIndividual)object;
-    if (index == 0) //zgeneriramo polje permutacij indexov
-    {
-      a = (new PermutationUtility()).intPermutation(population.size());
-    }
-            
-        
-    MOIndividual solution1,solution2;
-    solution1 = population.get(a[index]);
-    solution2 = population.get(a[index+1]);
-        
-    index = (index + 2) % population.size();
-        
-    int flag = dominance_.compare(solution1,solution2);
-    if (flag == -1)
-      return solution1;
-    else if (flag == 1)
-      return solution2;
-    else if (solution1.getCrowdingDistance() > solution2.getCrowdingDistance())
-      return solution1;
-    else if (solution2.getCrowdingDistance() > solution1.getCrowdingDistance())
-      return solution2;
-    else
-      if (Util.rnd.nextDouble() < 0.5)
-        return solution1;
-      else
-        return solution2;        
-  }
+	public Object execute(Object object) {
+		MOParetoIndividual population = (MOParetoIndividual) object;
+		if (index == 0) // zgeneriramo polje permutacij indexov
+		{
+			a = (new PermutationUtility()).intPermutation(population.size());
+		}
+
+		MOIndividual solution1, solution2;
+		solution1 = population.get(a[index]);
+		solution2 = population.get(a[index + 1]);
+
+		index = (index + 2) % population.size();
+
+		int flag = dominance_.compare(solution1, solution2);
+		if (flag == -1)
+			return solution1;
+		else if (flag == 1)
+			return solution2;
+		else if (solution1.getCrowdingDistance() > solution2.getCrowdingDistance())
+			return solution1;
+		else if (solution2.getCrowdingDistance() > solution1.getCrowdingDistance())
+			return solution2;
+		else if (Util.rnd.nextDouble() < 0.5)
+			return solution1;
+		else
+			return solution2;
+	}
 }

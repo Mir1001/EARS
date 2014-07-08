@@ -4,9 +4,9 @@ import org.um.feri.ears.problems.Problem;
 
 public class UP3_2 extends Problem{
 	
-int dim;
-	
-	public UP3_2 (int dim) {
+	int dim;
+
+	public UP3_2(int dim) {
 		this.dim = dim;
 	}
 

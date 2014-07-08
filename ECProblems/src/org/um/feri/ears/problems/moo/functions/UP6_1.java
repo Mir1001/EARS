@@ -3,12 +3,12 @@ package org.um.feri.ears.problems.moo.functions;
 import org.um.feri.ears.problems.Problem;
 
 public class UP6_1 extends Problem {
-	
+
 	int dim;
 	int N;
 	double epsilon;
-	
-	public UP6_1 (int dim, int N, double epsilon) {
+
+	public UP6_1(int dim, int N, double epsilon) {
 		this.dim = dim;
 		this.N = N;
 		this.epsilon = epsilon;
@@ -38,7 +38,6 @@ public class UP6_1 extends Problem {
 		hj = 2.0 * (0.5 / N + epsilon) * Math.sin(2.0 * N * Math.PI * ds[0]);
 		if (hj < 0.0)
 			hj = 0.0;
-
 		return ds[0] + hj + 2.0 * (4.0 * sum1 - 2.0 * prod1 + 2.0) / (double) count1;
 	}
 }

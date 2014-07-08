@@ -27,7 +27,6 @@ public class UP1_F2_2 extends Problem {
 				count2++;
 			}
 		}
-
 		return 1.0 - Math.sqrt(ds[0]) + 2.0 * sum2 / (double) count2;
 	}
 

@@ -22,71 +22,67 @@ public class SPEA2 extends Algorithm{
 	int populationSize;
 	int archiveSize = 100;
 	MOParetoIndividual population;
-    MOParetoIndividual archive;
-    int num_var;
+	MOParetoIndividual archive;
+	int num_var;
 	int num_obj;
-	
+
 	public static final int TOURNAMENTS_ROUNDS = 1;
-	
+
 	public SPEA2() {
 		this(100);
 	}
-	
+
 	public SPEA2(int populationSize) {
 		this.populationSize = populationSize;
-		
+
 		au = new Author("miha", "miha.ravber at gamil.com");
-        ai = new AlgorithmInfo(
-                "SPEA2",
-                "\\bibitem{Zitzler2002}\nE.~Zitzler,M.~Laumanns,L.~Thiele\n\\newblock SPEA2: Improving the Strength Pareto Evolutionary Algorithm for Multiobjective Optimization.\n\\newblock \\emph{EUROGEN 2001. Evolutionary Methods for Design, Optimization and Control with Applications to Industrial Problems}, 95--100, 2002.\n",
-                "SPEA2", "Strength Pareto Evolutionary Algorithm");
-        ai.addParameter(EnumAlgorithmParameters.POP_SIZE, populationSize + "");
+		ai = new AlgorithmInfo(
+				"SPEA2",
+				"\\bibitem{Zitzler2002}\nE.~Zitzler,M.~Laumanns,L.~Thiele\n\\newblock SPEA2: Improving the Strength Pareto Evolutionary Algorithm for Multiobjective Optimization.\n\\newblock \\emph{EUROGEN 2001. Evolutionary Methods for Design, Optimization and Control with Applications to Industrial Problems}, 95--100, 2002.\n",
+				"SPEA2", "Strength Pareto Evolutionary Algorithm");
+		ai.addParameter(EnumAlgorithmParameters.POP_SIZE, populationSize + "");
 	}
-	
+
 	@Override
 	public Individual run(Task taskProblem) throws StopCriteriaException {
 		task = taskProblem;
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
-		
+
 		init();
 		start();
-		
+
 		Ranking ranking = new Ranking(archive);
 		MOParetoIndividual best = ranking.getSubfront(0);
 		best.setFileName(task.getProblemFileName());
-	    double IGD_value = best.getEval();
-	    System.out.println("IGD value: "+IGD_value);
-	    
+		double IGD_value = best.getEval();
+		System.out.println("IGD value: " + IGD_value);
+
 		best.printFeasibleFUN("FUN_SPEA2");
-		best.printVariablesToFile("VAR");    
+		best.printVariablesToFile("VAR");
 		best.printObjectivesToFile("FUN");
-	    
+
 		return best;
 	}
 
 	@Override
 	public void resetDefaultsBeforNewRun() {
-		// TODO Auto-generated method stub
-		
 	}
 
-	private void init()
-	{
+	private void init() {
 		population = new MOParetoIndividual(populationSize);
-        archive = new MOParetoIndividual(archiveSize);
+		archive = new MOParetoIndividual(archiveSize);
 	}
 
 	public void start() throws StopCriteriaException {
-		
-        MOParetoIndividual offspringPopulation;
-       
-    	
-    	BinaryTournament2 bt2 = new BinaryTournament2();
-        SBXCrossover sbx = new SBXCrossover(0.9, 20.0);
-        PolynomialMutation plm = new PolynomialMutation(1.0 / num_var, 20.0);
-        
-      //-> Create the initial solutionSet
+
+		MOParetoIndividual offspringPopulation;
+
+		BinaryTournament2 bt2 = new BinaryTournament2();
+		SBXCrossover sbx = new SBXCrossover(0.9, 20.0);
+		PolynomialMutation plm = new PolynomialMutation(1.0 / num_var, 20.0);
+
+		// -> Create the initial solutionSet
 		for (int i = 0; i < populationSize; i++) {
 			if (task.isStopCriteria())
 				return;
@@ -94,7 +90,7 @@ public class SPEA2 extends Algorithm{
 			// problem.evaluateConstraints(newSolution);;
 			population.add(newSolution);
 		}
-		
+
 		while (!task.isStopCriteria()) {
 			MOParetoIndividual union = ((MOParetoIndividual) population).union(archive);
 			Spea2fitness spea = new Spea2fitness(union);
@@ -116,17 +112,17 @@ public class SPEA2 extends Algorithm{
 				} while (k < SPEA2.TOURNAMENTS_ROUNDS);
 
 				// make the crossover
-				MOIndividual[] offSpring = (MOIndividual[]) sbx.execute(parents,task);
-				plm.execute(offSpring[0],task);
+				MOIndividual[] offSpring = (MOIndividual[]) sbx.execute(
+						parents, task);
+				plm.execute(offSpring[0], task);
 				if (task.isStopCriteria())
 					break;
 				task.eval(offSpring[0]);
 				// problem.evaluateConstraints(offSpring[0]);
 				offspringPopulation.add(offSpring[0]);
 			}
-				// End Create a offSpring solutionSet
+			// End Create a offSpring solutionSet
 			population = offspringPopulation;
 		}
 	}
-
 }

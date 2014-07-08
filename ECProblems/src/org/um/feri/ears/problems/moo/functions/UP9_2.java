@@ -6,8 +6,8 @@ public class UP9_2 extends Problem {
 	
 	int dim;
 	double epsilon;
-	
-	public UP9_2 (int dim, double epsilon) {
+
+	public UP9_2(int dim, double epsilon) {
 		this.dim = dim;
 		this.epsilon = epsilon;
 	}

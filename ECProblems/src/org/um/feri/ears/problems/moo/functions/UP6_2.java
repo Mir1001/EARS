@@ -7,8 +7,8 @@ public class UP6_2 extends Problem {
 	int dim;
 	int N;
 	double epsilon;
-	
-	public UP6_2 (int dim, int N, double epsilon) {
+
+	public UP6_2(int dim, int N, double epsilon) {
 		this.dim = dim;
 		this.N = N;
 		this.epsilon = epsilon;
@@ -36,7 +36,6 @@ public class UP6_2 extends Problem {
 		hj = 2.0 * (0.5 / N + epsilon) * Math.sin(2.0 * N * Math.PI * ds[0]);
 		if (hj < 0.0)
 			hj = 0.0;
-
 		return 1.0 - ds[0] + hj + 2.0 * (4.0 * sum2 - 2.0 * prod2 + 2.0) / (double) count2;
 	}
 }

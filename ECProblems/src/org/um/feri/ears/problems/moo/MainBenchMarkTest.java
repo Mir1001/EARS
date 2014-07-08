@@ -8,6 +8,8 @@ import org.um.feri.ears.algorithms.Algorithm;
 import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.moo.moead.MOEAD_DRA;
 import org.um.feri.ears.algorithms.moo.nsga2.NSGAII;
+import org.um.feri.ears.algorithms.moo.paes.PAES;
+import org.um.feri.ears.algorithms.moo.pesa2.PESA2;
 import org.um.feri.ears.algorithms.moo.spea2.SPEA2;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
@@ -27,8 +29,10 @@ public class MainBenchMarkTest {
         RatingBenchmark.debugPrint = true; //prints one on one results
         ArrayList<Algorithm> players = new ArrayList<Algorithm>();
         players.add(new MOEAD_DRA(100)); //EARS exampels
-        //players.add(new NSGAII(100)); //EARS exampels
+        players.add(new NSGAII(100)); //EARS exampels
         players.add(new SPEA2(100));
+        players.add(new PESA2(100));
+        players.add(new PAES(100));
         
         ResultArena ra = new ResultArena(100);
  

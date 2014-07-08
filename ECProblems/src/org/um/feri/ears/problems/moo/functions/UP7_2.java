@@ -5,8 +5,8 @@ import org.um.feri.ears.problems.Problem;
 public class UP7_2 extends Problem {
 	
 	int dim;
-	
-	public UP7_2 (int dim) {
+
+	public UP7_2(int dim) {
 		this.dim = dim;
 	}
 
@@ -26,7 +26,6 @@ public class UP7_2 extends Problem {
 			}
 		}
 		yj = Math.pow(ds[0], 0.2);
-
 		return 1.0 - yj + 2.0 * sum2 / (double) count2;
 	}
 }

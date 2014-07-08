@@ -5,8 +5,8 @@ import org.um.feri.ears.problems.Problem;
 public class UP8_F6_1 extends Problem {
 	
 	int dim;
-	
-	public UP8_F6_1 (int dim) {
+
+	public UP8_F6_1(int dim) {
 		this.dim = dim;
 	}
 
@@ -25,7 +25,6 @@ public class UP8_F6_1 extends Problem {
 				count1++;
 			}
 		}
-
 		return Math.cos(0.5 * Math.PI * ds[0]) * Math.cos(0.5 * Math.PI * ds[1]) + 2.0 * sum1 / (double) count1;
 	}
 }

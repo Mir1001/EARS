@@ -67,8 +67,6 @@ public List<MOIndividual> solutions;
 		
 		return IGD_value;
 	}
-
-	
 	
 	@Override
 	public double[] getX() {
@@ -102,45 +100,44 @@ public List<MOIndividual> solutions;
 		MOParetoIndividual union = new MOParetoIndividual(newSize);
 		for (int i = 0; i < this.size(); i++) {
 			union.add(this.get(i));
-		} // for
+		}
 
 		for (int i = this.size(); i < (this.size() + solutionSet.size()); i++) {
 			union.add(solutionSet.get(i - this.size()));
-		} // for
+		}
 
 		return union;
 	}
-	
-	public void sort(Comparator comparator){
-	    if (comparator == null)
-	      return ;
 
-	    Collections.sort(solutions,comparator);
-	  }
+	public void sort(Comparator comparator) {
+		if (comparator == null)
+			return;
+
+		Collections.sort(solutions, comparator);
+	}
 	
 	/**
    * Copies the objectives of the solution set to a matrix
    * @return A matrix containing the objectives
    */
-  public double [][] writeObjectivesToMatrix() {
-    if (this.size() == 0) {
-      return null;
-    }
-    double [][] objectives;
-    objectives = new double[size()][get(0).numberOfObjectives()];
-    for (int i = 0; i < size(); i++) {
-      for (int j = 0; j < get(0).numberOfObjectives(); j++) {
-        objectives[i][j] = get(i).getObjective(j);
-      }
-    }
-    return objectives;
-  }
+	public double[][] writeObjectivesToMatrix() {
+		if (this.size() == 0) {
+			return null;
+		}
+		double[][] objectives;
+		objectives = new double[size()][get(0).numberOfObjectives()];
+		for (int i = 0; i < size(); i++) {
+			for (int j = 0; j < get(0).numberOfObjectives(); j++) {
+				objectives[i][j] = get(i).getObjective(j);
+			}
+		}
+		return objectives;
+	}
 
-	
 	public void printObjectivesToFile(String path) {
 		try {
 			/* Open the file */
-			FileOutputStream fos = new FileOutputStream(path+".csv");
+			FileOutputStream fos = new FileOutputStream(path + ".csv");
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			BufferedWriter bw = new BufferedWriter(osw);
 
@@ -195,19 +192,18 @@ public List<MOIndividual> solutions;
 	}
 	
 	public void replace(int position, MOIndividual solution) {
-	    if (position > solutions.size()) {
-	    	solutions.add(solution);
-	    } 
-	    solutions.remove(position);
-	    solutions.add(position,solution);
-	  }
+		if (position > solutions.size()) {
+			solutions.add(solution);
+		}
+		solutions.remove(position);
+		solutions.add(position, solution);
+	}
 
 	@Override
 	public String toString() {
-		String s="";
+		String s = "";
 		for (MOIndividual i : solutions) {
-			
-			s+= "["+Util.arrayToString(i.getObjectives())+"] \n";
+			s += "[" + Util.arrayToString(i.getObjectives()) + "] \n";
 		}
 		return s;
 	}

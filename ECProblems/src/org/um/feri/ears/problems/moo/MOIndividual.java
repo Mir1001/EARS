@@ -86,11 +86,10 @@ public class MOIndividual extends Individual {
 	   * This constructor is used mainly to read objective values from a file to
 	   * variables of a SolutionSet to apply quality indicators
 	   */
-	  public MOIndividual(int numberOfObjectives) {
+	public MOIndividual(int numberOfObjectives) {
 
-		eval  = new double[numberOfObjectives];
-	  }
-	  
+		eval = new double[numberOfObjectives];
+	}
 	
 	/**
 	 * !!!This constructor is for unconstrained optimization!
@@ -99,7 +98,7 @@ public class MOIndividual extends Individual {
 	 * @param eval
 	 */
 	public MOIndividual(double[] x, double[] eval) {
-		
+
 		this.x = new double[x.length];
 		System.arraycopy(x, 0, this.x, 0, x.length);
 		this.eval = new double[eval.length];
@@ -115,27 +114,29 @@ public class MOIndividual extends Individual {
 	 * @param constrains
 	 */
 	public MOIndividual(double[] x, double eval[], double[] constrains) {
-        System.arraycopy(x, 0, this.x, 0, x.length);
-        setFeasible(constrains);
-        this.eval = new double[eval.length];
-        System.arraycopy(eval, 0, this.eval, 0, eval.length);
+		System.arraycopy(x, 0, this.x, 0, x.length);
+		setFeasible(constrains);
+		this.eval = new double[eval.length];
+		System.arraycopy(eval, 0, this.eval, 0, eval.length);
 	}
 
 	public double[] getConstrains() {
-        return constrains;
-    }
-    public boolean isFeasible() {
-        return feasible;
-    }
-    private void setFeasible(double[] constrains) {
-        feasible = true;
-	    for (int i=0;i<constrains.length; i++) {
-	        if (constrains[i]>0) { //equal constrained needs to be solve in Problem (set 0 if<=0.001)
-	            feasible = false;
-	            this.constrains= new double[constrains.length];
-	            System.arraycopy(constrains, 0, this.constrains, 0, constrains.length);
-	        }
-	    }
+		return constrains;
+	}
+
+	public boolean isFeasible() {
+		return feasible;
+	}
+
+	private void setFeasible(double[] constrains) {
+		feasible = true;
+		for (int i = 0; i < constrains.length; i++) {
+			if (constrains[i] > 0) { // equal constrained needs to be solve in Problem (set 0 if<=0.001)
+				feasible = false;
+				this.constrains = new double[constrains.length];
+				System.arraycopy(constrains, 0, this.constrains, 0, constrains.length);
+			}
+		}
 	}
     
     public double[] getDecisionVariables() {

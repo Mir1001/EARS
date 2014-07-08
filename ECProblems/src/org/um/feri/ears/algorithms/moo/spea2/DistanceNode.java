@@ -16,6 +16,7 @@ public class DistanceNode {
 
 	/**
 	 * Constructor.
+	 * 
 	 * @param distance The distance to a <code>Solution</code>.
 	 * @param reference The position of the <code>Solution</code>.
 	 */
@@ -26,7 +27,9 @@ public class DistanceNode {
 
 	/**
 	 * Sets the distance to a <code>Solution</code>
-	 * @param distance The distance
+	 * 
+	 * @param distance
+	 *            The distance
 	 */
 	public void setDistance(double distance) {
 		distance_ = distance;
@@ -34,6 +37,7 @@ public class DistanceNode {
 
 	/**
 	 * Sets the reference to a <code>Solution</code>
+	 * 
 	 * @param reference The reference
 	 */
 	public void setReferece(int reference) {
@@ -42,6 +46,7 @@ public class DistanceNode {
 
 	/**
 	 * Gets the distance
+	 * 
 	 * @return the distance
 	 */
 	public double getDistance() {
@@ -50,6 +55,7 @@ public class DistanceNode {
 
 	/**
 	 * Gets the reference
+	 * 
 	 * @return the reference
 	 */
 	public int getReference() {

@@ -35,7 +35,6 @@ import org.um.feri.ears.util.Util;
 public class MOEAD_DRA extends Algorithm {
 
 	Task task;
-	
 	int populationSize;
 	/**
 	 * Stores the population
@@ -67,8 +66,7 @@ public class MOEAD_DRA extends Algorithm {
 	 */
 	int[][] neighborhood;
 	/**
-	 * delta: probability that parent solutions are selected from
-	 * neighbourhood
+	 * delta: probability that parent solutions are selected from neighbourhood
 	 */
 	double delta = 0.9;
 	/**
@@ -86,148 +84,143 @@ public class MOEAD_DRA extends Algorithm {
 	public MOEAD_DRA() {
 		this(300);
 	}
-	
+
 	public MOEAD_DRA(int pop_size) {
 		this.populationSize = pop_size;
 
 		au = new Author("miha", "miha.ravber at gamil.com");
-        ai = new AlgorithmInfo(
-                "MOEAD_DRA",
-                "\\bibitem{Zhang2009}\nQ.~Zhang, W.~Liu, H.~Li.\n\\newblock The Performance of a New Version of MOEA/D on CEC09 Unconstrained MOP Test Instances.\n\\newblock \\emph{IEEE Congress on Evolutionary Computation}, 203--208, 2009.\n",
-                "MOEAD_DRA", "Teaching Learning Based Optimization");
-        ai.addParameter(EnumAlgorithmParameters.POP_SIZE, pop_size + "");
+		ai = new AlgorithmInfo(
+				"MOEAD_DRA",
+				"\\bibitem{Zhang2009}\nQ.~Zhang, W.~Liu, H.~Li.\n\\newblock The Performance of a New Version of MOEA/D on CEC09 Unconstrained MOP Test Instances.\n\\newblock \\emph{IEEE Congress on Evolutionary Computation}, 203--208, 2009.\n",
+				"MOEAD_DRA", "Teaching Learning Based Optimization");
+		ai.addParameter(EnumAlgorithmParameters.POP_SIZE, pop_size + "");
 	}
-
 
 	@Override
 	public Individual run(Task taskProblem) throws StopCriteriaException {
 		task = taskProblem;
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
-		
+
 		init();
 		start();
-	    
-	    MOParetoIndividual best = finalSelection(populationSize);
-	    best.setFileName(task.getProblemFileName());
-		
-	    double IGD_value = best.getEval();
-	    System.out.println("IGD value : "+IGD_value);
-	    
-	    best.printFeasibleFUN("FUN_SPEA2");
-		best.printVariablesToFile("VAR");    
+
+		MOParetoIndividual best = finalSelection(populationSize);
+		best.setFileName(task.getProblemFileName());
+
+		double IGD_value = best.getEval();
+		System.out.println("IGD value : " + IGD_value);
+
+		best.printFeasibleFUN("FUN_SPEA2");
+		best.printVariablesToFile("VAR");
 		best.printObjectivesToFile("FUN");
-	    
+
 		return best;
 	}
 
 	private void init() throws StopCriteriaException {
-		
-	    population  = new MOParetoIndividual(populationSize);
-	    savedValues = new MOIndividual[populationSize];
-	    utility     = new double[populationSize];
-	    frequency   = new int[populationSize];
-	    
-	    indArray = new MOIndividual[num_obj];
-	    
-	    neighborhood = new int[populationSize][T];
 
-	    z = new double[num_obj];
-	    //lambda_ = new Vector(problem_.getNumberOfObjectives()) ;
-	    lambda = new double[populationSize][num_obj];
-	    
-	    // STEP 1. Initialization
-	    // STEP 1.1. Compute euclidean distances between weight vectors and find T
-	    initUniformWeight();
-	    initNeighborhood();
+		population = new MOParetoIndividual(populationSize);
+		savedValues = new MOIndividual[populationSize];
+		utility = new double[populationSize];
+		frequency = new int[populationSize];
 
-	    // STEP 1.2. Initialize population
-	    initPopulation();
+		indArray = new MOIndividual[num_obj];
 
-	    // STEP 1.3. Initialize z
-	    initIdealPoint();
-	    
-	    //STEP 1.4 
-	    gen = 0;
-	    for (int i = 0; i < utility.length; i++) {
-	        utility[i] = 1.0;
-	        frequency[i] = 0;
-	    }
+		neighborhood = new int[populationSize][T];
+
+		z = new double[num_obj];
+		// lambda_ = new Vector(problem_.getNumberOfObjectives()) ;
+		lambda = new double[populationSize][num_obj];
+
+		// STEP 1. Initialization
+		// STEP 1.1. Compute euclidean distances between weight vectors and find T
+		initUniformWeight();
+		initNeighborhood();
+
+		// STEP 1.2. Initialize population
+		initPopulation();
+
+		// STEP 1.3. Initialize z
+		initIdealPoint();
+
+		// STEP 1.4
+		gen = 0;
+		for (int i = 0; i < utility.length; i++) {
+			utility[i] = 1.0;
+			frequency[i] = 0;
+		}
 	}
 
 	@Override
 	public void resetDefaultsBeforNewRun() {
-		// TODO Auto-generated method stub
-		
 	}
-	
+
 	private void start() throws StopCriteriaException {
-		
+
 		PolynomialMutation plm = new PolynomialMutation(1.0 / num_var, 20.0);
 		DifferentialEvolutionCrossover dec = new DifferentialEvolutionCrossover();
-		
-	    // STEP 2. Update
-	    do {
-	      int[] permutation = new int[populationSize];
-	      Utils.randomPermutation(permutation, populationSize);
-	      List<Integer> order = tour_selection(10);
 
-	      for (int i = 0; i < order.size(); i++) {
-	        //int n = permutation[i]; // or int n = i;
-	        int n = order.get(i) ; // or int n = i;
-	        frequency[n]++;
+		// STEP 2. Update
+		do {
+			int[] permutation = new int[populationSize];
+			Utils.randomPermutation(permutation, populationSize);
+			List<Integer> order = tour_selection(10);
 
-	        int type;
-	        double rnd = Util.rnd.nextDouble();
+			for (int i = 0; i < order.size(); i++) {
+				// int n = permutation[i]; // or int n = i;
+				int n = order.get(i); // or int n = i;
+				frequency[n]++;
 
-	        // STEP 2.1. Mating selection based on probability
-	        if (rnd < delta) // if (rnd < realb)
-	        {
-	          type = 1;   // neighborhood
-	        } else {
-	          type = 2;   // whole population
-	        }
-	        
-	        Vector<Integer> p = new Vector<Integer>();
-	        matingSelection(p, n, 2, type);
+				int type;
+				double rnd = Util.rnd.nextDouble();
 
-	        // STEP 2.2. Reproduction
-	        MOIndividual child;
-	        MOIndividual[] parents = new MOIndividual[3];
+				// STEP 2.1. Mating selection based on probability
+				if (rnd < delta) // if (rnd < realb)
+				{
+					type = 1; // neighborhood
+				} else {
+					type = 2; // whole population
+				}
 
-	        parents[0] = population.get(p.get(0));
-	        parents[1] = population.get(p.get(1));
-	        parents[2] = population.get(n);
+				Vector<Integer> p = new Vector<Integer>();
+				matingSelection(p, n, 2, type);
 
-	        // Apply DE crossover
-	        child = (MOIndividual) dec.execute(new Object[]{population.get(n), parents},task);
+				// STEP 2.2. Reproduction
+				MOIndividual child;
+				MOIndividual[] parents = new MOIndividual[3];
 
-	        // Apply mutation
-	        plm.execute(child,task);
+				parents[0] = population.get(p.get(0));
+				parents[1] = population.get(p.get(1));
+				parents[2] = population.get(n);
 
-			if (task.isStopCriteria())
-				return;
-	        // Evaluation
-	        task.eval(child);
+				// Apply DE crossover
+				child = (MOIndividual) dec.execute(new Object[] { population.get(n), parents }, task);
 
-	        // STEP 2.3. Repair. Not necessary
+				// Apply mutation
+				plm.execute(child, task);
 
-	        // STEP 2.4. Update z_
-	        updateReference(child);
+				if (task.isStopCriteria())
+					return;
+				// Evaluation
+				task.eval(child);
 
-	        // STEP 2.5. Update of solutions
-	        updateProblem(child, n, type);
-	      } // for
+				// STEP 2.3. Repair. Not necessary
 
-	      gen++;
-	      if(gen%30==0)
-	      {
-			  comp_utility();
-	      }
+				// STEP 2.4. Update z_
+				updateReference(child);
 
-	    }while(!task.isStopCriteria());	
+				// STEP 2.5. Update of solutions
+				updateProblem(child, n, type);
+			} // for
+
+			gen++;
+			if (gen % 30 == 0) {
+				comp_utility();
+			}
+
+		} while (!task.isStopCriteria());
 	}
-	
 
 	public void initUniformWeight() {
 		if ((num_obj == 2) && (populationSize <= 100)) {
@@ -236,11 +229,9 @@ public class MOEAD_DRA extends Algorithm {
 				lambda[n][0] = a;
 				lambda[n][1] = 1 - a;
 			}
-		} 
-		else
-		{
+		} else {
 			String dataFileName;
-			dataFileName = "W" + num_obj + "D_"+ populationSize + ".dat";
+			dataFileName = "W" + num_obj + "D_" + populationSize + ".dat";
 
 			try {
 				// Open the file
@@ -252,32 +243,27 @@ public class MOEAD_DRA extends Algorithm {
 				int i = 0;
 				int j = 0;
 				String aux = br.readLine();
-				while (aux != null) 
-				{
+				while (aux != null) {
 					StringTokenizer st = new StringTokenizer(aux);
 					j = 0;
 					numberOfObjectives = st.countTokens();
 					while (st.hasMoreTokens()) {
-						double value = (new Double(st.nextToken())).doubleValue();
+						double value = (new Double(st.nextToken()))
+								.doubleValue();
 						lambda[i][j] = value;
-						// System.out.println("lambda["+i+","+j+"] = " + value)
-						// ;
+						// System.out.println("lambda["+i+","+j+"] = " + value);
 						j++;
 					}
 					aux = br.readLine();
 					i++;
 				}
 				br.close();
-			}
-			catch (Exception e) 
-			{
-				System.err.println("initUniformWeight: failed when reading for file: "+ dataDirectory + "/" + dataFileName);
+			} catch (Exception e) {
+				System.err.println("initUniformWeight: failed when reading for file: " + dataDirectory + "/" + dataFileName);
 				e.printStackTrace();
 			}
 		}
 	}
-
-
 
 	public void comp_utility() {
 		double f1, f2, uti, delta;
@@ -302,7 +288,7 @@ public class MOEAD_DRA extends Algorithm {
 		for (int i = 0; i < populationSize; i++) {
 			// calculate the distances based on weight vectors
 			for (int j = 0; j < populationSize; j++) {
-				//save euclidian distance
+				// save euclidian distance
 				x[j] = Utils.distVector(lambda[i], lambda[j]);
 				// x[j] = dist_vector(population[i].namda,population[j].namda);
 				idx[j] = j;
@@ -317,10 +303,9 @@ public class MOEAD_DRA extends Algorithm {
 		}
 	}
 
-
 	public void initPopulation() throws StopCriteriaException {
 		for (int i = 0; i < populationSize; i++) {
-			
+
 			if (task.isStopCriteria())
 				return;
 			MOIndividual newSolution = new MOIndividual(task.getRandomMOIndividual());
@@ -358,9 +343,7 @@ public class MOEAD_DRA extends Algorithm {
 				r = Util.rnd.nextInt(ss);
 				p = neighborhood[cid][r];
 				// p = population[cid].table[r];
-			} 
-			else 
-			{
+			} else {
 				p = Util.rnd.nextInt(populationSize);
 			}
 			boolean flag = true;
@@ -378,30 +361,30 @@ public class MOEAD_DRA extends Algorithm {
 		}
 	}
 
-
 	public List<Integer> tour_selection(int depth) {
 		// selection based on utility
 		List<Integer> selected = new ArrayList<Integer>();
 		List<Integer> candidate = new ArrayList<Integer>();
 
-		//vzamemo najboljše gled na uteži?
+		// vzamemo najboljše gled na uteži?
 		for (int k = 0; k < num_obj; k++)
-			selected.add(k); // WARNING! HERE YOU HAVE TO USE THE WEIGHT PROVIDED BY QINGFU (NOT SORTED!!!!)
+			selected.add(k); // WARNING! HERE YOU HAVE TO USE THE WEIGHT
+								// PROVIDED BY QINGFU (NOT SORTED!!!!)
 
-		//ostali, ki niso bili izbrani?
+		// ostali, ki niso bili izbrani?
 		for (int n = num_obj; n < populationSize; n++)
 			candidate.add(n); // set of unselected weights
 
 		while (selected.size() < (int) (populationSize / 5.0)) {
 			// int best_idd = (int) (rnd_uni(&rnd_uni_init)*candidate.size()),
 			// i2;
-			//izberemo prvega kandidata
+			// izberemo prvega kandidata
 			int best_idd = (int) (Util.rnd.nextDouble() * candidate.size());
 			// System.out.println(best_idd);
 			int i2;
 			int best_sub = candidate.get(best_idd);
 			int s2;
-			//izberemo naslednjih depth-1 kandidatov
+			// izberemo naslednjih depth-1 kandidatov
 			for (int i = 1; i < depth; i++) {
 				i2 = (int) (Util.rnd.nextDouble() * candidate.size());
 				s2 = candidate.get(i2);
@@ -416,7 +399,6 @@ public class MOEAD_DRA extends Algorithm {
 		}
 		return selected;
 	}
-
 
 	void updateReference(MOIndividual individual) {
 		for (int n = 0; n < num_obj; n++) {
@@ -463,8 +445,7 @@ public class MOEAD_DRA extends Algorithm {
 				// population[k].indiv = indiv;
 				time++;
 			}
-			// the maximal number of solutions updated is not allowed to exceed
-			// 'limit'
+			// the maximal number of solutions updated is not allowed to exceed 'limit'
 			if (time >= nr) {
 				return;
 			}
@@ -472,7 +453,7 @@ public class MOEAD_DRA extends Algorithm {
 	}
 
 	double fitnessFunction(MOIndividual individual, double[] lambda) {
-		
+
 		double fitness;
 		fitness = 0.0;
 		double maxFun = -1.0e+30;
@@ -494,29 +475,31 @@ public class MOEAD_DRA extends Algorithm {
 
 		return fitness;
 	}
-	  
-	/** @author Juanjo
-    * This method selects N solutions from a set M, where N <= M
-    * using the same method proposed by Qingfu Zhang, W. Liu, and Hui Li in
-    * the paper describing MOEA/D-DRA (CEC 09 COMPTETITION)
-    * An example is giving in that paper for two objectives. 
-    * If N = 100, then the best solutions  attenting to the weights (0,1), 
-    * (1/99,98/99), ...,(98/99,1/99), (1,0) are selected. 
-    * 
-    * Using this method result in 101 solutions instead of 100. We will just 
-    * compute 100 even distributed weights and used them. The result is the same
-    * 
-    * In case of more than two objectives the procedure is:
-    * 1- Select a solution at random
-    * 2- Select the solution from the population which have maximum distance to
-    * it (whithout considering the already included)
-    * 
-    * 
-    * 
-    * @param n: The number of solutions to return
-    * @return A solution set containing those elements
-    * 
-    */
+
+	/**
+	 * @author Juanjo 
+	 * 		   This method selects N solutions from a set M, where N <= M
+	 *         using the same method proposed by Qingfu Zhang, W. Liu, and Hui
+	 *         Li in the paper describing MOEA/D-DRA (CEC 09 COMPTETITION) An
+	 *         example is giving in that paper for two objectives. If N = 100,
+	 *         then the best solutions attenting to the weights (0,1),
+	 *         (1/99,98/99), ...,(98/99,1/99), (1,0) are selected.
+	 * 
+	 *         Using this method result in 101 solutions instead of 100. We will
+	 *         just compute 100 even distributed weights and used them. The
+	 *         result is the same
+	 * 
+	 *         In case of more than two objectives the procedure is: 1- Select a
+	 *         solution at random 2- Select the solution from the population
+	 *         which have maximum distance to it (whithout considering the
+	 *         already included)
+	 * 
+	 * 
+	 * 
+	 * @param n : The number of solutions to return
+	 * @return A solution set containing those elements
+	 * 
+	 */
 	MOParetoIndividual finalSelection(int n) {
 		MOParetoIndividual res = new MOParetoIndividual(n);
 		if (num_obj == 2) { // subcase 1
@@ -530,11 +513,11 @@ public class MOEAD_DRA extends Algorithm {
 			// we have now the weights, now select the best solution for each of them
 			for (int i = 0; i < n; i++) {
 				MOIndividual current_best = population.get(0);
-				int index = 0;
+
 				double value = fitnessFunction(current_best, intern_lambda[i]);
 				for (int j = 1; j < n; j++) {
 					double aux = fitnessFunction(population.get(j),intern_lambda[i]); // we are looking the best for the weight i
-					
+
 					if (aux < value) { // solution in position j is better!
 						value = aux;
 						current_best = population.get(j);
@@ -560,7 +543,8 @@ public class MOEAD_DRA extends Algorithm {
 			while (res.size() < n) {
 				int index = 0;
 				MOIndividual selected = candidate.get(0); // it should be a next! (n <= population size!)
-				double distance_value = distance_utility.distanceToSolutionSetInObjectiveSpace(selected, res);
+				double distance_value = distance_utility
+						.distanceToSolutionSetInObjectiveSpace(selected, res);
 				int i = 1;
 				while (i < candidate.size()) {
 					MOIndividual next_candidate = candidate.get(i);

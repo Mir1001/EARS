@@ -12,12 +12,12 @@ public class UP1_F2_1 extends Problem {
 
 	@Override
 	public double eval(double[] ds) {
-		
+
 		int count1;
 		double sum1, yj;
-		sum1  = 0.0;
-		count1 =  0;
-    
+		sum1 = 0.0;
+		count1 = 0;
+
 		for (int j = 2; j <= dim; j++) {
 			yj = ds[j - 1] - Math.sin(6.0 * Math.PI * ds[0] + j * Math.PI / dim);
 			yj = yj * yj;
@@ -28,8 +28,7 @@ public class UP1_F2_1 extends Problem {
 				count1++;
 			}
 		}
-
-		return ds[0] + 2.0 * sum1 / (double)count1;
+		return ds[0] + 2.0 * sum1 / (double) count1;
 	}
 
 }
