@@ -113,10 +113,18 @@ public class Task {
 		return p.getDim();
 	}
 	
+	/**
+	 * Use only fro multiobjective problems! 
+	 * @return The number of objectives
+	 */
 	public int getNumberOfObjectives() {
 		return ((MOProblem)p).getNumberOfObjectives();
 	}
 	
+	/**
+	 * Use only fro multiobjective problems! 
+	 * @return The file name of the problem
+	 */
 	public String getProblemFileName() {
 		return ((MOProblem)p).getFileName();
 	}
@@ -243,7 +251,12 @@ public class Task {
 		assert false; // Execution should never reach this point!
 		return null; //error
 	}
-	
+	/**
+	 * Use only on multiobjective problems!
+	 * @param ds
+	 * @return The evaluated <code>MOIndividual</code>
+	 * @throws StopCriteriaException
+	 */
 	private MOIndividual evalMO(double[] ds) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
@@ -252,11 +265,15 @@ public class Task {
 		assert false; // Execution should never reach this point!
 		return null; //error
 	}
-	
-	public void eval(MOIndividual child) throws StopCriteriaException {
+	/**
+	 * Use only on multiobjective problems!
+	 * @param ind <code>MOIndividual</code> to be evaluated
+	 * @throws StopCriteriaException
+	 */
+	public void eval(MOIndividual ind) throws StopCriteriaException {
 		if (stopCriteria == EnumStopCriteria.EVALUATIONS) {
 			incEvaluate();
-			((MOProblem)p).evaluate(child);
+			((MOProblem)p).evaluate(ind);
 		}
 		assert false; // Execution should never reach this point!
 	}

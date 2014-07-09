@@ -1,3 +1,10 @@
+//  Copyright (c) 2011 Antonio J. Nebro, Juan J. Durillo
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU Lesser General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+
 package org.um.feri.ears.problems.moo;
 
 import java.io.BufferedWriter;
@@ -10,6 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.um.feri.ears.problems.Individual;
+import org.um.feri.ears.quality_indicator.Hypervolume;
 import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
 import org.um.feri.ears.quality_indicator.MetricsUtil;
 import org.um.feri.ears.util.Util;
@@ -64,6 +72,9 @@ public List<MOIndividual> solutions;
 	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
 	    
 	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+	    
+	    Hypervolume hp = new Hypervolume();
+	    double hyper_volume = hp.hypervolume(front, trueParetoFront, solutions.get(0).numberOfObjectives());
 		
 		return IGD_value;
 	}
