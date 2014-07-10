@@ -24,7 +24,15 @@ import org.um.feri.ears.util.Distance;
 import org.um.feri.ears.util.Ranking;
 
 
-
+/** 
+ *  Implementation of NSGA-II.
+ *  This implementation of NSGA-II makes use of a QualityIndicator object
+ *  to obtained the convergence speed of the algorithm. This version is used
+ *  in the paper:
+ *     A.J. Nebro, J.J. Durillo, C.A. Coello Coello, F. Luna, E. Alba 
+ *     "A Study of Convergence Speed in Multi-Objective Metaheuristics." 
+ *     To be presented in: PPSN'08. Dortmund. September 2008.
+ */
 public class NSGAII extends Algorithm {
 
 	int populationSize = 100;

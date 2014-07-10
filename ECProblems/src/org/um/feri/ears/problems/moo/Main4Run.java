@@ -1,5 +1,6 @@
 package org.um.feri.ears.problems.moo;
 
+import org.um.feri.ears.algorithms.moo.gde3.GDE3;
 import org.um.feri.ears.algorithms.moo.moead.MOEAD_DRA;
 import org.um.feri.ears.algorithms.moo.nsga2.NSGAII;
 import org.um.feri.ears.algorithms.moo.paes.PAES;
@@ -26,9 +27,9 @@ import org.um.feri.ears.util.Util;
 
 public class Main4Run {
     public static void main(String[] args) {
-    	Util.rnd.setSeed(8706);
-        Task t = new Task(EnumStopCriteria.EVALUATIONS, 150000, 0.0001, new UnconstrainedProblem1());
-        PAES test = new PAES(100);
+    	Util.rnd.setSeed(4374);
+        Task t = new Task(EnumStopCriteria.EVALUATIONS, 150000, 0.0001, new UnconstrainedProblem7());
+        GDE3 test = new GDE3(100);
         try {
             System.out.println(test.run(t));
         } catch (StopCriteriaException e) {

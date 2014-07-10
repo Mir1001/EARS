@@ -30,6 +30,9 @@ public class MOParetoIndividual extends Individual {
 	
 public List<MOIndividual> solutions;
 	
+	/**
+	 * Maximum size of the solution set
+	 */
 	private int capacity = 0;
 	private String file_name;
 	
@@ -101,6 +104,41 @@ public List<MOIndividual> solutions;
 		solutions.remove(i);
 	}
 	
+	 /** 
+	  * Returns the index of the worst Solution using a <code>Comparator</code>.
+	  * If there are more than one occurrences, only the index of the first one is returned
+	  * @param comparator <code>Comparator</code> used to compare solutions.
+	  * @return The index of the worst Solution attending to the comparator or 
+	  * <code>-1<code> if the SolutionSet is empty
+	  */
+	public int indexWorst(Comparator comparator) {
+
+		if ((solutions == null) || (this.solutions.isEmpty())) {
+			return -1;
+		}
+
+		int index = 0;
+		MOIndividual worstKnown = solutions.get(0), candidateSolution;
+		int flag;
+		for (int i = 1; i < solutions.size(); i++) {
+			candidateSolution = solutions.get(i);
+			flag = comparator.compare(worstKnown, candidateSolution);
+			if (flag == -1) {
+				index = i;
+				worstKnown = candidateSolution;
+			}
+		}
+
+		return index;
+
+	}
+	
+	/** 
+	 * Returns a new <code>MOParetoIndividual</code> which is the result of the union
+	 * between the current solution set and the one passed as a parameter.
+	 * @param MOParetoIndividual MOParetoIndividual to join with the current MOParetoIndividual.
+	 * @return The result of the union operation.
+	 */
 	public MOParetoIndividual union(MOParetoIndividual solutionSet) {
 		// Check the correct size. In development
 		int newSize = this.size() + solutionSet.size();
@@ -144,11 +182,15 @@ public List<MOIndividual> solutions;
 		}
 		return objectives;
 	}
-
-	public void printObjectivesToFile(String path) {
+	
+    /**
+     * Prints the objectives to a file in CSV format.
+     * @param file_name The name of the file.
+     */
+	public void printObjectivesToFile(String file_name) {
 		try {
 			/* Open the file */
-			FileOutputStream fos = new FileOutputStream(path + ".csv");
+			FileOutputStream fos = new FileOutputStream(file_name + ".csv");
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			BufferedWriter bw = new BufferedWriter(osw);
 
@@ -164,11 +206,15 @@ public List<MOIndividual> solutions;
 			e.printStackTrace();
 		}
 	}
-
-	public void printVariablesToFile(String path) {
+	
+	 /**
+     * Prints the variables to a file.
+     * @param file_name The name of the file.
+     */
+	public void printVariablesToFile(String file_name) {
 
 		try {
-			FileOutputStream fos = new FileOutputStream(path);
+			FileOutputStream fos = new FileOutputStream(file_name);
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			BufferedWriter bw = new BufferedWriter(osw);
 
@@ -186,9 +232,13 @@ public List<MOIndividual> solutions;
 		}
 	}
 
-	public void printFeasibleFUN(String path) {
+	/**
+     * Prints the objectives to a file.
+     * @param file_name The name of the file.
+     */
+	public void printFeasibleFUN(String file_name) {
 		try {
-			FileOutputStream fos = new FileOutputStream(path);
+			FileOutputStream fos = new FileOutputStream(file_name);
 			OutputStreamWriter osw = new OutputStreamWriter(fos);
 			BufferedWriter bw = new BufferedWriter(osw);
 
@@ -202,6 +252,11 @@ public List<MOIndividual> solutions;
 		}
 	}
 	
+	/**
+	 * Replaces a solution by a new one 
+	 * @param position The position of the solution to replace
+	 * @param MOIndividual The new solution
+	 */
 	public void replace(int position, MOIndividual solution) {
 		if (position > solutions.size()) {
 			solutions.add(solution);
