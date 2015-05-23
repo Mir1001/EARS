@@ -4,16 +4,20 @@ import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.problems.moo.functions.UP1_F2_1;
 import org.um.feri.ears.problems.moo.functions.UP1_F2_2;
+import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
 
 
 public class UnconstrainedProblem1 extends MOProblem {
     
 
 	public UnconstrainedProblem1() {
-		this(30); // 30 variables by default
+		this(30, new InvertedGenerationalDistance()); // 30 variables by default
 	}
 	 
-	public UnconstrainedProblem1(Integer numberOfVariables) {
+	public UnconstrainedProblem1(Integer numberOfVariables, QualityIndicator type) {
+		super(type);
+		minimum = type.isMin(); // comparison depends on metrics (hypervolume max is better; IGD min is better)
 		dim = numberOfVariables;
 		numberOfObjectives = 2;
 		numberOfConstraints = 0;
@@ -31,8 +35,8 @@ public class UnconstrainedProblem1 extends MOProblem {
 			interval[var] = 1.0;
 		}
 
-		this.addProblem(new UP1_F2_1(dim));
-		this.addProblem(new UP1_F2_2(dim));
+		this.addObjective(new UP1_F2_1(dim));
+		this.addObjective(new UP1_F2_2(dim));
 	}
 	    
 	  /** 

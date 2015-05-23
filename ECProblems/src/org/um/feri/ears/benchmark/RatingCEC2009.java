@@ -49,19 +49,22 @@ import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.TaskWithReset;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem1;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem10;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem2;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem3;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem4;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem5;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem6;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem7;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem8;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem9;
 import org.um.feri.ears.problems.unconstrained.cec2010.*;
 
 //TODO calculate CD for rating
 public class RatingCEC2009 extends RatingBenchmark{
     public static final String name="Benchmark CEC 2009";
     protected int evaluationsOnDimension=3000;
-    protected int dimension=30;
+    protected int dimension=3;
     private double draw_limit=0.0000001;
     
     public boolean resultEqual(Individual a, Individual b) {
@@ -77,10 +80,10 @@ public class RatingCEC2009 extends RatingBenchmark{
     public RatingCEC2009(double draw_limit) {
         super();
         this.draw_limit = draw_limit;
-        evaluationsOnDimension=3000;
-        dimension=30;
+        evaluationsOnDimension=30000;
+        dimension=3;
         initFullProblemList();
-        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"30");
+        addParameter(EnumBenchmarkInfoParameters.DIMENSION,"2");
         addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(evaluationsOnDimension));
         addParameter(EnumBenchmarkInfoParameters.DRAW_PARAM,"abs(evaluation_diff) < "+draw_limit);
     }
@@ -105,6 +108,9 @@ public class RatingCEC2009 extends RatingBenchmark{
     	registerTask(new UnconstrainedProblem5(),stopCriteria, evaluationsOnDimension, 0.001);
     	registerTask(new UnconstrainedProblem6(),stopCriteria, evaluationsOnDimension, 0.001);
     	registerTask(new UnconstrainedProblem7(),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new UnconstrainedProblem8(),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new UnconstrainedProblem9(),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new UnconstrainedProblem10(),stopCriteria, evaluationsOnDimension, 0.001);
 
     }
         

@@ -7,8 +7,13 @@
 
 package org.um.feri.ears.problems.moo;
 
+import java.awt.Window.Type;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -16,11 +21,26 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.um.feri.ears.problems.Individual;
+import org.um.feri.ears.quality_indicator.Epsilon;
+import org.um.feri.ears.quality_indicator.GenerationalDistance;
 import org.um.feri.ears.quality_indicator.Hypervolume;
 import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
 import org.um.feri.ears.quality_indicator.MetricsUtil;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
+import org.um.feri.ears.quality_indicator.Spread;
 import org.um.feri.ears.util.Util;
+
+import com.panayotis.gnuplot.JavaPlot;
+import com.panayotis.gnuplot.plot.DataSetPlot;
+import com.panayotis.gnuplot.style.NamedPlotColor;
+import com.panayotis.gnuplot.style.PlotStyle;
+import com.panayotis.gnuplot.style.Style;
+import com.panayotis.gnuplot.terminal.ImageTerminal;
+import com.panayotis.gnuplot.terminal.PostscriptTerminal;
+import com.panayotis.gnuplot.terminal.SVGTerminal;
 
 public class MOParetoIndividual extends Individual {
 
@@ -28,7 +48,18 @@ public class MOParetoIndividual extends Individual {
 		super(i);
 	}
 	
-public List<MOIndividual> solutions;
+	private static QualityIndicator qi;
+	
+	
+	public static QualityIndicator getQualityIndicator() {
+		return qi;
+	}
+
+	public static void setQualityIndicator(QualityIndicator qi) {
+		MOParetoIndividual.qi = qi;
+	}
+
+	public List<MOIndividual> solutions;
 	
 	/**
 	 * Maximum size of the solution set
@@ -67,19 +98,20 @@ public List<MOIndividual> solutions;
 	@Override
 	public double getEval() {
 		
-		InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
-	    
+		if(qi == null)
+			qi = new InvertedGenerationalDistance();
+		 
 	    double[][] front = this.writeObjectivesToMatrix();
 	    MetricsUtil metrics_util = new MetricsUtil();
 	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
 	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
 	    
-	    double IGD_value = IGD.invertedGenerationalDistance(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+	    /*double IGD_value = IGD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
 	    
 	    Hypervolume hp = new Hypervolume();
-	    double hyper_volume = hp.hypervolume(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+	    double hyper_volume = hp.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());*/
 		
-		return IGD_value;
+		return qi.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
 	}
 	
 	@Override
@@ -102,6 +134,32 @@ public List<MOIndividual> solutions;
 
 	public void remove(int i) {
 		solutions.remove(i);
+	}
+	
+	public void displayAllQulaityIndicators()
+	{
+		 double[][] front = this.writeObjectivesToMatrix();
+		 MetricsUtil metrics_util = new MetricsUtil();
+		 MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
+		 double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
+		 InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
+		 GenerationalDistance GD = new GenerationalDistance();
+		 //Spread spread = new Spread();
+		 Epsilon epsilon = new Epsilon();
+		 Hypervolume hv = new Hypervolume();
+		 
+		 double IGD_value = IGD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		 double GD_value = GD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		 //double spread_value = spread.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		 double epsilon_value = epsilon.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		 double hv_value = hv.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		 
+		 System.out.println("Quality indicators");
+		 System.out.println("Hypervolume: " + hv_value);
+		 System.out.println("IGD        : " + IGD_value);
+		 System.out.println("GD         : " + GD_value);
+		 System.out.println("EPSILON    : " + epsilon_value);
+		 //System.out.println("Spread     : " + spread_value);
 	}
 	
 	 /** 
@@ -130,7 +188,6 @@ public List<MOIndividual> solutions;
 		}
 
 		return index;
-
 	}
 	
 	/** 
@@ -280,6 +337,68 @@ public List<MOIndividual> solutions;
 
 	public void setFileName(String file_name) {
 		this.file_name = file_name;
+	}
+
+	public void displayData(final String algorithm_name,final String problem_name) {
+		
+		final double[][] front = this.writeObjectivesToMatrix();
+		Thread t = new Thread(new Runnable() {
+			public void run() {
+				PlotStyle myPlotStyle = new PlotStyle();
+				myPlotStyle.setStyle(Style.POINTS);
+				myPlotStyle.setPointType(7); // 7 - circle
+				myPlotStyle.setLineType(3); // blue color
+
+				// myPlotStyle.setPointSize(1);
+				// myPlotStyle.setLineType(9);
+				// myPlotStyle.setLineType(NamedPlotColor.BLUE);
+				JavaPlot p = new JavaPlot(); // true if 3D plot
+				p.setTitle(algorithm_name + " - " + problem_name, "Arial", 20);
+				p.getAxis("x").setLabel("f1", "Arial", 15);
+				p.getAxis("y").setLabel("f2", "Arial", 15);
+				// p.getAxis("x").setBoundaries(-30, 20);
+				p.setKey(JavaPlot.Key.TOP_RIGHT);
+
+				DataSetPlot s = new DataSetPlot(front);
+				s.setPlotStyle(myPlotStyle);
+				s.setTitle("");
+				p.addPlot(s);
+				p.plot();
+			}
+		});
+		t.start();
+		
+	}
+
+	public void saveData(final String algorithm_name,final String problem_name) {
+		
+		final double[][] front = this.writeObjectivesToMatrix();
+		Thread t = new Thread(new Runnable() {
+	         public void run()
+	         {
+				PostscriptTerminal eps = new PostscriptTerminal(algorithm_name+".eps");
+
+				PlotStyle myPlotStyle = new PlotStyle();
+				myPlotStyle.setStyle(Style.POINTS);
+				myPlotStyle.setPointType(7); // 7 - circle
+				myPlotStyle.setLineType(3); // blue color
+
+				JavaPlot p = new JavaPlot();
+				p.setPersist(false);
+				p.setTerminal(eps);
+				p.setTitle(algorithm_name + " - " + problem_name, "Arial", 20);
+				p.getAxis("x").setLabel("f1", "Arial", 15);
+				p.getAxis("y").setLabel("f2", "Arial", 15);
+				p.setKey(JavaPlot.Key.TOP_RIGHT);
+
+				DataSetPlot s = new DataSetPlot(front);
+				s.setPlotStyle(myPlotStyle);
+				s.setTitle("");
+				p.addPlot(s);
+				p.plot();
+	         }
+		});
+		t.start();
 	}
 
 }

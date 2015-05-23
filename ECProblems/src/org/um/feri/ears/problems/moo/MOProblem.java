@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.um.feri.ears.problems.Problem;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
 
 public abstract class MOProblem extends Problem {
 	  
@@ -22,10 +23,17 @@ public abstract class MOProblem extends Problem {
 	
 	protected List<Problem> functions = new ArrayList<Problem>();
 	
-	public void addProblem(Problem p) {
+	protected QualityIndicator type;
+	
+	public void addObjective(Problem p) {
 		functions.add(p);
     }
 	
+	public MOProblem(QualityIndicator type) {
+		super();
+		this.type = type;
+	}
+
 	public abstract void evaluate(MOIndividual solution);
 	
 

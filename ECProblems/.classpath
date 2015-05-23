@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="de_jde.jar"/>
 	<classpathentry kind="lib" path="gson-1.7.1.jar"/>
 	<classpathentry kind="lib" path="ejml-0.22.jar"/>
+	<classpathentry kind="lib" path="JavaPlot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

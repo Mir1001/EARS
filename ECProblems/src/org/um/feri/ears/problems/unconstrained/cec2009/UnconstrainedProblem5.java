@@ -4,6 +4,8 @@ import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.problems.moo.functions.UP5_1;
 import org.um.feri.ears.problems.moo.functions.UP5_2;
+import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
 
 public class UnconstrainedProblem5 extends MOProblem {
 
@@ -14,14 +16,16 @@ public class UnconstrainedProblem5 extends MOProblem {
 	 * Constructor. Creates a default instance of problem CEC2009_UnconstrainedProblem5 (30 decision variables)
 	 */
 	public UnconstrainedProblem5() {
-		this(30, 10, 0.1); // 30 variables, N =10, epsilon = 0.1
+		this(30, 10, 0.1, new InvertedGenerationalDistance()); // 30 variables, N =10, epsilon = 0.1
 	}
 
 	/**
 	 * Creates a new instance of problem CEC2009_UnconstrainedProblem5.
 	 * @param numberOfVariables Number of variables.
 	 */
-	public UnconstrainedProblem5(Integer numberOfVariables, int N, double epsilon) {
+	public UnconstrainedProblem5(Integer numberOfVariables, int N, double epsilon, QualityIndicator type) {
+		super(type);
+		minimum = type.isMin(); // comparison depends on metrics (hypervolume max is better; IGD min is better)
 		dim = numberOfVariables;
 		numberOfObjectives = 2;
 		numberOfConstraints = 0;
@@ -42,8 +46,8 @@ public class UnconstrainedProblem5 extends MOProblem {
 			interval[var] = 1.0;
 		}
 
-		this.addProblem(new UP5_1(dim, N, epsilon));
-		this.addProblem(new UP5_2(dim, N, epsilon));
+		this.addObjective(new UP5_1(dim, N, epsilon));
+		this.addObjective(new UP5_2(dim, N, epsilon));
 
 	}
 

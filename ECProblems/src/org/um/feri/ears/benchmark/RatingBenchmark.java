@@ -163,7 +163,7 @@ public abstract class RatingBenchmark {
                 if (printSingleRunDuration) System.out.println(duration/1000);
                 task.resetCounter(); //for one eval!
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
-                	//TODO KAKO?
+                	//TODO popravi za multiobjective intruduce a new task method check if true
                   //Individual best = task.eval(bestByALg.getX());
                   Individual best = bestByALg;
                   if (best.getEval()!=bestByALg.getEval()) 

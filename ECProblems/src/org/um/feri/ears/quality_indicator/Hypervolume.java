@@ -32,7 +32,7 @@ package org.um.feri.ears.quality_indicator;
  *           IEEE Transactions on Evolutionary Computation, vol. 3, no. 4, 
  *           pp. 257-271, 1999.
  */
-public class Hypervolume {
+public class Hypervolume extends QualityIndicator{
 
 	public MetricsUtil utils_;
 
@@ -41,6 +41,7 @@ public class Hypervolume {
 	 */
 	public Hypervolume() {
 		utils_ = new MetricsUtil();
+		name="Hypervolume";
 	}
   
 	/*
@@ -198,13 +199,8 @@ public class Hypervolume {
 		return frontPtr;
 	}
 
-  /** 
-   * Returns the hypervolume value of the paretoFront. This method call to the calculate hypervolume one
-   * @param paretoFront The pareto front
-   * @param paretoTrueFront The true pareto front
-   * @param numberOfObjectives Number of objectives of the pareto front
-   */
-	public double hypervolume(double[][] paretoFront, double[][] paretoTrueFront, int numberOfObjectives) {
+	@Override
+	public double get_indicator(double[][] paretoFront, double[][] paretoTrueFront, int numberOfObjectives) {
     
 		/**
 		 * Stores the maximum values of true pareto front.
@@ -240,27 +236,9 @@ public class Hypervolume {
 		// STEP4. The hypervolumen (control is passed to java version of Zitzler code)
 		return this.calculateHypervolume(invertedFront, invertedFront.length, numberOfObjectives);
   }
-  
-	/**
-	 * This class can be invoqued from the command line. Three params are
-	 * required: 1) the name of the file containing the front, 2) the name of
-	 * the file containig the true Pareto front 3) the number of objectives
-	 */
-	public static void main(String args[]) {
-		if (args.length < 2) {
-			System.err.println("Error using Hypervolume. Usage: \n java jmetal.qualityIndicator.Hypervolume " + "<SolutionFrontFile> " + "<TrueFrontFile> " + "<numberOfObjectives>");
-			System.exit(1);
-		}
 
-		// Create a new instance of the metric
-		Hypervolume qualityIndicator = new Hypervolume();
-		// Read the front from the files
-		double[][] solutionFront = qualityIndicator.utils_.readFront(args[0]);
-		double[][] trueFront = qualityIndicator.utils_.readFront(args[1]);
-
-		// Obtain delta value
-		double value = qualityIndicator.hypervolume(solutionFront, trueFront, new Integer(args[2]));
-
-		System.out.println(value);
+	@Override
+	public boolean isMin() {
+		return false;
 	}
 }

@@ -5,6 +5,8 @@ import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.problems.moo.functions.UP8_F6_1;
 import org.um.feri.ears.problems.moo.functions.UP8_F6_2;
 import org.um.feri.ears.problems.moo.functions.UP8_F6_3;
+import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
 
 
 public class UnconstrainedProblem8 extends MOProblem {
@@ -13,14 +15,16 @@ public class UnconstrainedProblem8 extends MOProblem {
 	 * Constructor. Creates a default instance of problem CEC2009_UnconstrainedProblem8 (30 decision variables)
 	 */
 	public UnconstrainedProblem8() {
-		this(30); // 30 variables by default
+		this(30, new InvertedGenerationalDistance()); // 30 variables by default
 	}
 
 	/**
 	 * Creates a new instance of problem CEC2009_UnconstrainedProblem8.
 	 * @param numberOfVariables Number of variables.
 	 */
-	public UnconstrainedProblem8(Integer numberOfVariables) {
+	public UnconstrainedProblem8(Integer numberOfVariables, QualityIndicator type) {
+		super(type);
+		minimum = type.isMin(); // comparison depends on metrics (hypervolume max is better; IGD min is better)
 		dim = numberOfVariables;
 		numberOfObjectives = 3;
 		numberOfConstraints = 0;
@@ -40,9 +44,9 @@ public class UnconstrainedProblem8 extends MOProblem {
 			interval[var] = 2.0;
 		}
 
-		this.addProblem(new UP8_F6_1(dim));
-		this.addProblem(new UP8_F6_2(dim));
-		this.addProblem(new UP8_F6_3(dim));
+		this.addObjective(new UP8_F6_1(dim));
+		this.addObjective(new UP8_F6_2(dim));
+		this.addObjective(new UP8_F6_3(dim));
 
 	}
 

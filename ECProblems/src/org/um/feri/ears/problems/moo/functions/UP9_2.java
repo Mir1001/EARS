@@ -34,7 +34,6 @@ public class UP9_2 extends Problem {
 				count2++;
 			}
 		}
-
 		yj = (1.0 + epsilon) * (1.0 - 4.0 * (2.0 * ds[0] - 1.0) * (2.0 * ds[0] - 1.0));
 		if (yj < 0.0)
 			yj = 0.0;
