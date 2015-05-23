@@ -27,12 +27,11 @@ import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOParetoIndividual;
-import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem1;
 import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
 import org.um.feri.ears.quality_indicator.MetricsUtil;
 import org.um.feri.ears.util.Distance;
 import org.um.feri.ears.util.Util;
-
+import static java.util.Arrays.asList;
 
 /**
  * Reference: Q. Zhang,  W. Liu,  and H Li, The Performance of a New Version of 
@@ -42,6 +41,11 @@ import org.um.feri.ears.util.Util;
 public class MOEAD_DRA extends Algorithm {
 
 	Task task;
+
+	List<Integer> twoDimfiles = asList(100, 300, 400, 500, 600, 800, 1000);
+	List<Integer> threeDimfiles = asList(500, 600, 800, 1000, 1200);
+	List<Integer> fiveDimfiles = asList(1000, 1200, 1500, 1800, 2000, 2500);
+
 	int populationSize;
 	/**
 	 * Stores the population
@@ -108,19 +112,56 @@ public class MOEAD_DRA extends Algorithm {
 		task = taskProblem;
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
-
+		if(num_obj == 2)
+		{
+			if(!twoDimfiles.contains(populationSize))
+			{
+				System.err.println("Weight file for two dimensions with population size "+populationSize+" does not exists! Setting population size to 300.");
+				populationSize = 300;
+			}
+		}
+		else if(num_obj == 3)
+		{
+			if(!threeDimfiles.contains(populationSize))
+			{
+				System.err.println("Weight file for two three with population size "+populationSize+" does not exists! Setting population size to 500.");
+				populationSize = 500;
+			}
+		}
+		else if(num_obj == 5)
+		{
+			if(!fiveDimfiles.contains(populationSize))
+			{
+				System.err.println("Weight file for five dimensions with population size "+populationSize+" does not exists! Setting population size to 1000.");
+				populationSize = 1000;
+			}
+		}
+			
+		long initTime = System.currentTimeMillis();
 		init();
 		start();
+		long estimatedTime = System.currentTimeMillis() - initTime;
+		System.out.println("Total execution time: "+estimatedTime + "ms");
 
 		MOParetoIndividual best = finalSelection(populationSize);
 		best.setFileName(task.getProblemFileName());
 
-		double IGD_value = best.getEval();
-		System.out.println("IGD value : " + IGD_value);
-
-		best.printFeasibleFUN("FUN_SPEA2");
-		best.printVariablesToFile("VAR");
-		best.printObjectivesToFile("FUN");
+		//double qi_value = best.getEval();
+		//System.out.println(MOParetoIndividual.getQualityIndicator().getName()+ " value : " + qi_value);
+		
+		
+		if(display_data)
+		{
+			best.displayData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+			best.displayAllQulaityIndicators();
+		}
+		if(save_data)
+		{
+			best.saveData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+			best.printFeasibleFUN("FUN_NSGAII");
+			best.printVariablesToFile("VAR");
+			best.printObjectivesToFile("FUN");
+		}
 
 		return best;
 	}

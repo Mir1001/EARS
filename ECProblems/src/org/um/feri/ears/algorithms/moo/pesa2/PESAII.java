@@ -20,7 +20,7 @@ import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOParetoIndividual;
 
-public class PESA2 extends Algorithm{
+public class PESAII extends Algorithm{
 
 	int populationSize = 100;
 	int archiveSize = 100;
@@ -31,11 +31,11 @@ public class PESA2 extends Algorithm{
 	int num_obj;
 	Task task;
 
-	public PESA2() {
+	public PESAII() {
 		this(100);
 	}
 
-	public PESA2(int populationSize) {
+	public PESAII(int populationSize) {
 		this.populationSize = populationSize;
 
 		au = new Author("miha", "miha.ravber at gamil.com");
@@ -52,16 +52,26 @@ public class PESA2 extends Algorithm{
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
 
+		long initTime = System.currentTimeMillis();
 		init();
 		start();
+		long estimatedTime = System.currentTimeMillis() - initTime;
+		System.out.println("Total execution time: "+estimatedTime + "ms");
 
 		archive.setFileName(task.getProblemFileName());
-		double IGD_value = archive.getEval();
-		System.out.println("IGD value: " + IGD_value);
-
-		archive.printFeasibleFUN("FUN_SPEA2");
-		archive.printVariablesToFile("VAR");
-		archive.printObjectivesToFile("FUN");
+		
+		if(display_data)
+		{
+			archive.displayAllQulaityIndicators();
+			archive.displayData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+		}
+		if(save_data)
+		{
+			archive.saveData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+			archive.printFeasibleFUN("FUN_NSGAII");
+			archive.printVariablesToFile("VAR");
+			archive.printObjectivesToFile("FUN");
+		}
 
 		return archive;
 	}

@@ -51,16 +51,26 @@ public class PAES extends Algorithm {
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
 
+		long initTime = System.currentTimeMillis();
 		init();
 		start();
+		long estimatedTime = System.currentTimeMillis() - initTime;
+		System.out.println("Total execution time: "+estimatedTime + "ms");
 
 		archive.setFileName(task.getProblemFileName());
-		double IGD_value = archive.getEval();
-		System.out.println("IGD value: " + IGD_value);
-
-		archive.printFeasibleFUN("FUN_SPEA2");
-		archive.printVariablesToFile("VAR");
-		archive.printObjectivesToFile("FUN");
+		
+		if(display_data)
+		{
+			archive.displayAllQulaityIndicators();
+			archive.displayData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+		}
+		if(save_data)
+		{
+			archive.saveData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+			archive.printFeasibleFUN("FUN_NSGAII");
+			archive.printVariablesToFile("VAR");
+			archive.printObjectivesToFile("FUN");
+		}
 
 		return archive;
 	}

@@ -63,6 +63,8 @@ public abstract class Algorithm {
 	 * @throws StopCriteriaException 
 	 */
     protected boolean debug;
+    protected boolean display_data = false;
+    protected boolean save_data = false;
     protected Author au;
     protected AlgorithmInfo ai;
     protected AlgorithmInfo tmpAi;
@@ -133,4 +135,25 @@ public abstract class Algorithm {
     public void resetDuration() {
         art = new AlgorithmRunTime();
     }
+    
+    public void setDisplayData(boolean b)
+    {
+    	display_data = b;
+    }
+    
+    public boolean getDisplayData()
+    {
+    	return display_data;
+    }
+    
+    public void setSaveData(boolean b)
+    {
+    	save_data = b;
+    }
+
+    public boolean getSaveData()
+    {
+    	return save_data;
+    }
+    
 }

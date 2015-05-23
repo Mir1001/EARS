@@ -56,18 +56,28 @@ public class SPEA2 extends Algorithm{
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
 
+		long initTime = System.currentTimeMillis();
 		init();
 		start();
+		long estimatedTime = System.currentTimeMillis() - initTime;
+		System.out.println("Total execution time: "+estimatedTime + "ms");
 
 		Ranking ranking = new Ranking(archive);
 		MOParetoIndividual best = ranking.getSubfront(0);
 		best.setFileName(task.getProblemFileName());
-		double IGD_value = best.getEval();
-		System.out.println("IGD value: " + IGD_value);
-
-		best.printFeasibleFUN("FUN_SPEA2");
-		best.printVariablesToFile("VAR");
-		best.printObjectivesToFile("FUN");
+		
+		if(display_data)
+		{
+			best.displayAllQulaityIndicators();
+			best.displayData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+		}
+		if(save_data)
+		{
+			best.saveData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+			best.printFeasibleFUN("FUN_NSGAII");
+			best.printVariablesToFile("VAR");
+			best.printObjectivesToFile("FUN");
+		}
 
 		return best;
 	}

@@ -65,19 +65,32 @@ public class NSGAII extends Algorithm {
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
 
+		long initTime = System.currentTimeMillis();
 		init();
 		start();
-
+		long estimatedTime = System.currentTimeMillis() - initTime;
+		System.out.println("Total execution time: "+estimatedTime + "ms");
+		
 		// Return the first non-dominated front
 		Ranking ranking = new Ranking(population);
 		MOParetoIndividual best = ranking.getSubfront(0);
 		best.setFileName(task.getProblemFileName());
-
-		double IGD_value = best.getEval();
-		System.out.println("IGD value: " + IGD_value);
-		best.printFeasibleFUN("FUN_NSGAII");
-		best.printVariablesToFile("VAR");
-		best.printObjectivesToFile("FUN");
+		if(save_data)
+		{
+			best.saveData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+			best.printFeasibleFUN("FUN_NSGAII");
+			best.printVariablesToFile("VAR");
+			best.printObjectivesToFile("FUN");
+		}
+		if(display_data)
+		{
+			best.displayAllQulaityIndicators();
+			best.displayData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
+		}
+		
+		
+		/*double IGD_value = best.getEval();
+		System.out.println("IGD value: " + IGD_value);*/
 
 		return best;
 	}
