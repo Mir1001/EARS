@@ -49,6 +49,7 @@ import java.util.Comparator;
 import java.util.EnumMap;
 
 import org.um.feri.ears.algorithms.Algorithm;
+import org.um.feri.ears.benchmark.save.EvaluationMemoryPool;
 import org.um.feri.ears.export.data.EDBenchmark;
 import org.um.feri.ears.export.data.EDTask;
 import org.um.feri.ears.problems.EnumStopCriteria;
@@ -64,6 +65,8 @@ import org.um.feri.ears.util.Util;
 
 //TODO calculate CD for rating
 public abstract class RatingBenchmark {
+	public static EvaluationMemoryPool cacheResultPool; //cached data
+    public static boolean printProgress=false;
     public static boolean debugPrint=false;
     protected ArrayList<TaskWithReset> listOfProblems;
     protected ArrayList<Algorithm> listOfAlgorithmsPlayers;
@@ -155,19 +158,25 @@ public abstract class RatingBenchmark {
                 if (printSingleRunDuration) {
             	  System.out.print(al.getID()+": ");
                 }
-                
+                /*       Individual bestByALg;
+                if (RatingBenchmark.cacheResultPool!=null) {
+                	String id = RatingBenchmark.cacheResultPool.getKey(al.getIDFull(), task.getID());
+                	bestByALg = RatingBenchmark.cacheResultPool.
+                }
+                */
                 Individual bestByALg = al.run(task); //check if result is fake!
-                
+                //load from file? al
+                //System.out.println(al.getID()+" "+task.);
                 duration = System.currentTimeMillis()-start;
                 al.addRunDuration(duration);
                 if (printSingleRunDuration) System.out.println(duration/1000);
                 task.resetCounter(); //for one eval!
                 if (task.areDimensionsInFeasableInterval(bestByALg.getX())) {
-                  Individual best = task.eval(bestByALg.getX());
+                  Individual best = task.eval(bestByALg.getX()); //rechecks individual!
                   if (best.getEval()!=bestByALg.getEval()) 
-                     System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result real"+best.getEval()+" is different than "+bestByALg.getEval());
-                  results.add(new AlgorithmEvalResult(best, al)); 
-                  allSingleProblemRunResults.add(task.getProblem(), best, al);
+                     System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result real "+best.getEval()+" is different than "+bestByALg.getEval());
+                  results.add(new AlgorithmEvalResult(best, al));  //memory !
+                  allSingleProblemRunResults.add(task.getProblem(), best, al); //memory !
                 }
                 else {
                     System.err.println(al.getAlgorithmInfo().getVersionAcronym()+" result "+bestByALg+" is out of intervals! For task:"+task.getProblemShortName());
@@ -232,7 +241,9 @@ public abstract class RatingBenchmark {
             }
         }
     }
-    
+
+
+    	
     /**
      * Fill all data!
      *  
@@ -242,13 +253,19 @@ public abstract class RatingBenchmark {
      */
     public void run(ResultArena arena, BankOfResults allSingleProblemRunResults, int repetition) {
         duelNumber = repetition;
+        long time = System.currentTimeMillis();
+        int max = listOfProblems.size();
         parameters.put(EnumBenchmarkInfoParameters.NUMBER_OF_DEULS, ""+repetition);
-        for (TaskWithReset t:listOfProblems) {
+        for (int ii=0; ii<listOfProblems.size();ii++){
+        	TaskWithReset t = listOfProblems.get(ii);
             for (int i=0; i<repetition; i++) {
                 runOneProblem(t,allSingleProblemRunResults);
                 setWinLoseFromResultList(arena,t);
+                if (printProgress) System.out.print("*");
                 results.clear();
             }
+            if (printProgress) System.out.println("");
+            if (printProgress) System.out.println((ii+1)+"/"+listOfProblems.size()+" time elapse:"+Math.round(((System.currentTimeMillis()-time)/1000))+"s");
         }
         
     }

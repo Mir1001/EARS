@@ -70,7 +70,7 @@ public class RatingRPUOed30 extends RatingBenchmark {
     }
     public RatingRPUOed30(int D, int EV) {
         super();
-        evaluations=150000;
+        evaluations=100000;
         dim = D;
         initFullProblemList();
         addParameter(EnumBenchmarkInfoParameters.DIMENSION,String.valueOf(D));

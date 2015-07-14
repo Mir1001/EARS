@@ -78,6 +78,13 @@ public class AlgorithmInfo {
     	}
     	return sb.toString();
     }
+    public String paramsToStringShort() {
+    	StringBuffer sb = new StringBuffer();
+    	for (EnumAlgorithmParameters t:parameters.keySet()) {
+    		sb.append(t.getShortName()+"="+parameters.get(t)).append("-");
+    	}
+    	return sb.toString();
+    }
 
     public String getLinkURL_original() {
         return linkURL_original;

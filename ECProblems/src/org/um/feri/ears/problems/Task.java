@@ -52,11 +52,16 @@ public class Task {
 	protected boolean isGlobal;
 	protected int precisionOfRealNumbersInDecimalPlaces; //used only for discreet problem presentation (bit presentation in GA)
 	protected Problem p; //form PRIVATE needed for statistic! check if fake is possible!
-
 	public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p) {
 	    this(stop, eval, epsilon, p,  (int) Math.log10((1./epsilon)+1));
 	}
-	
+	/**
+	 * Used for memory pool! ID must be unique to the problem
+	 * @return
+	 */
+	public String getID() {
+		return getProblemShortName()+"D"+p.getDim()+"-"+maxEvaluations+"-"+stopCriteria.ordinal()+"-"+epsilon;
+	}
     public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p, int precisonOfRealNumbers) {
         precisionOfRealNumbersInDecimalPlaces = precisonOfRealNumbers;
         stopCriteria = stop;

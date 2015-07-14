@@ -57,12 +57,13 @@ public class ProblemEasom  extends Problem{
 		Arrays.fill(intervalL, -100);
 		name = "Easom";
 	}
-	//fEaso(x1,x2)=-cos(x1)ácos(x2)áexp(-((x1-pi)^2+(x2-pi)^2))
+	//fEaso(x1,x2)=-cos(x1)ï¿½cos(x2)ï¿½exp(-((x1-pi)^2+(x2-pi)^2))
 	public double eval(double x[]) {
 		double v=
 			-Math.cos(x[0])*Math.cos(x[1])*Math.exp(-Math.pow((x[0]-Math.PI),2)-Math.pow(x[1]-Math.PI,2));
 		return v;
 	}
+	
 	public double[][] getOptimalVector() {
 		double[][] v = new double[1][dim];
 		Arrays.fill(v[0], Math.PI); 

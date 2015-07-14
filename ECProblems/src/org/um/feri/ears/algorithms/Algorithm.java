@@ -133,4 +133,7 @@ public abstract class Algorithm {
     public void resetDuration() {
         art = new AlgorithmRunTime();
     }
+	public String getIDFull() {
+		return getID()+"-"+ai.paramsToStringShort();
+	}
 }
