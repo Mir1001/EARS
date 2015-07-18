@@ -25,7 +25,7 @@ import org.um.feri.ears.util.Util;
 public class GSA extends Algorithm {
 	private static double eps = 2.2204e-16; //http://www.mathworks.com/help/matlab/ref/eps.html?searchHighlight=eps
 	int pop_size;
-	int Rpower = 1; //in main
+	double Rpower = 1; //in main
 	int Rnorm=2; //in GSA it is not used 
 	int final_per=2; //Gfield %In the last iteration, only 2 percent of agents apply force to the others.
 	double alfa=20; //Gconstant
@@ -35,15 +35,19 @@ public class GSA extends Algorithm {
 	ArrayList<GSAIndividual> pop_x; //population
 	GSAIndividual g; //global best in matlab Fbest (fitness best),Lbest (location best)
 	public GSA() {
-		this(50, 2); //Mathlab settings
+		this(50, 2, 1, 20, 100); //Mathlab settings
 	}
+	
 	public GSA(int pop_size) {
-		this(pop_size, 2); //Mathlab settings
+		this(pop_size, 2, 1, 20, 100); //Mathlab settings
 	}
 	
 	
-	public GSA(int pop_size, int  final_per) {
+	public GSA(int pop_size, int  final_per, double RPower, double alfa, double G0) {
 		super();
+		this.alfa = alfa;
+		this.G0 = G0;
+		this.Rpower = RPower;
 		this.pop_size = pop_size;
 		this.Rpower = 1;
 		this.final_per = final_per;
@@ -63,6 +67,9 @@ public class GSA extends Algorithm {
 "GSA","Matlab GSA");  //EARS add algorithm name
         ai.addParameter(EnumAlgorithmParameters.POP_SIZE, pop_size + "");
         ai.addParameter(EnumAlgorithmParameters.UNNAMED1, final_per + "");
+        ai.addParameter(EnumAlgorithmParameters.UNNAMED2, RPower + "");
+        ai.addParameter(EnumAlgorithmParameters.UNNAMED3, alfa + "");
+        ai.addParameter(EnumAlgorithmParameters.UNNAMED4, G0 + "");
         au =  new Author("Ears implementation by Matej", "matej.crepinsek at um.si"); //EARS author info
 	}
 	
