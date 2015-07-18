@@ -223,6 +223,14 @@ public abstract class Problem {
         return true;
 	    
 	}
+	public boolean isFeasibleDimension(double d, int i) {
+		if (d < intervalL[i])
+			return false;
+		if (d > (intervalL[i] + interval[i]))
+			return false;
+		return true;
+
+	}
 	/**
 	 * If selected value in interval is not feasible  
 	 * 

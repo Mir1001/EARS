@@ -117,6 +117,9 @@ public class Task {
 	public int getNumberOfConstrains() {
 	    return p.constrains;
 	}
+	public double[] getRandomVectorX() {
+		return p.getRandomVectorX();
+	}
 	public Individual getRandomIndividual() throws StopCriteriaException {
 		return eval(p.getRandomVectorX()); 
 	}
@@ -251,6 +254,10 @@ public class Task {
      */
     public double feasible(double d, int i){
         return p.feasible(d, i);
+    }
+    
+    public boolean isFeasible(double d, int i){
+        return p.isFeasibleDimension(d, i);
     }
 
     /**

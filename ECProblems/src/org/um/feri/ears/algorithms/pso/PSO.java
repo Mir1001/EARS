@@ -17,7 +17,7 @@ public class PSO extends Algorithm  {
 
 	int pop_size;
 	ArrayList<MyPSOIndividual> pop_x; //population
-	MyPSOIndividual g; //blobal best
+	MyPSOIndividual g; //global best
 	double omega, phiG, phiP;
 	public PSO() {
 		this(10,0.7, 2, 2);
@@ -59,7 +59,7 @@ public class PSO extends Algorithm  {
 					//if (v[d]<(taskProblem.getIntervalLength()[d])) v[d]=-taskProblem.getIntervalLength()[d]; 
 				}
 				pop_x.set(i, pop_x.get(i).update(taskProblem,v));
-				if (taskProblem.isFirstBetter(pop_x.get(i), g)) g=pop_x.get(i); 
+				if (taskProblem.isFirstBetter(pop_x.get(i), g)) g = pop_x.get(i); 
 				if (taskProblem.isStopCriteria()) break;
 			}
 		}
@@ -72,6 +72,7 @@ public class PSO extends Algorithm  {
 			pop_x.add(new MyPSOIndividual(taskProblem));
 			if (i==0) g = pop_x.get(0);
 			else if (taskProblem.isFirstBetter(pop_x.get(i), g)) g=pop_x.get(i);
+			if (taskProblem.isStopCriteria()) break;
 		}
 	}
 
