@@ -62,11 +62,27 @@ public abstract class Algorithm {
 	 * @return best solution
 	 * @throws StopCriteriaException 
 	 */
+    protected ArrayList<Double> controlParameters; //only for tuning!
     protected boolean debug;
+    protected boolean played=false;
+    protected int age; //for tunning
     protected Author au;
     protected AlgorithmInfo ai;
     protected AlgorithmInfo tmpAi;
     protected AlgorithmRunTime art;
+    /**
+     * Used for tuning!!!!
+     * @return
+     */
+    public ArrayList<Double> getControlParameters(){
+    	return this.controlParameters;
+    }
+    public void setPlayed(boolean aBool){
+    	this.played = aBool;
+    }
+    public boolean getPlayed(){
+    	return played;
+    }
     public void addRunDuration(long duration) {
         if (art==null) {
             art = new AlgorithmRunTime();
@@ -84,7 +100,15 @@ public abstract class Algorithm {
     public void setAlgorithmInfo(AlgorithmInfo aii) {
         ai = aii;
     }
-    
+    public int getAge(){
+    	return this.age;
+    }
+    public void setAge(int aAge){
+    	this.age = aAge;
+    }
+    public void increaseAge(){
+    	this.age = this.age + 1;
+    }
     /**
      * 
      * 

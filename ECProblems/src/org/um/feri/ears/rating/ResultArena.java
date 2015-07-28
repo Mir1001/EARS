@@ -69,6 +69,10 @@ public class ResultArena {
 	public void addPlayer(String id, double rating, double RD, double ratingVolatility, int w, int l, int d){
 		players.put(id, new Player(id,new Rating(rating, RD, ratingVolatility),w,l,d));
 	}
+	
+	 public void removePlayer(String pID){
+	        players.remove(pID);
+	    }
 	/**
 	 * Players need to be in arena!
 	 * 

@@ -42,7 +42,9 @@ public class GSA extends Algorithm {
 		this(pop_size, 2, 1, 20, 100); //Mathlab settings
 	}
 	
-	
+	public GSA(double RPower, double alfa, double G0) {
+		this(50, 2, RPower,alfa, G0);
+	}
 	public GSA(int pop_size, int  final_per, double RPower, double alfa, double G0) {
 		super();
 		this.alfa = alfa;

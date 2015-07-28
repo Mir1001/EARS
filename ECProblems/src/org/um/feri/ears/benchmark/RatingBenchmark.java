@@ -136,7 +136,14 @@ public abstract class RatingBenchmark {
     public void registerAlgorithm(Algorithm al) {
         listOfAlgorithmsPlayers.add(al);
     }
-    
+    /**
+     * Remove if you are out of play
+     * @param al
+     */
+    public void unregisterAlgorithm(Algorithm al) {
+        listOfAlgorithmsPlayers.remove(al);
+        results.remove(al);
+    }
     public abstract boolean resultEqual(Individual a, Individual b);
     public abstract String getName(); //long name 
     public abstract String getAcronym(); //short name for tables etc    
@@ -267,7 +274,15 @@ public abstract class RatingBenchmark {
             if (printProgress) System.out.println("");
             if (printProgress) System.out.println((ii+1)+"/"+listOfProblems.size()+" time elapse:"+Math.round(((System.currentTimeMillis()-time)/1000))+"s");
         }
+        for (Algorithm al: listOfAlgorithmsPlayers) {
+        	al.increaseAge();
+        }
         
+    }
+    public void allPlayed(){
+    	for (Algorithm al: listOfAlgorithmsPlayers) {
+        	al.setPlayed(true);
+        }
     }
     
 }

@@ -31,7 +31,9 @@ public class BankOfResults {
 		}
 		tmpB.add(individual.getEval());
 	}
-
+	public void removeAlgorithm(Algorithm al){
+		all.remove(al);
+	}
 	public FriedmanTransport calc4Friedman() {
 		//FriedmanTransport
 		 double[][] mean;
