@@ -275,7 +275,7 @@ public abstract class RatingBenchmark {
             if (printProgress) System.out.println((ii+1)+"/"+listOfProblems.size()+" time elapse:"+Math.round(((System.currentTimeMillis()-time)/1000))+"s");
         }
         for (Algorithm al: listOfAlgorithmsPlayers) {
-        	al.increaseAge();
+        	al.increaseAge(); 
         }
         
     }
