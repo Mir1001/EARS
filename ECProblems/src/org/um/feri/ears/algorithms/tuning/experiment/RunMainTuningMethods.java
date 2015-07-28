@@ -47,8 +47,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import org.um.feri.ears.benchmark.tuning.TuningBenchmark;
-import org.um.feri.ears.tune.CRSRace;
-import org.um.feri.ears.tune.ControlParameter;
+import org.um.feri.ears.tuning.CRSTuning;
+import org.um.feri.ears.tuning.ControlParameter;
 
 /**
  * @author Administrator
@@ -77,7 +77,7 @@ public class RunMainTuningMethods {
     	
    
         try {
-        	CRSRace m = new CRSRace(CRSRace.DEBUG_OFF, false, b2, 500);        	
+        	CRSTuning m = new CRSTuning(CRSTuning.DEBUG_OFF, false, b2, 500);        	
         	m.tune(runs,control_parameters,"org.um.feri.ears.algorithms.tuning.GSA_Tuning","GSA",decimals);
         	//m.tune(runs,control_parameters,"org.um.feri.ears.algorithms.de3.DEAlgorithm","DE",decimals);
         	

@@ -1,4 +1,4 @@
-package org.um.feri.ears.tune;
+package org.um.feri.ears.tuning;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -18,7 +18,7 @@ import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
 
-public class CRSRace {
+public class CRSTuning {
 	
 	// Control parameters
 	private int max_execs;
@@ -71,7 +71,7 @@ public class CRSRace {
      */
     public static boolean DEBUG_ON = true; 
     public static boolean DEBUG_OFF = false; 
-    public CRSRace(boolean printDebug, boolean printSingleRunDuration, RatingBenchmark banchmark, int amax_execs) {
+    public CRSTuning(boolean printDebug, boolean printSingleRunDuration, RatingBenchmark banchmark, int amax_execs) {
         Util.rnd.setSeed(System.currentTimeMillis());
         players = new ArrayList<Algorithm>();
         this.printDebug = printDebug;

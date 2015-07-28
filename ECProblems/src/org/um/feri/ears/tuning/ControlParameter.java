@@ -1,4 +1,4 @@
-package org.um.feri.ears.tune;
+package org.um.feri.ears.tuning;
 
 import java.util.Random;
 
