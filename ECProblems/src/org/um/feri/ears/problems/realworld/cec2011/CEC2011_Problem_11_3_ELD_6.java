@@ -190,7 +190,8 @@ end
 		*/
 	public static double Prohibited_Operating_Zones_POZ(int i, int j) {
 	//	System.out.println(i+","+j+"->"+(D-4+j)+","+i);
-		return Data2[j][D-(4-1)+i];
+		//return Data2[j][D-(4-1)+i];
+		return Data2[j][3+i];
 	}
 	public static int No_of_POZ_Limits() {
 		return Data2[0].length-4+1;
@@ -295,14 +296,13 @@ end
 	        g_constrains[1] = 1e3*Capacity_Limits_Penalty;
 	        g_constrains[2] = 1e5*Ramp_Limits_Penalty ; 
 	        g_constrains[3] = 1e5*POZ_Penalty ; 
-	        
-	   
-		
+	
 		
 		return g_constrains; //do I need deep copy?
 	}
 	
 	public double eval(double x[]) {
+		/*
 		 double Power_Loss  = produkt(produkt2(x, B1),x) + produkt(B2, x) + B3;
 		 Power_Loss  = Math.round(Power_Loss *10000)/10000;
 		 double  Power_Balance_Penalty = Math.abs(Power_Demand + Power_Loss - sum(x));
@@ -337,7 +337,7 @@ end
 	        g_constrains[1] = 1e3*Capacity_Limits_Penalty;
 	        g_constrains[2] = 1e5*Ramp_Limits_Penalty ; 
 	        g_constrains[3] = 1e5*POZ_Penalty ; 
-	        
+	        */
 	        //Cost(i,1) = sum( a.*(x.^2) + b.*x + c );		
 	        double f = 0;
 	        for (int i=0; i<dim; i++) {
@@ -354,16 +354,6 @@ end
 		return 0; //OK
 	}
 
-	
-	@Override
-	public double[] getRandomInitVectorX() {
-		//initialization range=[0,6.35]
-		double[] sol=new double[dim];
-		for (int j = 0; j < dim; j++) {
-			sol[j] = Util.rnd.nextDouble() * 6.35;
-		}
-		return sol;
-	}
 	
 
 }

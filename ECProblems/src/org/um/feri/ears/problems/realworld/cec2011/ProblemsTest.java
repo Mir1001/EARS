@@ -43,7 +43,18 @@ public class ProblemsTest {
 		x[2] = 222;
 		x[3] = 112;
 		System.out.println(p11.eval(x));
-		
+		//
+		System.out.println("No_of_POZ_Limits CEC2011_Problem_11_5_ELD_15:"
+				+ CEC2011_Problem_11_5_ELD_15.No_of_POZ_Limits());
+		System.out.println("Prohibited_Operating_Zones_POZ!");
+		for (int j = 0; j < 6; j++) {
+			for (int i = 0; i < 15; i++) {
+				System.out.print(CEC2011_Problem_11_5_ELD_15
+						.Prohibited_Operating_Zones_POZ(j, i) + " , ");
+			}
+			System.out.println();
+		}
+	
 
 	}
 

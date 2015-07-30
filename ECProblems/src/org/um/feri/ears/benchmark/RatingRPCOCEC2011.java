@@ -55,6 +55,9 @@ import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction4;
 import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction5;
 import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem1;
 import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem_11_3_ELD_6;
+import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem_11_4_ELD_13;
+import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem_11_5_ELD_15;
+import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem_11_6_ELD_40;
 
 //TODO calculate CD for rating
 public class RatingRPCOCEC2011 extends RatingBenchmark {
@@ -90,7 +93,10 @@ public class RatingRPCOCEC2011 extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        registerTask(new CEC2011_Problem1(),stopCriteria, 100000, 0.001);
+       // registerTask(new CEC2011_Problem1(),stopCriteria, 100000, 0.001);
+    	registerTask(new CEC2011_Problem_11_6_ELD_40(),stopCriteria, 100000, 0.001);
+    	registerTask(new CEC2011_Problem_11_5_ELD_15(),stopCriteria, 100000, 0.001);
+        registerTask(new CEC2011_Problem_11_4_ELD_13(),stopCriteria, 100000, 0.001);
         registerTask(new CEC2011_Problem_11_3_ELD_6(),stopCriteria, 100000, 0.001);
 
     }
