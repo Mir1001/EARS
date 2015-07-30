@@ -53,10 +53,12 @@ import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction2;
 import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction3;
 import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction4;
 import org.um.feri.ears.problems.constrained.TLBOBenchmarkFunction5;
+import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem1;
+import org.um.feri.ears.problems.realworld.cec2011.CEC2011_Problem_11_3_ELD_6;
 
 //TODO calculate CD for rating
-public class RatingRPCOe1 extends RatingBenchmark {
-    public static final String name="Solving Real parameter Constrained Optimization with maximum evaluation condition";
+public class RatingRPCOCEC2011 extends RatingBenchmark {
+    public static final String name="Solving Real World problemsConstrained Optimization with maximum evaluation condition CEC2011";
     
     public boolean resultEqual(Individual a, Individual b) { //Tie
         if ((a==null) &&(b==null)) return true;
@@ -68,11 +70,11 @@ public class RatingRPCOe1 extends RatingBenchmark {
         if (Math.abs(a.getEval()-b.getEval())<0.000000001) return true;
         return false;
     }
-    public RatingRPCOe1() {
+    public RatingRPCOCEC2011() {
         super();
         initFullProblemList();
         addParameter(EnumBenchmarkInfoParameters.DIMENSION,String.valueOf("10")); //everage
-        addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(200000));
+        addParameter(EnumBenchmarkInfoParameters.EVAL,String.valueOf(100000));
         addParameter(EnumBenchmarkInfoParameters.CONSTRAINED,"yes");
     }
     /* (non-Javadoc)
@@ -88,11 +90,9 @@ public class RatingRPCOe1 extends RatingBenchmark {
      */
     @Override
     protected void initFullProblemList() {
-        registerTask(new TLBOBenchmarkFunction1(),stopCriteria, 200000, 0.001);
-        registerTask(new TLBOBenchmarkFunction2(),stopCriteria, 200000, 0.001);
-        registerTask(new TLBOBenchmarkFunction3(),stopCriteria, 200000, 0.001);
-        registerTask(new TLBOBenchmarkFunction4(),stopCriteria, 200000, 0.001);
-        registerTask(new TLBOBenchmarkFunction5(),stopCriteria, 200000, 0.001);
+        registerTask(new CEC2011_Problem1(),stopCriteria, 100000, 0.001);
+        registerTask(new CEC2011_Problem_11_3_ELD_6(),stopCriteria, 100000, 0.001);
+
     }
         
     /* (non-Javadoc)
@@ -108,7 +108,7 @@ public class RatingRPCOe1 extends RatingBenchmark {
      */
     @Override
     public String getAcronym() {
-        return "RPCOe1";
+        return "CEC2011_RWO";
     }
     /* (non-Javadoc)
      * @see org.um.feri.ears.benchmark.RatingBenchmark#getInfo()

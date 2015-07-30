@@ -72,8 +72,8 @@ public class RunMainTuningMethods {
 
     	ArrayList<ControlParameter> control_parameters = new ArrayList<ControlParameter>();
         control_parameters.add(new ControlParameter("RPower",    "double", 1, 3, 0.1));
-        control_parameters.add(new ControlParameter("alfa", "double", 10, 50, 5));
-        control_parameters.add(new ControlParameter("G0", "double", 50, 150, 5));
+        control_parameters.add(new ControlParameter("alfa", "double", 5, 50, 5));
+        control_parameters.add(new ControlParameter("G0", "double", 50, 200, 5));
     	
    
         try {

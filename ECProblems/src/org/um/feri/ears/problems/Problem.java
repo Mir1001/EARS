@@ -49,8 +49,8 @@ import org.um.feri.ears.util.Util;
 */
 public abstract class Problem {
     public static final EnumProblemTypes TYPE = EnumProblemTypes.MORPO;
-	public double interval[];
-	public double intervalL[];
+	public double interval[]; //length of dimension right_limit-left_limit
+	public double intervalL[]; //left limit
 	protected int dim;
 	protected boolean minimum = true;
 	public int constrains = 0;
@@ -60,6 +60,7 @@ public abstract class Problem {
 	public double sum_constrains[]; 
 	public double normalization_constrains_factor[]; // used for normalization
 	public String name;
+	public String desc; //description
 	public static final int CONSTRAINED_TYPE_COUNT=1;
 	public static final int CONSTRAINED_TYPE_SUM=2;
 	public static final int CONSTRAINED_TYPE_NORMALIZATION=3;
@@ -328,6 +329,15 @@ public abstract class Problem {
 			sol[j] = intervalL[j] + Util.rnd.nextDouble() * interval[j];
 		}
 		return sol;
+	}
+	/*
+	* for init population!
+	* In RWP this function can be different than getRandomVectorX 
+	* See Problem1
+	 */
+	public double[] getRandomInitVectorX() {
+		//For init pop
+		return getRandomVectorX();
 	}
 	
 	/**

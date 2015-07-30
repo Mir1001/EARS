@@ -77,6 +77,16 @@ public class Util {
 		}
 		return s;
 	}
+	
+	public static String arrayToStringTab(double d[]) {
+		String s = "";
+		for (int i = 0; i < d.length; i++) {
+			s = s + df.format(d[i]);
+			if (i < d.length - 1)
+				s = s + "\t";
+		}
+		return s;
+	}
 
 	public static void printPopulationCompare(double d[][], double e[],
 			Problem p, int gen) {

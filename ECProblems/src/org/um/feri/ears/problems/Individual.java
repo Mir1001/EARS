@@ -1,8 +1,5 @@
 package org.um.feri.ears.problems;
 
-import java.util.Comparator;
-
-import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.util.Util;
 
 /**
@@ -126,6 +123,9 @@ public class Individual {
 	}
 	
 	public String toString() {
+		if (!isFeasible()) {
+			return Util.dfcshort.format(eval)+" ["+Util.arrayToString(x)+"] G["+Util.arrayToStringTab(constrains)+"] ";
+		}
 		return Util.dfcshort.format(eval)+" ["+Util.arrayToString(x)+"]";
 	}
  

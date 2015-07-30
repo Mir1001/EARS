@@ -41,15 +41,21 @@
  *          POSSIBILITY OF SUCH DAMAGE.
  * 
  */
-package org.um.feri.ears.algorithms.gsa.experiment;
+package org.um.feri.ears.benchmark.example;
 
+import net.sourceforge.jswarm_pso.SwarmAlgorithm;
 
+import org.um.feri.ears.algorithms.es.ES1p1sAlgorithm;
 import org.um.feri.ears.algorithms.gsa.GSA;
 import org.um.feri.ears.algorithms.pso.PSO;
 import org.um.feri.ears.algorithms.pso.PSOOmega;
+import org.um.feri.ears.algorithms.random.RandomWalkAMAlgorithm;
 import org.um.feri.ears.algorithms.random.RandomWalkAlgorithm;
 import org.um.feri.ears.algorithms.tlbo.TLBOAlgorithm;
 import org.um.feri.ears.benchmark.RatingBenchmark;
+import org.um.feri.ears.benchmark.RatingCEC2014;
+import org.um.feri.ears.benchmark.RatingRPCOCEC2011;
+import org.um.feri.ears.benchmark.RatingRPUOed2;
 import org.um.feri.ears.benchmark.RatingRPUOed30;
 import org.um.feri.ears.rating.Rating;
 import org.um.feri.ears.run.RunMainBestAlgSettings;
@@ -62,25 +68,23 @@ import com.um.feri.brest.de.DEAlgorithm;
  * @author Administrator
  *
  */
-public class MainBenchMarkTestBig {
+public class MainBenchMarkCec2011Test {
 
     /**
      * @param args
      */
     public static void main(String[] args) {
-        Util.rnd.setSeed(System.currentTimeMillis());
-        RatingBenchmark.debugPrint = true; //prints one on one results
-        RunMainBestAlgSettings rbs = new RunMainBestAlgSettings(true,true, new RatingRPUOed30());
+    	   Util.rnd.setSeed(System.currentTimeMillis());
+           RatingBenchmark.debugPrint = true; //prints one on one results
+           RunMainBestAlgSettings rbs = new RunMainBestAlgSettings(true,true, new RatingRPCOCEC2011());   
+          rbs.addAlgorithm(new BeeColonyAlgorithm(),new Rating(1500, 350, 0.06));  
+          rbs.addAlgorithm(new PSOOmega(30,0.7, 2, 2),new Rating(1500, 350, 0.06)); 
+          rbs.addAlgorithm(new PSO(30,0.7, 2, 2),new Rating(1500, 350, 0.06)); 
+      //    rbs.addAlgorithm(new RandomWalkAlgorithm(),new Rating(1500, 350, 0.06));  
+          rbs.addAlgorithm(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20),new Rating(1500, 350, 0.06));  
+          rbs.run(5);
+          System.out.println(rbs);
  
-       rbs.addAlgorithm(new GSA(3,4,180),new Rating(1500, 350, 0.06));  
-       rbs.addAlgorithm(new BeeColonyAlgorithm(),new Rating(1500, 350, 0.06));  
-       rbs.addAlgorithm(new PSOOmega(30,0.7, 2, 2),new Rating(1500, 350, 0.06)); 
-       rbs.addAlgorithm(new PSO(30,0.7, 2, 2),new Rating(1500, 350, 0.06)); 
-       rbs.addAlgorithm(new TLBOAlgorithm(),new Rating(1500, 350, 0.06));  
-       rbs.addAlgorithm(new RandomWalkAlgorithm(),new Rating(1500, 350, 0.06));  
-       rbs.addAlgorithm(new DEAlgorithm(DEAlgorithm.JDE_rand_1_bin,20),new Rating(1500, 350, 0.06));  
-       rbs.run(10);
-       System.out.println(rbs);
     }
 
 }
