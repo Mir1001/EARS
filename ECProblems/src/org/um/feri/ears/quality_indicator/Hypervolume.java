@@ -223,8 +223,8 @@ public class Hypervolume extends QualityIndicator{
 		double[][] invertedFront;
     
 		// STEP 1. Obtain the maximum and minimum values of the Pareto front
-		maximumValues = utils_.getMaximumValues(paretoTrueFront, numberOfObjectives);
-		minimumValues = utils_.getMinimumValues(paretoTrueFront, numberOfObjectives);
+		maximumValues = utils_.getMaximumValues(paretoFront, numberOfObjectives);
+		minimumValues = utils_.getMinimumValues(paretoFront, numberOfObjectives);
 
 		// STEP 2. Get the normalized front
 		normalizedFront = utils_.getNormalizedFront(paretoFront, maximumValues, minimumValues);

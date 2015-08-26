@@ -103,8 +103,21 @@ public class MOParetoIndividual extends Individual {
 		 
 	    double[][] front = this.writeObjectivesToMatrix();
 	    MetricsUtil metrics_util = new MetricsUtil();
-	    MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
-	    double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
+	    double[][] trueParetoFront = null;
+	    if(!(qi instanceof Hypervolume))
+	    {
+	    	if(getFileName() != null && !getFileName().isEmpty())
+	    	{
+	    		MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
+			    trueParetoFront = true_front.writeObjectivesToMatrix();
+	    	}
+	    	else
+	    	{
+	    		System.out.println("The file name containg the Paret front is not valid!");
+	    		//throw new FileNotFoundException();
+	    	}
+	    }
+	    
 	    
 	    /*double IGD_value = IGD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
 	    
@@ -140,26 +153,38 @@ public class MOParetoIndividual extends Individual {
 	{
 		 double[][] front = this.writeObjectivesToMatrix();
 		 MetricsUtil metrics_util = new MetricsUtil();
-		 MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
-		 double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
-		 InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
-		 GenerationalDistance GD = new GenerationalDistance();
-		 //Spread spread = new Spread();
-		 Epsilon epsilon = new Epsilon();
-		 Hypervolume hv = new Hypervolume();
 		 
-		 double IGD_value = IGD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
-		 double GD_value = GD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
-		 //double spread_value = spread.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
-		 double epsilon_value = epsilon.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
-		 double hv_value = hv.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
-		 
-		 System.out.println("Quality indicators");
-		 System.out.println("Hypervolume: " + hv_value);
-		 System.out.println("IGD        : " + IGD_value);
-		 System.out.println("GD         : " + GD_value);
-		 System.out.println("EPSILON    : " + epsilon_value);
-		 //System.out.println("Spread     : " + spread_value);
+		 if(getFileName() != null && !getFileName().isEmpty())
+		 {
+			 MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
+			 double[][] trueParetoFront = true_front.writeObjectivesToMatrix();
+			 
+			 InvertedGenerationalDistance IGD = new InvertedGenerationalDistance();
+			 GenerationalDistance GD = new GenerationalDistance();
+			 //Spread spread = new Spread();
+			 Epsilon epsilon = new Epsilon();
+			 Hypervolume hv = new Hypervolume();
+			 
+			 double IGD_value = IGD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+			 double GD_value = GD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+			 //double spread_value = spread.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+			 double epsilon_value = epsilon.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+			 double hv_value = hv.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+			 
+			 System.out.println("Quality indicators");
+			 System.out.println("Hypervolume: " + hv_value);
+			 System.out.println("IGD        : " + IGD_value);
+			 System.out.println("GD         : " + GD_value);
+			 System.out.println("EPSILON    : " + epsilon_value);
+			 //System.out.println("Spread     : " + spread_value);
+		 }
+		 else
+		 {
+			 System.out.println("The file name containg the Paret front is not valid, displaying Hypervolume.");
+			 Hypervolume hv = new Hypervolume();
+			 double hv_value = hv.get_indicator(front, null, solutions.get(0).numberOfObjectives());
+			 System.out.println("Hypervolume: " + hv_value);
+		 }
 	}
 	
 	 /** 

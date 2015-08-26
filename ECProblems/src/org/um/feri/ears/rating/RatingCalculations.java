@@ -123,6 +123,8 @@ public class RatingCalculations {
 
                 postRating = rating + (postRD * postRD) * performanceRatingFromGameOutcomes;
             }
+            if (postRD<50/173.7178) postRD = 50/173.7178; //set min RD
+            if (postRD>350/173.7178) postRD = 350/173.7178; //set max RD
             Rating tmp = new Rating(Rating.setGlicko2Rating(postRating), Rating.setGlicko2RatingDeviation(postRD), postRatingVolatility);
             newPlayerRatings.put(id, tmp);
         }
