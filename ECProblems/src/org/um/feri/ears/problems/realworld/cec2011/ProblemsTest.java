@@ -55,6 +55,18 @@ public class ProblemsTest {
 			System.out.println();
 		}
 	
+		//
+		System.out.println("No_of_POZ_Limits CEC2011_Problem_11_7_ELD_140:"
+				+ CEC2011_Problem_11_7_ELD_140.No_of_POZ_Limits());
+		System.out.println("Prohibited_Operating_Zones_POZ!");
+		for (int j = 0; j < 6; j++) {
+			for (int i = 0; i < 140; i++) {
+				System.out.print(CEC2011_Problem_11_7_ELD_140
+						.Prohibited_Operating_Zones_POZ(j, i) + " , ");
+			}
+			System.out.println();
+		}
+	
 
 	}
 
