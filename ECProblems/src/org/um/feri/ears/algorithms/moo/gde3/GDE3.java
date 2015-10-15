@@ -75,7 +75,7 @@ public class GDE3 extends Algorithm {
   
   
 	@Override
-	public Individual run(Task taskProblem) throws StopCriteriaException {
+	public MOParetoIndividual run(Task taskProblem) throws StopCriteriaException {
 
 		task = taskProblem;
 		num_var = task.getDimensions();

@@ -241,4 +241,19 @@ public class Hypervolume extends QualityIndicator{
 	public boolean isMin() {
 		return false;
 	}
+
+	@Override
+	public IndicatorType getNumberOfSets() {
+		return QualityIndicator.IndicatorType.Unary;
+	}
+
+	@Override
+	public boolean requiresReferenceSet() {
+		return false;
+	}
+
+	@Override
+	public int compare(double[][] front1, double[][] front2, int numberOfObjectives) {
+		return 0;
+	}
 }

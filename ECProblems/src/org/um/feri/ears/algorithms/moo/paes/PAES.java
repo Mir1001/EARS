@@ -19,6 +19,7 @@ import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.StopCriteriaException;
 import org.um.feri.ears.problems.Task;
 import org.um.feri.ears.problems.moo.MOIndividual;
+import org.um.feri.ears.problems.moo.MOParetoIndividual;
 import org.um.feri.ears.util.DominanceComparator;
 
 public class PAES extends Algorithm {
@@ -46,7 +47,7 @@ public class PAES extends Algorithm {
 	}
 
 	@Override
-	public Individual run(Task taskProblem) throws StopCriteriaException {
+	public MOParetoIndividual run(Task taskProblem) throws StopCriteriaException {
 		task = taskProblem;
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();

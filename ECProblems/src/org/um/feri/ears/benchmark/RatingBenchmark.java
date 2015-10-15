@@ -63,81 +63,8 @@ import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
 
 //TODO calculate CD for rating
-public abstract class RatingBenchmark {
-    public static boolean debugPrint=false;
-    protected ArrayList<TaskWithReset> listOfProblems;
-    protected ArrayList<Algorithm> listOfAlgorithmsPlayers;
+public abstract class RatingBenchmark extends RatingBenchmarkBase {
     
-    protected EnumStopCriteria stopCriteria = EnumStopCriteria.EVALUATIONS; //default
-    private ArrayList<AlgorithmEvalResult> results;
-    private EnumMap<EnumBenchmarkInfoParameters,String> parameters; //add all specific parameters
-    public static boolean printSingleRunDuration=false;
-    protected int duelNumber;
-    public void addParameter(EnumBenchmarkInfoParameters id, String value){
-        parameters.put(id, value);
-    }
-    
-    public EnumMap<EnumBenchmarkInfoParameters, String> getParameters() {
-        return parameters;
-    }
-    public void clearPlayers() {
-        listOfAlgorithmsPlayers.clear();
-        results.clear();
-    }
-
-    public ArrayList<Task> getAllTasks() {
-        ArrayList<Task> a = new  ArrayList<Task>();
-        for (TaskWithReset tw:listOfProblems) {
-            a.add(tw);
-        }
-        return a;
-    }
-    public String getParams() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("Parameters:\n");
-        for (EnumBenchmarkInfoParameters a:parameters.keySet()) {
-            sb.append(a.getShortName()).append(" = ").append(parameters.get(a)).append("\t").append("(").append(a.getDescription()).append(")\n");
-        }
-        return sb.toString();
-    }
-    public void updateParameters() {
-        parameters.put(EnumBenchmarkInfoParameters.NUMBER_OF_TASKS, ""+listOfProblems.size());  
-    }
-    public EDBenchmark export() {
-        updateParameters();
-        EDBenchmark ed=new EDBenchmark();
-        ed.acronym = getAcronym();
-        ed.name = getName();
-        ed.info = getParams();
-        if (getInfo().length()>3) ed.info=ed.info+"\n"+getInfo();
-        EDTask tmp;
-        for (TaskWithReset ta:listOfProblems) {
-            tmp = new EDTask();
-            tmp.name = ta.getProblemShortName();
-            tmp.info = ta.getStopCriteriaDescription(); //tu!!!
-            ed.tasks.add(tmp);
-        }
-        return ed;
-    }
-    public RatingBenchmark() {
-        listOfProblems = new ArrayList<TaskWithReset>();
-        listOfAlgorithmsPlayers = new ArrayList<Algorithm>();
-        results = new ArrayList<AlgorithmEvalResult>();
-        parameters = new  EnumMap<EnumBenchmarkInfoParameters, String>(EnumBenchmarkInfoParameters.class);
-        //initFullProblemList();
-    }
-    
-    protected abstract void registerTask(Problem p, EnumStopCriteria sc, int eval, double epsilon);
-    protected abstract void initFullProblemList(); 
-    
-    public void registerAlgorithm(Algorithm al) {
-        listOfAlgorithmsPlayers.add(al);
-    }
-    
-    public abstract boolean resultEqual(Individual a, Individual b);
-    public abstract String getName(); //long name 
-    public abstract String getAcronym(); //short name for tables etc    
-    public abstract String getInfo(); //some explanation
     
     /**
      * TODO  this function can be done parallel - asynchrony
@@ -145,7 +72,7 @@ public abstract class RatingBenchmark {
      * @param task
      * @param allSingleProblemRunResults 
      */
-    private void runOneProblem(TaskWithReset task, BankOfResults allSingleProblemRunResults) {
+    protected void runOneProblem(TaskWithReset task, BankOfResults allSingleProblemRunResults) {
     	long start=0;
     	long duration=0;
         for (Algorithm al: listOfAlgorithmsPlayers) {
@@ -201,7 +128,7 @@ public abstract class RatingBenchmark {
         }
     }
     
-    private void setWinLoseFromResultList(ResultArena arena, TaskWithReset t) {
+    protected void setWinLoseFromResultList(ResultArena arena, TaskWithReset t) {
         AlgorithmEvalResult win;
         AlgorithmEvalResult lose;        
         FitnessComparator fc;
@@ -234,6 +161,9 @@ public abstract class RatingBenchmark {
             }
         }
     }
+    
+    public abstract boolean resultEqual(Individual a, Individual b);
+    protected abstract void registerTask(Problem p, EnumStopCriteria sc, int eval, double epsilon);
     
     /**
      * Fill all data!

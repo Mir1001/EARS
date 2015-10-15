@@ -60,7 +60,7 @@ public class NSGAII extends Algorithm {
 	}
 
 	@Override
-	public Individual run(Task taskProblem) throws StopCriteriaException {
+	public MOParetoIndividual run(Task taskProblem) throws StopCriteriaException {
 		task = taskProblem;
 		num_var = task.getDimensions();
 		num_obj = task.getNumberOfObjectives();
@@ -87,10 +87,6 @@ public class NSGAII extends Algorithm {
 			best.displayAllQulaityIndicators();
 			best.displayData(this.getAlgorithmInfo().getPublishedAcronym(),task.getProblemShortName());
 		}
-		
-		
-		/*double IGD_value = best.getEval();
-		System.out.println("IGD value: " + IGD_value);*/
 
 		return best;
 	}

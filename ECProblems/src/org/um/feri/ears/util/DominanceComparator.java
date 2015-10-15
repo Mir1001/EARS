@@ -44,7 +44,7 @@ public class DominanceComparator implements Comparator {
     * @param object1 Object representing the first <code>Solution</code>.
     * @param object2 Object representing the second <code>Solution</code>.
     * @return -1, or 0, or 1 if solution1 dominates solution2, both are 
-    * non-dominated, or solution1  is dominated by solution22, respectively.
+    * non-dominated, or solution1  is dominated by solution2, respectively.
     */
 	public int compare(Object object1, Object object2) {
 		if (object1 == null)

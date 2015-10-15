@@ -31,6 +31,7 @@ import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
 import org.um.feri.ears.quality_indicator.MetricsUtil;
 import org.um.feri.ears.quality_indicator.QualityIndicator;
 import org.um.feri.ears.quality_indicator.Spread;
+import org.um.feri.ears.quality_indicator.QualityIndicator.IndicatorType;
 import org.um.feri.ears.util.Util;
 
 import com.panayotis.gnuplot.JavaPlot;
@@ -47,19 +48,9 @@ public class MOParetoIndividual extends Individual {
 	public MOParetoIndividual(Individual i) {
 		super(i);
 	}
-	
-	private static QualityIndicator qi;
-	
-	
-	public static QualityIndicator getQualityIndicator() {
-		return qi;
-	}
-
-	public static void setQualityIndicator(QualityIndicator qi) {
-		MOParetoIndividual.qi = qi;
-	}
 
 	public List<MOIndividual> solutions;
+	private double eval;
 	
 	/**
 	 * Maximum size of the solution set
@@ -95,16 +86,22 @@ public class MOParetoIndividual extends Individual {
 		return solutions.get(i);
 	}
 
-	@Override
 	public double getEval() {
-		
-		if(qi == null)
+
+		return eval;
+	}
+	
+    public void evaluate(QualityIndicator qi)
+    {
+    	// TODO if the indicator is not unary throw error or use default unary indicator
+    	// the set indicator is unary falling back to default unary indicator
+    	if(qi == null)
 			qi = new InvertedGenerationalDistance();
 		 
 	    double[][] front = this.writeObjectivesToMatrix();
 	    MetricsUtil metrics_util = new MetricsUtil();
 	    double[][] trueParetoFront = null;
-	    if(!(qi instanceof Hypervolume))
+	    if(qi.requiresReferenceSet())
 	    {
 	    	if(getFileName() != null && !getFileName().isEmpty())
 	    	{
@@ -118,13 +115,73 @@ public class MOParetoIndividual extends Individual {
 	    	}
 	    }
 	    
-	    
-	    /*double IGD_value = IGD.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
-	    
-	    Hypervolume hp = new Hypervolume();
-	    double hyper_volume = hp.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());*/
 		
-		return qi.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		eval = qi.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+    }
+	
+	public boolean isFirstBetter(MOParetoIndividual ind, QualityIndicator qi)
+	{
+		if(qi == null)
+			qi = new InvertedGenerationalDistance();
+		
+		if(qi.getNumberOfSets() == QualityIndicator.IndicatorType.Unary)
+		{
+			double first, second;
+			double[][] front = this.writeObjectivesToMatrix();
+		    MetricsUtil metrics_util = new MetricsUtil();
+		    double[][] trueParetoFront = null;
+		    if(qi.requiresReferenceSet())
+		    {
+		    	if(getFileName() != null && !getFileName().isEmpty())
+		    	{
+		    		MOParetoIndividual true_front = metrics_util.readNonDominatedSolutionSet("pf_data/"+ getFileName() +".dat");
+				    trueParetoFront = true_front.writeObjectivesToMatrix();
+		    	}
+		    	else
+		    	{
+		    		System.out.println("The file name containg the Paret front is not valid!");
+		    		//throw new FileNotFoundException();
+		    	}
+		    }
+		    first = qi.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		    front = ind.writeObjectivesToMatrix();
+		    second = qi.get_indicator(front, trueParetoFront, solutions.get(0).numberOfObjectives());
+		    if (qi.isMin())
+				return first < second;
+			return first > second;
+		    
+		}
+		else if(qi.getNumberOfSets() == QualityIndicator.IndicatorType.Binary)
+		{
+			double[][] front1 = this.writeObjectivesToMatrix();
+			double[][] front2 = ind.writeObjectivesToMatrix();
+			if(qi.compare(front1, front2, solutions.get(0).numberOfObjectives()) == -1)
+				return true;
+		}
+		else
+		{
+			return false;
+		}
+		return false;
+	}
+	
+	public boolean isEqual(Individual b, double draw_limit, QualityIndicator qi) {
+		
+
+		if(qi.getNumberOfSets() == IndicatorType.Unary)
+		{
+			return super.isEqual(b,draw_limit);
+		}
+		else if(qi.getNumberOfSets() == IndicatorType.Binary)
+		{
+			double[][] front1 = this.writeObjectivesToMatrix();
+			double[][] front2 = ((MOParetoIndividual) b).writeObjectivesToMatrix();
+			if(qi.compare(front1, front2, solutions.get(0).numberOfObjectives()) == 0)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	@Override

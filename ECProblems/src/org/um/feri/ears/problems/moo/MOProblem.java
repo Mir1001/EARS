@@ -23,15 +23,13 @@ public abstract class MOProblem extends Problem {
 	
 	protected List<Problem> functions = new ArrayList<Problem>();
 	
-	protected QualityIndicator type;
 	
 	public void addObjective(Problem p) {
 		functions.add(p);
     }
 	
-	public MOProblem(QualityIndicator type) {
+	public MOProblem() {
 		super();
-		this.type = type;
 	}
 
 	public abstract void evaluate(MOIndividual solution);
@@ -77,6 +75,10 @@ public abstract class MOProblem extends Problem {
 
 	public String getFileName() {
 		return file_name;
+	}
+
+	public boolean isFirstBetter(MOParetoIndividual x, MOParetoIndividual y, QualityIndicator qi) {
+		return x.isFirstBetter(y, qi);
 	}
 
 }

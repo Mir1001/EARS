@@ -4,25 +4,25 @@ import org.um.feri.ears.problems.moo.MOIndividual;
 import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.problems.moo.functions.UP4_1;
 import org.um.feri.ears.problems.moo.functions.UP4_2;
+import org.um.feri.ears.quality_indicator.Hypervolume;
 import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
 import org.um.feri.ears.quality_indicator.QualityIndicator;
 
 public class UnconstrainedProblem4 extends MOProblem {
-
+	
 	/**
 	 * Constructor. Creates a default instance of problem CEC2009_UnconstrainedProblem4 (30 decision variables)
 	 */
 	public UnconstrainedProblem4() {
-		this(30, new InvertedGenerationalDistance()); // 30 variables by default
+		this(30); // 30 variables by default
 	}
 
 	/**
 	 * Creates a new instance of problem CEC2009_UnconstrainedProblem4.
 	 * @param numberOfVariables Number of variables.
 	 */
-	public UnconstrainedProblem4(Integer numberOfVariables, QualityIndicator type) {
-		super(type);
-		minimum = type.isMin(); // comparison depends on metrics (hypervolume max is better; IGD min is better)
+	public UnconstrainedProblem4(Integer numberOfVariables) {
+
 		dim = numberOfVariables;
 		numberOfObjectives = 2;
 		numberOfConstraints = 0;

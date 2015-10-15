@@ -94,4 +94,19 @@ public class InvertedGenerationalDistance extends QualityIndicator {
 	public boolean isMin() {
 		return true;
 	}
+
+	@Override
+	public IndicatorType getNumberOfSets() {
+		return QualityIndicator.IndicatorType.Unary;
+	}
+
+	@Override
+	public boolean requiresReferenceSet() {
+		return true;
+	}
+
+	@Override
+	public int compare(double[][] front1, double[][] front2, int numberOfObjectives) {
+		return 0;
+	}
 }

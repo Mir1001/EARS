@@ -1,7 +1,11 @@
 package org.um.feri.ears.problems;
 
 import org.um.feri.ears.problems.moo.MOIndividual;
+import org.um.feri.ears.problems.moo.MOParetoIndividual;
 import org.um.feri.ears.problems.moo.MOProblem;
+import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem1;
+import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
 
 /**
 * Task is main class, for communication between algorithm and problem  
@@ -55,6 +59,7 @@ public class Task {
 	protected boolean isGlobal;
 	protected int precisionOfRealNumbersInDecimalPlaces; //used only for discreet problem presentation (bit presentation in GA)
 	protected Problem p; //form PRIVATE needed for statistic! check if fake is possible!
+	protected QualityIndicator qi; //is required for multiobjective optimization
 
 	public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p) {
 	    this(stop, eval, epsilon, p,  (int) Math.log10((1./epsilon)+1));
@@ -72,6 +77,41 @@ public class Task {
     }
     
     /**
+     * Task constructor for multiobjective optimization.
+     * @param stop
+     * @param eval
+     * @param epsilon
+     * @param p
+     * @param qi
+     */
+    public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p, QualityIndicator qi) {
+    	
+    	this(stop, eval, epsilon, p, qi,  (int) Math.log10((1./epsilon)+1));
+	}
+
+    /**
+     * Task constructor for multiobjective optimization.
+     * @param stop
+     * @param eval
+     * @param epsilon
+     * @param p
+     * @param qi
+     * @param precisonOfRealNumbers
+     */
+	public Task(EnumStopCriteria stop, int eval, double epsilon, Problem p, QualityIndicator qi, int precisonOfRealNumbers) {
+		
+		precisionOfRealNumbersInDecimalPlaces = precisonOfRealNumbers;
+        stopCriteria = stop;
+        maxEvaluations = eval;
+        numberOfEvaluations = 0;
+        this.epsilon = epsilon;
+        isStop = false;
+        isGlobal = false;
+        this.p = p;
+        this.qi = qi;
+	}
+
+	/**
      * When you subtract 2 solutions and difference is less or equal epsilon,
      * solution are treated as equal good (draw in algorithm match)!
      * 
@@ -114,7 +154,7 @@ public class Task {
 	}
 	
 	/**
-	 * Use only fro multiobjective problems! 
+	 * Use only for multiobjective problems! 
 	 * @return The number of objectives
 	 */
 	public int getNumberOfObjectives() {
@@ -122,7 +162,7 @@ public class Task {
 	}
 	
 	/**
-	 * Use only fro multiobjective problems! 
+	 * Use only for multiobjective problems! 
 	 * @return The file name of the problem
 	 */
 	public String getProblemFileName() {
@@ -142,6 +182,10 @@ public class Task {
 
 	public boolean isFirstBetter(Individual x, Individual y) {
 		return p.isFirstBetter(x.getX(), x.getEval(), y.getX(), y.getEval());
+	}
+	
+	public boolean isFirstBetter(MOParetoIndividual x, MOParetoIndividual y) {
+		return ((MOProblem)p).isFirstBetter(x, y, qi);
 	}
 	/**
 	 * @deprecated

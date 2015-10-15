@@ -130,6 +130,11 @@ public class Individual {
 	public String toString() {
 		return Util.dfcshort.format(eval)+" ["+Util.arrayToString(x)+"]";
 	}
+
+	public boolean isEqual(Individual b, double draw_limit) {
+		if (Math.abs(this.getEval()-b.getEval())<draw_limit) return true;
+		return false;
+	}
  
 	
 }

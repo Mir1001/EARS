@@ -48,6 +48,8 @@ import org.um.feri.ears.problems.EnumStopCriteria;
 import org.um.feri.ears.problems.Individual;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.TaskWithReset;
+import org.um.feri.ears.problems.moo.MOParetoIndividual;
+import org.um.feri.ears.problems.moo.MOProblem;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem1;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem10;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem2;
@@ -59,26 +61,30 @@ import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem7;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem8;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem9;
 import org.um.feri.ears.problems.unconstrained.cec2010.*;
+import org.um.feri.ears.quality_indicator.Hypervolume;
+import org.um.feri.ears.quality_indicator.QualityIndicator;
+import org.um.feri.ears.quality_indicator.QualityIndicator.IndicatorType;
 
 //TODO calculate CD for rating
-public class RatingCEC2009 extends RatingBenchmark{
+public class RatingCEC2009 extends MORatingBenchmark{
     public static final String name="Benchmark CEC 2009";
     protected int evaluationsOnDimension=3000;
     protected int dimension=3;
     private double draw_limit=0.0000001;
     
-    public boolean resultEqual(Individual a, Individual b) {
-        if ((a==null) &&(b==null)) return true;
+	@Override
+	public boolean resultEqual(MOParetoIndividual a, MOParetoIndividual b) {
+		if ((a==null) &&(b==null)) return true;
         if (a==null) return false;
         if (b==null) return false;
-        if (Math.abs(a.getEval()-b.getEval())<draw_limit) return true;
-        return false;
-    }
+        return a.isEqual(b,draw_limit, qi);
+	}
+    
     public RatingCEC2009(){
-    	this(0.0000001);
+    	this(new Hypervolume(),0.0000001);
     }
-    public RatingCEC2009(double draw_limit) {
-        super();
+    public RatingCEC2009(QualityIndicator qi, double draw_limit) {
+        super(qi);
         this.draw_limit = draw_limit;
         evaluationsOnDimension=30000;
         dimension=3;
@@ -91,8 +97,8 @@ public class RatingCEC2009 extends RatingBenchmark{
      * @see org.um.feri.ears.benchmark.RatingBenchmark#registerTask(org.um.feri.ears.problems.Problem)
      */
     @Override
-    protected void registerTask(Problem p, EnumStopCriteria sc, int eval, double epsilon) {
-        listOfProblems.add(new TaskWithReset(sc, eval, epsilon, p));
+    protected void registerTask(MOProblem p, EnumStopCriteria sc, int eval, double epsilon, QualityIndicator qi) {
+        listOfProblems.add(new TaskWithReset(sc, eval, epsilon, p, qi));
     }
     
     /* (non-Javadoc)
@@ -101,16 +107,16 @@ public class RatingCEC2009 extends RatingBenchmark{
     @Override
     protected void initFullProblemList() {
     	
-    	registerTask(new UnconstrainedProblem1(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem2(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem3(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem4(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem5(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem6(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem7(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem8(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem9(),stopCriteria, evaluationsOnDimension, 0.001);
-    	registerTask(new UnconstrainedProblem10(),stopCriteria, evaluationsOnDimension, 0.001);
+    	registerTask(new UnconstrainedProblem1(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem2(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem3(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	/*registerTask(new UnconstrainedProblem4(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem5(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem6(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem7(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem8(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem9(),stopCriteria, evaluationsOnDimension, 0.001, qi);
+    	registerTask(new UnconstrainedProblem10(),stopCriteria, evaluationsOnDimension, 0.001, qi);*/
 
     }
         
@@ -136,5 +142,4 @@ public class RatingCEC2009 extends RatingBenchmark{
     public String getInfo() {
         return "";
     }
-    
 }

@@ -28,10 +28,17 @@ import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem6;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem7;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem8;
 import org.um.feri.ears.problems.unconstrained.cec2009.UnconstrainedProblem9;
+import org.um.feri.ears.quality_indicator.CoverageOfTwoSets;
 import org.um.feri.ears.quality_indicator.Epsilon;
+import org.um.feri.ears.quality_indicator.ErrorRatio;
 import org.um.feri.ears.quality_indicator.GenerationalDistance;
 import org.um.feri.ears.quality_indicator.Hypervolume;
 import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
+import org.um.feri.ears.quality_indicator.MaximumSpread;
+import org.um.feri.ears.quality_indicator.OverallNondominatedVectorGeneration;
+import org.um.feri.ears.quality_indicator.OverallNondominatedVectorGenerationRatio;
+import org.um.feri.ears.quality_indicator.RatioOfNondominatedIndividuals;
+import org.um.feri.ears.quality_indicator.Spacing;
 import org.um.feri.ears.quality_indicator.Spread;
 import org.um.feri.ears.util.Util;
 
@@ -42,35 +49,45 @@ public class Main4Run {
     public static void main(String[] args) {
     	Util.rnd.setSeed(System.currentTimeMillis());
     	
-    	//Set Quality Indicator
-    	MOParetoIndividual.setQualityIndicator(new InvertedGenerationalDistance());
+    	/*
+    	RatioOfNondominatedIndividuals rti = new RatioOfNondominatedIndividuals();
+    	
+    	double[][] front = new double[][]{
+    		  { 10.5, 13},
+    		  { 11, 12},
+    		  { 15, 15},
+    		  { 16, 16 }
+    		};
+    	
+    	System.out.println(rti.get_indicator(front, null, 2));*/
 
-    	Task t1 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem1());
-    	Task t2 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem2());
-    	Task t3 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem3());
-    	Task t4 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem4());
-    	Task t5 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem5());
-    	Task t6 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem6());
-    	Task t7 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem7());
-    	Task t8 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem8());
-    	Task t9 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem9());
-    	Task t10 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem10());
+    	Task t1 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem1(),new InvertedGenerationalDistance());
+    	Task t2 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem2(),new InvertedGenerationalDistance());
+    	Task t3 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem3(),new InvertedGenerationalDistance());
+    	Task t4 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem4(),new InvertedGenerationalDistance());
+    	Task t5 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem5(),new InvertedGenerationalDistance());
+    	Task t6 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem6(),new InvertedGenerationalDistance());
+    	Task t7 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem7(),new InvertedGenerationalDistance());
+    	Task t8 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem8(),new InvertedGenerationalDistance());
+    	Task t9 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem9(),new InvertedGenerationalDistance());
+    	Task t10 = new Task(EnumStopCriteria.EVALUATIONS, 300000, 0.0001, new UnconstrainedProblem10(),new InvertedGenerationalDistance());
     	ArrayList<Task> tasks = new ArrayList<Task>();
     	tasks.add(t1);
     	tasks.add(t2);
     	tasks.add(t3);
     	tasks.add(t4);
-    	tasks.add(t5);
-    	tasks.add(t6);
-    	tasks.add(t7);
-    	tasks.add(t8);
-    	tasks.add(t9);
-    	tasks.add(t10);
+    	//tasks.add(t5);
+    	//tasks.add(t6);
+    	//tasks.add(t7);
+    	//tasks.add(t8);
+    	//tasks.add(t9);
+    	//tasks.add(t10);
     	String data ="";
     	for (Task task : tasks) {
-    		GDE3 test = new GDE3();
+    		MOEAD_DRA test = new MOEAD_DRA();
+    		test.setDisplayData(true);
             try {
-            	Individual best = test.run(task);
+            	MOParetoIndividual best = test.run(task);
             	data+= best.getEval()+"\n";
             } catch (StopCriteriaException e) {
                 e.printStackTrace();

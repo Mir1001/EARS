@@ -182,6 +182,29 @@ public class MetricsUtil {
 
 		return minDistance;
 	}
+	
+    /**
+     * Gets the distance between a point with {@code index} and the nearest one in
+     * the given front
+     * @param point The point
+     * @param front The front that contains the other points to calculate the distances
+     * @return The minimun distances greater than zero between the point and
+     * the front
+     */
+	public double distanceToNearestPoint(int index, double[][] front) {
+		double minDistance = Double.MAX_VALUE;
+
+		for (int i = 0; i < front.length; i++) {
+			if(index == i)
+				continue;
+			double aux = distance(front[index], front[i]);
+			if (aux < minDistance) {
+				minDistance = aux;
+			}
+		}
+
+		return minDistance;
+	}
   
     /** 
      * This method receives a pareto front and two points, one whit maximum values

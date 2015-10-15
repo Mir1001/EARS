@@ -1,5 +1,7 @@
 package org.um.feri.ears.problems;
 
+import org.um.feri.ears.quality_indicator.QualityIndicator;
+
 /**
 * Task is main class, for communication between algorithm and problem  
 * <p>
@@ -54,6 +56,19 @@ public class TaskWithReset extends Task{
     public TaskWithReset(EnumStopCriteria stop, int eval, double epsilon, Problem p) {
         super(stop, eval, epsilon, p);
     }
+    
+    /**
+     * Constructor for multiobjective optimization.
+     * @param stop
+     * @param eval
+     * @param epsilon
+     * @param p
+     * @param qi
+     */
+    public TaskWithReset(EnumStopCriteria stop, int eval, double epsilon, Problem p, QualityIndicator qi) {
+        super(stop, eval, epsilon, p, qi);
+    }
+    
     public void resetCounter() {
         numberOfEvaluations = 0;
         isStop = false;

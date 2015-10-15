@@ -19,8 +19,10 @@ import org.um.feri.ears.benchmark.RatingCEC2009;
 import org.um.feri.ears.benchmark.RatingRPUOed2;
 import org.um.feri.ears.problems.Problem;
 import org.um.feri.ears.problems.results.BankOfResults;
+import org.um.feri.ears.quality_indicator.CoverageOfTwoSets;
 import org.um.feri.ears.quality_indicator.Epsilon;
 import org.um.feri.ears.quality_indicator.Hypervolume;
+import org.um.feri.ears.quality_indicator.InvertedGenerationalDistance;
 import org.um.feri.ears.rating.Player;
 import org.um.feri.ears.rating.ResultArena;
 import org.um.feri.ears.util.Util;
@@ -41,8 +43,7 @@ public class MainBenchMarkTest {
         
         ResultArena ra = new ResultArena(100);
  
-        MOParetoIndividual.setQualityIndicator(new Epsilon());
-        RatingCEC2009 cec = new RatingCEC2009(); //Create banchmark
+        RatingCEC2009 cec = new RatingCEC2009(new InvertedGenerationalDistance(), 0.0000001); //Create banchmark
         for (Algorithm al:players) {
           ra.addPlayer(al.getID(), 1500, 350, 0.06,0,0,0); //init rating 1500
           cec.registerAlgorithm(al);
