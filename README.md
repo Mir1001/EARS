@@ -1,3 +1,7 @@
+NEW VERSION of the sistem is now on 
+https://github.com/UM-LPM/EARS
+
+
 Evolutionary Algorithms Rating System
 =====================================
 
