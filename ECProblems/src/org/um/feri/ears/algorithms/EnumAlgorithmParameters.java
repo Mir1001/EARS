@@ -60,6 +60,9 @@ public enum EnumAlgorithmParameters {
     W_INTERIA("interia","w"), //http://dsp.szu.edu.cn/pso/ispo/download/a%20modified%20pso.pdf
     C1("particle increment","c1"),
     C2("particle globalincrement","c2"),
+    CONSIDER("harmony memory considered rate", "r_consider"),
+    PITCH_ADJUSTMENT("harmony pitch adjustment", "r_adjust_rate"),
+    PITCH_BANDWITH("pitch bandwith", "r_rate"),
     UNNAMED1("Unnamed parameter 1","param1"),  //if there is no parameter to select
     UNNAMED2("Unnamed parameter 2","param2"),  //if there is no parameter to select
     UNNAMED3("Unnamed parameter 3","param3"),  //if there is no parameter to select
